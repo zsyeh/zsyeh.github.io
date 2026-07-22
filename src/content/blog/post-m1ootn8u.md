@@ -7,8 +7,9 @@ slug: "halo-astro-same-domain-failover-and-sync"
 description: "记录 eH × DxLab 如何把 Halo、Astro、GitHub Pages、Nginx 与 GitHub Actions 组合成一套保留作者归属、统一 URI、支持图片归档和同域故障切换的发布系统。"
 pubDate: "2026-07-22T08:00:41.810106670Z"
 updatedDate: "2026-07-22T08:05:49.591415081Z"
-categories: []
-tags: []
+cover: "https://blog.ehzsy.space/article-assets/halo-astro-resilient-publishing-cover.png"
+categories: ["运维", "技术杂谈"]
+tags: ["教程", "Linux"]
 pinned: true
 haloUrl: "https://dxlab.ehzsy.space/archives/halo-astro-same-domain-failover-and-sync"
 ---

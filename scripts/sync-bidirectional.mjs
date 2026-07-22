@@ -15,6 +15,7 @@ const HALO_URL = (process.env.HALO_URL || 'https://dxlab.ehzsy.space').replace(/
 const HALO_TOKEN = process.env.HALO_TOKEN || '';
 const REQUIRE_HALO_TOKEN = process.env.REQUIRE_HALO_TOKEN === '1';
 const md = new MarkdownIt({ html: true, linkify: true, typographer: false });
+const taxonomyCache = new Map();
 
 if (REQUIRE_HALO_TOKEN && !HALO_TOKEN) {
   throw new Error('HALO_TOKEN is required for bidirectional synchronization');
@@ -60,7 +61,28 @@ async function haloRequest(endpoint, options = {}) {
   return response.status === 204 ? null : response.json();
 }
 
-function postSpec(data, existing = {}) {
+async function taxonomyIndex(kind) {
+  if (taxonomyCache.has(kind)) return taxonomyCache.get(kind);
+  const response = await haloRequest(`/apis/api.content.halo.run/v1alpha1/${kind}?page=1&size=200`);
+  const index = new Map();
+  for (const item of response.items || []) {
+    index.set(item.spec.displayName.toLocaleLowerCase(), item.metadata.name);
+    index.set(item.spec.slug.toLocaleLowerCase(), item.metadata.name);
+  }
+  taxonomyCache.set(kind, index);
+  return index;
+}
+
+async function taxonomyIds(kind, requested = [], existing = []) {
+  if (!Array.isArray(requested)) return existing;
+  const index = await taxonomyIndex(kind);
+  const resolved = requested.map((name) => index.get(String(name).toLocaleLowerCase())).filter(Boolean);
+  const missing = requested.filter((name) => !index.has(String(name).toLocaleLowerCase()));
+  if (missing.length) console.warn(`Unknown Halo ${kind}: ${missing.join(', ')}`);
+  return [...new Set(resolved)];
+}
+
+function postSpec(data, existing = {}, taxonomy = {}) {
   return {
     ...existing,
     title: data.title,
@@ -75,14 +97,18 @@ function postSpec(data, existing = {}) {
     visible: 'PUBLIC',
     priority: existing.priority || 0,
     excerpt: { autoGenerate: !data.description, raw: data.description || '' },
-    categories: existing.categories || [],
-    tags: existing.tags || [],
+    categories: taxonomy.categories ?? existing.categories ?? [],
+    tags: taxonomy.tags ?? existing.tags ?? [],
     htmlMetas: existing.htmlMetas || [],
   };
 }
 
 async function writeToHalo(doc) {
   const { data, content } = doc.parsed;
+  const taxonomy = {
+    categories: await taxonomyIds('categories', data.categories),
+    tags: await taxonomyIds('tags', data.tags),
+  };
   const payloadContent = { version: null, raw: content.trim(), content: md.render(content.trim()), rawType: 'MARKDOWN' };
   const syncAnnotations = {
     'astro.ehzsy.space/source': data.source === 'GitHub' ? 'github' : 'halo',
@@ -92,11 +118,11 @@ async function writeToHalo(doc) {
   if (data.haloId) {
     post = await haloRequest(`/apis/content.halo.run/v1alpha1/posts/${data.haloId}`);
     post.metadata.annotations = { ...(post.metadata.annotations || {}), ...syncAnnotations };
-    post.spec = postSpec(data, post.spec);
+    post.spec = postSpec(data, post.spec, taxonomy);
     post = await haloRequest(`/apis/api.console.halo.run/v1alpha1/posts/${data.haloId}`, { method: 'PUT', body: JSON.stringify({ post, content: payloadContent }) });
   } else {
     const request = {
-      post: { apiVersion: 'content.halo.run/v1alpha1', kind: 'Post', metadata: { generateName: 'post-', annotations: syncAnnotations }, spec: postSpec(data) },
+      post: { apiVersion: 'content.halo.run/v1alpha1', kind: 'Post', metadata: { generateName: 'post-', annotations: syncAnnotations }, spec: postSpec(data, {}, taxonomy) },
       content: payloadContent,
     };
     post = await haloRequest('/apis/api.console.halo.run/v1alpha1/posts', { method: 'POST', body: JSON.stringify(request) });
