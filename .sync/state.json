@@ -276,6 +276,12 @@
       "file": "src/content/blog/fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd.md",
       "gitHash": "22664dd4c7765f96f1d5bfe3e512c6cc10e9af9243068721a45c215bcbf96413",
       "haloSignature": "3:997062b016cdaa6d0cd36b543b382b5d4b725ab7ae3cc12d0df345d619d2535f:9f5f3cb7a364af346af3677feb878d2e464f7ac7159304d5e6ed05cfac1ed4c4:2025-11-29T16:31:24.171616678Z"
+    },
+    "halo:post-m1ootn8u": {
+      "haloId": "post-m1ootn8u",
+      "file": "src/content/blog/halo-astro-same-domain-failover-and-sync.md",
+      "gitHash": "90196357b2a27307bcd0b9c3757dade9e897bdb1ed515a6ad77d855f67062b5f",
+      "haloSignature": null
     }
   }
 }
