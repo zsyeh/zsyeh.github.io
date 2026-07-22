@@ -6,9 +6,12 @@ const CONTENT_DIR = path.resolve('src/content/blog');
 const ASSET_DIR = path.resolve('public/halo-assets');
 const MANIFEST_FILE = path.resolve('.halo-sync.json');
 const PAGE_SIZE = 100;
+const HALO_TOKEN = process.env.HALO_TOKEN || '';
 
 async function requestJson(url) {
-  const response = await fetch(url, { headers: { accept: 'application/json' } });
+  const headers = { accept: 'application/json' };
+  if (HALO_TOKEN) headers.authorization = `Bearer ${HALO_TOKEN}`;
+  const response = await fetch(url, { headers });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
   return response.json();
 }
@@ -44,7 +47,8 @@ async function downloadAsset(info) {
     await access(info.target);
     return;
   } catch {}
-  const response = await fetch(info.source);
+  const headers = HALO_TOKEN ? { authorization: `Bearer ${HALO_TOKEN}` } : {};
+  const response = await fetch(info.source, { headers });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
   await mkdir(path.dirname(info.target), { recursive: true });
   await writeFile(info.target, Buffer.from(await response.arrayBuffer()));
