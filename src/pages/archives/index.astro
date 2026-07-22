@@ -12,8 +12,8 @@ for (const post of posts) {
 ---
 
 <BaseLayout title="Archives">
-  <section class="page-head"><span>ARCHIVES</span><h1>Article Archives</h1><p>{posts.length} published articles, organized by year.</p></section>
+  <section class="page-head"><span>eH × DxLab</span><h1>Article Archives</h1><p>{posts.length} published articles, organized by year and credited to their original authors.</p></section>
   <div class="archive-list">
-    {[...groups].map(([year, items]) => <section><h2>{year}</h2><div class="archive-year-posts">{items.map((post) => <a href={`/posts/${post.data.slug}/`}><time>{dateFormatter.format(post.data.pubDate)}</time><strong>{post.data.title}</strong></a>)}</div></section>)}
+    {[...groups].map(([year, items]) => <section><h2>{year}</h2><div class="archive-year-posts">{items.map((post) => <a href={`/archives/${post.data.slug}`}><time>{dateFormatter.format(post.data.pubDate)}</time><strong>{post.data.title}</strong></a>)}</div></section>)}
   </div>
 </BaseLayout>

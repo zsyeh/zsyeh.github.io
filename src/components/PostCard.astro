@@ -13,12 +13,12 @@ const { post } = Astro.props as { post: Post };
       <span>VIA {post.data.source.toUpperCase()}</span>
       {post.data.pinned && <span>FEATURED</span>}
     </div>
-    <h2><a href={`/posts/${post.data.slug}/`}>{post.data.title}</a></h2>
+    <h2><a href={`/archives/${post.data.slug}`}>{post.data.title}</a></h2>
     {post.data.description && <p>{post.data.description}</p>}
     <div class="chips">
       {post.data.categories.map((name) => <a href={`/categories/${encodeURIComponent(name)}/`}>{name}</a>)}
       {post.data.tags.slice(0, 4).map((name) => <a class="tag" href={`/tags/${encodeURIComponent(name)}/`}>#{name}</a>)}
     </div>
   </div>
-  {post.data.cover && <a class="post-cover" href={`/posts/${post.data.slug}/`} tabindex="-1"><img src={post.data.cover} alt="" loading="lazy" /></a>}
+  {post.data.cover && <a class="post-cover" href={`/archives/${post.data.slug}`} tabindex="-1"><img src={post.data.cover} alt="" loading="lazy" /></a>}
 </article>
