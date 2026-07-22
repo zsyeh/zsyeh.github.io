@@ -1,5 +1,7 @@
 ---
 haloId: "fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd"
+author: "YangLuoNou"
+source: "Halo"
 title: "[番外]fast_livo2复刻"
 slug: "41aa0aa3-f8f4-4651-a1d5-967a47b44d79"
 description: "教程链接 gitee fastlivo2地址 自动联合标定 推荐的手动加自动标定 硬件接线"

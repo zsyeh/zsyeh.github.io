@@ -84,14 +84,19 @@ function postSpec(data, existing = {}) {
 async function writeToHalo(doc) {
   const { data, content } = doc.parsed;
   const payloadContent = { version: null, raw: content.trim(), content: md.render(content.trim()), rawType: 'MARKDOWN' };
+  const syncAnnotations = {
+    'astro.ehzsy.space/source': data.source === 'GitHub' ? 'github' : 'halo',
+    'astro.ehzsy.space/author': data.author || 'Unknown',
+  };
   let post;
   if (data.haloId) {
     post = await haloRequest(`/apis/content.halo.run/v1alpha1/posts/${data.haloId}`);
+    post.metadata.annotations = { ...(post.metadata.annotations || {}), ...syncAnnotations };
     post.spec = postSpec(data, post.spec);
     post = await haloRequest(`/apis/api.console.halo.run/v1alpha1/posts/${data.haloId}`, { method: 'PUT', body: JSON.stringify({ post, content: payloadContent }) });
   } else {
     const request = {
-      post: { apiVersion: 'content.halo.run/v1alpha1', kind: 'Post', metadata: { generateName: 'post-' }, spec: postSpec(data) },
+      post: { apiVersion: 'content.halo.run/v1alpha1', kind: 'Post', metadata: { generateName: 'post-', annotations: syncAnnotations }, spec: postSpec(data) },
       content: payloadContent,
     };
     post = await haloRequest('/apis/api.console.halo.run/v1alpha1/posts', { method: 'POST', body: JSON.stringify(request) });
@@ -124,7 +129,10 @@ async function mergeDocuments(current, base, incoming, key) {
 
 await mkdir(BASE_DIR, { recursive: true });
 await mkdir(CONFLICT_DIR, { recursive: true });
-const oldState = await json(STATE_FILE, { posts: {} });
+const storedState = await json(STATE_FILE, { posts: {} });
+// Version 2 adds author/source provenance to the shared baseline. Re-bootstrap
+// once instead of treating the exporter migration as edits on both sides.
+const oldState = storedState.version === 2 ? storedState : { posts: {} };
 const before = await documents();
 
 execFileSync(process.execPath, ['scripts/sync-halo.mjs'], { cwd: ROOT, stdio: 'inherit', env: process.env });
@@ -133,7 +141,7 @@ const haloManifest = await json(path.resolve('.halo-sync.json'));
 const after = await documents();
 // Keep the state file deterministic. A per-run timestamp would make every
 // polling pass look like a content change and create an empty sync commit.
-const next = { version: 1, posts: {} };
+const next = { version: 2, posts: {} };
 const keys = new Set([...Object.keys(oldState.posts), ...before.keys(), ...after.keys()]);
 
 for (const key of keys) {

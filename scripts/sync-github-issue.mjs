@@ -33,6 +33,8 @@ const list = (value) => value.split(',').map((item) => item.trim()).filter(Boole
 const value = (input) => JSON.stringify(input);
 const document = `---
 githubIssue: ${issue.number}
+author: ${value(issue.user?.login || 'GitHub Author')}
+source: "GitHub"
 title: ${value(title)}
 slug: ${value(slug)}
 description: ${value(field('摘要'))}

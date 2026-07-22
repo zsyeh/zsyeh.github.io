@@ -9,18 +9,18 @@ const posts = sortPosts(await getCollection('blog'));
 
 <BaseLayout>
   <section class="hero">
-    <p class="kicker">THINK · BUILD · SHARE</p>
-    <h1>写下探索的过程，<br /><em>留下可复用的答案。</em></h1>
-    <p>这里收录我的技术笔记、项目实践和偶尔的灵感。</p>
+    <p class="kicker">ENGINEERING · SYSTEMS · INSIGHT</p>
+    <h1>Technology in Practice.<br /><em>Ideas Built to Last.</em></h1>
+    <p>A focused journal on engineering, systems, and applied research.</p>
   </section>
   <section class="feed">
     <div class="section-head">
-      <div><span>最新发布</span><h2>全部文章</h2></div>
-      <label class="search"><span>⌕</span><input id="search" type="search" placeholder="搜索文章…" aria-label="搜索文章" /></label>
+      <div><span>LATEST RELEASES</span><h2>All Articles</h2></div>
+      <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search articles…" aria-label="Search articles" /></label>
     </div>
     <div id="posts">
       {posts.map((post) => <PostCard post={post} />)}
-      <p id="empty" class="empty" hidden>没有找到匹配的文章。</p>
+      <p id="empty" class="empty" hidden>No matching articles found.</p>
     </div>
   </section>
   <script>

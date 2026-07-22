@@ -8,7 +8,7 @@ posts.flatMap((post) => post.data.categories).forEach((name) => counts.set(name,
 const categories = [...counts].sort((a, b) => b[1] - a[1]);
 ---
 
-<BaseLayout title="分类">
-  <section class="page-head"><span>CATEGORIES</span><h1>文章分类</h1><p>按主题浏览全部内容。</p></section>
-  <div class="taxonomy-grid">{categories.map(([name, count]) => <a href={`/categories/${encodeURIComponent(name)}/`}><strong>{name}</strong><span>{count} 篇文章 →</span></a>)}</div>
+<BaseLayout title="Categories">
+  <section class="page-head"><span>CATEGORIES</span><h1>Browse by Category</h1><p>Explore the journal by subject area.</p></section>
+  <div class="taxonomy-grid">{categories.map(([name, count]) => <a href={`/categories/${encodeURIComponent(name)}/`}><strong>{name}</strong><span>{count} articles →</span></a>)}</div>
 </BaseLayout>

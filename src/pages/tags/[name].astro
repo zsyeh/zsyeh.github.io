@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 const { name, posts } = Astro.props;
 ---
 
-<BaseLayout title={`标签：${name}`}>
-  <section class="page-head"><span>TAG</span><h1>#{name}</h1><p>{posts.length} 篇文章</p></section>
+<BaseLayout title={`Tag: ${name}`}>
+  <section class="page-head"><span>TAG</span><h1>#{name}</h1><p>{posts.length} articles</p></section>
   <div class="feed compact">{posts.map((post: any) => <PostCard post={post} />)}</div>
 </BaseLayout>

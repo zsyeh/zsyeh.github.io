@@ -8,7 +8,7 @@ posts.flatMap((post) => post.data.tags).forEach((name) => counts.set(name, (coun
 const tags = [...counts].sort((a, b) => b[1] - a[1]);
 ---
 
-<BaseLayout title="标签">
-  <section class="page-head"><span>TAGS</span><h1>全部标签</h1><p>从关键词进入感兴趣的内容。</p></section>
+<BaseLayout title="Tags">
+  <section class="page-head"><span>TAGS</span><h1>Browse by Tag</h1><p>Find relevant articles by keyword.</p></section>
   <div class="tag-cloud">{tags.map(([name, count]) => <a href={`/tags/${encodeURIComponent(name)}/`}>#{name}<small>{count}</small></a>)}</div>
 </BaseLayout>

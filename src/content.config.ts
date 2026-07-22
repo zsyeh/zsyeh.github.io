@@ -7,6 +7,8 @@ const blog = defineCollection({
   schema: z.object({
     haloId: z.string().optional(),
     githubIssue: z.number().int().positive().optional(),
+    author: z.string().default('eH'),
+    source: z.enum(['Halo', 'GitHub']).default('Halo'),
     title: z.string(),
     slug: z.string(),
     description: z.string().default(''),

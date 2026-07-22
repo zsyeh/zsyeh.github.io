@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://hexo.ehzsy.online',
+  site: 'https://dxlab.ehzsy.space',
   output: 'static',
   integrations: [sitemap()],
   markdown: {

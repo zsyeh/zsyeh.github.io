@@ -9,7 +9,9 @@ const { post } = Astro.props as { post: Post };
   <div class="post-card-content">
     <div class="eyebrow">
       <time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time>
-      {post.data.pinned && <span>置顶</span>}
+      <span>BY {post.data.author}</span>
+      <span>VIA {post.data.source.toUpperCase()}</span>
+      {post.data.pinned && <span>FEATURED</span>}
     </div>
     <h2><a href={`/posts/${post.data.slug}/`}>{post.data.title}</a></h2>
     {post.data.description && <p>{post.data.description}</p>}

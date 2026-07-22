@@ -1,5 +1,7 @@
 ---
 haloId: "82fef2a8-abde-4058-b1f9-cd4cd7296160"
+author: "YangLuoNou"
+source: "Halo"
 title: "[番外]启动rosrealsenses左右红外相机流"
 slug: "3089d979-524d-466c-882e-0e174ea5aa55"
 description: "法一： launch文件内添加 <arg name=\"enable_infra1\" default=\"true\"/>\n<arg name=\"enable_infra2\" default=\"true\"/>\n 法二； 添加运行参数： roslaunch realsense2_camera rs_came"

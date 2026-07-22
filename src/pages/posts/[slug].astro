@@ -15,7 +15,7 @@ const { Content, headings } = await render(post);
 <BaseLayout title={post.data.title} description={post.data.description} image={post.data.cover}>
   <article class="article-shell">
     <header class="article-header">
-      <div class="eyebrow"><time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time><span>约 {Math.max(1, Math.ceil((post.body?.length || 0) / 900))} 分钟阅读</span></div>
+      <div class="eyebrow"><time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time><span>BY {post.data.author}</span><span>WRITTEN ON {post.data.source.toUpperCase()}</span><span>{Math.max(1, Math.ceil((post.body?.length || 0) / 900))} MIN READ</span></div>
       <h1>{post.data.title}</h1>
       {post.data.description && <p>{post.data.description}</p>}
       <div class="chips">
@@ -26,7 +26,7 @@ const { Content, headings } = await render(post);
     {post.data.cover && <img class="hero-cover" src={post.data.cover} alt="" />}
     <div class:list={["article-grid", { "no-toc": headings.length < 3 }]}>
       <div class="prose"><Content /></div>
-      {headings.length >= 3 && <aside class="toc"><strong>本页目录</strong>{headings.filter((h) => h.depth <= 3).map((h) => <a class={`depth-${h.depth}`} href={`#${h.slug}`}>{h.text}</a>)}</aside>}
+      {headings.length >= 3 && <aside class="toc"><strong>ON THIS PAGE</strong>{headings.filter((h) => h.depth <= 3).map((h) => <a class={`depth-${h.depth}`} href={`#${h.slug}`}>{h.text}</a>)}</aside>}
     </div>
   </article>
 </BaseLayout>

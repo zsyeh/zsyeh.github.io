@@ -1,0 +1,1186 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "name": "屏幕截图 2025-07-19 185700.png",
+      "path": "/halo-assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-07-19%20185700.png",
+      "source": "https://dxlab.ehzsy.space/upload/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-07-19%20185700.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "98567ef8-8692-4ea7-8d02-333fea167ea7",
+          "title": "mid360外参标定",
+          "slug": "251a2cfd-cdac-41fd-bcb3-3935c5f673be"
+        }
+      ]
+    },
+    {
+      "name": "屏幕截图 2025-10-10 222555.png",
+      "path": "/halo-assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-10-10%20222555.png",
+      "source": "https://dxlab.ehzsy.space/upload/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-10-10%20222555.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "5ec63b8e-ced1-47ca-810e-6b01a63070af",
+          "title": "【FPGA学习笔记】从AD9434采集卡项目看高速接口设计的5个核心误区",
+          "slug": "wei-ming-ming-wen-zhang"
+        }
+      ]
+    },
+    {
+      "name": "屏幕截图 2025-10-13 164114.png",
+      "path": "/halo-assets/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-10-13%20164114.png",
+      "source": "https://dxlab.ehzsy.space/upload/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-10-13%20164114.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "5ec63b8e-ced1-47ca-810e-6b01a63070af",
+          "title": "【FPGA学习笔记】从AD9434采集卡项目看高速接口设计的5个核心误区",
+          "slug": "wei-ming-ming-wen-zhang"
+        }
+      ]
+    },
+    {
+      "name": "微信图片_20251118013312_25_3.jpg",
+      "path": "/halo-assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20251118013312_25_3.jpg",
+      "source": "https://dxlab.ehzsy.space/upload/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20251118013312_25_3.jpg",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "824641de-62d2-45e8-8888-7b6d7a08de09",
+          "title": "px4<->ros整理大全和集群调试log",
+          "slug": "0218a1ac-d60e-4489-bebb-982372a2972b"
+        }
+      ]
+    },
+    {
+      "name": "image-1.png",
+      "path": "/halo-assets/image-1.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-1.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "1aa623f3-9975-4f9e-a614-abb1c6580ca5",
+          "title": "配置属于自己的免费随机图库api",
+          "slug": "7b1386cf-759b-4217-b51e-efc75e5a3c2d"
+        }
+      ]
+    },
+    {
+      "name": "image-ILPJ.png",
+      "path": "/halo-assets/image-ILPJ.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-ILPJ.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "be568564-107f-46b4-bab3-354d777ed5bf",
+          "title": "[番外]飞控调imu频率",
+          "slug": "3f8d1f9d-ff53-4ef2-a7cc-ebba82c78118"
+        }
+      ]
+    },
+    {
+      "name": "image-INHe.png",
+      "path": "/halo-assets/image-INHe.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-INHe.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "bda5fd12-4354-477b-b747-6ad6813f848b",
+          "title": "[实用]掉网问题",
+          "slug": "356eedc9-58ee-47df-9404-bbdf4842b957"
+        },
+        {
+          "haloId": "6d0837a3-97d6-463e-96d8-43791e0ba106",
+          "title": "[实用]Ubuntu修改(创建)swap方法",
+          "slug": "d37fda98-fed8-479b-96a0-3a21ec5ed0ce"
+        }
+      ]
+    },
+    {
+      "name": "image-mCCz.png",
+      "path": "/halo-assets/image-mCCz.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-mCCz.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "21f98037-a5a7-48be-b3d0-90b7ee6ed2b5",
+          "title": "[实用]wsl连接主机usb",
+          "slug": "4d3f51ae-7682-4736-893c-31293b3a1bd0"
+        },
+        {
+          "haloId": "a2a5059c-2a50-405a-afd9-cd294d839ff3",
+          "title": "[实用]wsl使用direct_calib标定包显卡驱动报错",
+          "slug": "835da836-4ca0-45f7-94be-0f35d9265fa7"
+        },
+        {
+          "haloId": "ce043748-ca19-4d6a-a0a1-c3f0208b8399",
+          "title": "[实用]wsl克隆主机网卡（代理可共用主机）",
+          "slug": "b8e96a2c-c1c1-4242-abd6-39bd24f100c3"
+        }
+      ]
+    },
+    {
+      "name": "image-QjjF.png",
+      "path": "/halo-assets/image-QjjF.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-QjjF.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "bb68a258-39ad-43e3-a6dc-3777aed37b66",
+          "title": "挠龙尾巴：一颗被诅咒的“恶魔核心”与两名物理学家的陨落",
+          "slug": "nao-long-wei-ba-yi-ke-bei-zu-zhou-de-e-mo-he-xin-yu-liang-ming-wu-li-xue-jia-de-yun-luo"
+        }
+      ]
+    },
+    {
+      "name": "image-rIJh.png",
+      "path": "/halo-assets/image-rIJh.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-rIJh.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "343862e8-78b6-4c5e-844e-8cc6b1751e0c",
+          "title": "[实用]ROS2实用命令",
+          "slug": "94ed3528-0bad-40b2-a9a3-d80fd23239c8"
+        },
+        {
+          "haloId": "85a89c36-ca91-4cba-96d5-ef8638b361a8",
+          "title": "局部最优：技术人的“中等技术陷阱”",
+          "slug": "ju-bu-zui-you-ji-shu-ren-de-zhong-deng-ji-shu-xian-jing"
+        }
+      ]
+    },
+    {
+      "name": "image-RowL.png",
+      "path": "/halo-assets/image-RowL.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-RowL.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "82fef2a8-abde-4058-b1f9-cd4cd7296160",
+          "title": "[番外]启动rosrealsenses左右红外相机流",
+          "slug": "3089d979-524d-466c-882e-0e174ea5aa55"
+        }
+      ]
+    },
+    {
+      "name": "image-uHlr.png",
+      "path": "/halo-assets/image-uHlr.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-uHlr.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "8ff55609-d3e6-4545-aefa-2935607888a5",
+          "title": "[实用]代理指令",
+          "slug": "5e41a021-684e-4e29-93f3-f9eaa3ad805d"
+        }
+      ]
+    },
+    {
+      "name": "image-Uomy.png",
+      "path": "/halo-assets/image-Uomy.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-Uomy.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd",
+          "title": "[番外]fast_livo2复刻",
+          "slug": "41aa0aa3-f8f4-4651-a1d5-967a47b44d79"
+        },
+        {
+          "haloId": "d73cddfe-ef58-407b-afcd-93004d6804a0",
+          "title": "7.安装mid360相关驱动",
+          "slug": "d53926a8-a121-48bf-af37-87507ea71583"
+        }
+      ]
+    },
+    {
+      "name": "image-VkiC.png",
+      "path": "/halo-assets/image-VkiC.png",
+      "source": "https://dxlab.ehzsy.space/upload/image-VkiC.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "1aa623f3-9975-4f9e-a614-abb1c6580ca5",
+          "title": "配置属于自己的免费随机图库api",
+          "slug": "7b1386cf-759b-4217-b51e-efc75e5a3c2d"
+        }
+      ]
+    },
+    {
+      "name": "image.png",
+      "path": "/halo-assets/image.png",
+      "source": "https://dxlab.ehzsy.space/upload/image.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "1f4c921f-a775-4ab8-b163-de1cc367a35d",
+          "title": "px4消息大全(2)和swarm-drone-250 用户手册",
+          "slug": "4e8b2b4d-b694-4817-b9ea-54803a7bfa07"
+        }
+      ]
+    },
+    {
+      "name": "IMG_0194.jpeg",
+      "path": "/halo-assets/IMG_0194.jpeg",
+      "source": "https://dxlab.ehzsy.space/upload/IMG_0194.jpeg",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "2cd92285-8671-4598-97b7-2972b98b475c",
+          "title": "运维log1",
+          "slug": "yun-wei-log1"
+        }
+      ]
+    },
+    {
+      "name": "IMG_5894.jpeg",
+      "path": "/halo-assets/IMG_5894.jpeg",
+      "source": "https://dxlab.ehzsy.space/upload/IMG_5894.jpeg",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "7e2b17f8-b00e-4dfb-9a00-82615c6d6ccd",
+          "title": "用 PC 上的 Codex 远程开发 ARM 嵌入式 Linux",
+          "slug": "yong-pc-shang-de-codex-yuan-cheng-kai-fa-arm-qian-ru-shi-linux"
+        }
+      ]
+    },
+    {
+      "name": "lgban.png",
+      "path": "/halo-assets/lgban.png",
+      "source": "https://dxlab.ehzsy.space/upload/lgban.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "82d4b221-b12b-430e-b054-0d9539a688e2",
+          "title": "Bochs 配置问题与解决方案",
+          "slug": "24b06630-2b86-4b35-a3d6-e8fdf832b6fb"
+        }
+      ]
+    },
+    {
+      "name": "linux.png",
+      "path": "/halo-assets/linux.png",
+      "source": "https://dxlab.ehzsy.space/upload/linux.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222144033.png",
+      "path": "/halo-assets/Pasted_image_20251222144033.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222144033.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222144041.png",
+      "path": "/halo-assets/Pasted_image_20251222144041.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222144041.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222144158.png",
+      "path": "/halo-assets/Pasted_image_20251222144158.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222144158.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222144303.png",
+      "path": "/halo-assets/Pasted_image_20251222144303.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222144303.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222144356.png",
+      "path": "/halo-assets/Pasted_image_20251222144356.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222144356.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222144517.png",
+      "path": "/halo-assets/Pasted_image_20251222144517.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222144517.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222150843.png",
+      "path": "/halo-assets/Pasted_image_20251222150843.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222150843.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222151004.png",
+      "path": "/halo-assets/Pasted_image_20251222151004.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222151004.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222152810.png",
+      "path": "/halo-assets/Pasted_image_20251222152810.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222152810.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222153013.png",
+      "path": "/halo-assets/Pasted_image_20251222153013.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222153013.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222153300.png",
+      "path": "/halo-assets/Pasted_image_20251222153300.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222153300.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222153441.png",
+      "path": "/halo-assets/Pasted_image_20251222153441.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222153441.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222153552.png",
+      "path": "/halo-assets/Pasted_image_20251222153552.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222153552.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222154445.png",
+      "path": "/halo-assets/Pasted_image_20251222154445.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222154445.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222155040.png",
+      "path": "/halo-assets/Pasted_image_20251222155040.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222155040.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222155144.png",
+      "path": "/halo-assets/Pasted_image_20251222155144.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222155144.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222160411.png",
+      "path": "/halo-assets/Pasted_image_20251222160411.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222160411.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251222160634.png",
+      "path": "/halo-assets/Pasted_image_20251222160634.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222160634.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251223151406.png",
+      "path": "/halo-assets/Pasted_image_20251223151406.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251223151406.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251223151913.png",
+      "path": "/halo-assets/Pasted_image_20251223151913.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251223151913.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251223155439.png",
+      "path": "/halo-assets/Pasted_image_20251223155439.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251223155439.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227170030.png",
+      "path": "/halo-assets/Pasted_image_20251227170030.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227170030.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227170051.png",
+      "path": "/halo-assets/Pasted_image_20251227170051.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227170051.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227170542.png",
+      "path": "/halo-assets/Pasted_image_20251227170542.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227170542.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227171840.png",
+      "path": "/halo-assets/Pasted_image_20251227171840.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227171840.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227185632.png",
+      "path": "/halo-assets/Pasted_image_20251227185632.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227185632.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227190343.png",
+      "path": "/halo-assets/Pasted_image_20251227190343.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227190343.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227193012.png",
+      "path": "/halo-assets/Pasted_image_20251227193012.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227193012.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227193442.png",
+      "path": "/halo-assets/Pasted_image_20251227193442.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227193442.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251227193602.png",
+      "path": "/halo-assets/Pasted_image_20251227193602.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251227193602.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228194718.png",
+      "path": "/halo-assets/Pasted_image_20251228194718.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228194718.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        },
+        {
+          "haloId": "9f3fe6f9-508f-432c-aa96-d979638ab46b",
+          "title": "写给喜欢搞技术的工科同学的信",
+          "slug": "letter-to-engineering-students"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228195518.png",
+      "path": "/halo-assets/Pasted_image_20251228195518.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228195518.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228195630.png",
+      "path": "/halo-assets/Pasted_image_20251228195630.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228195630.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228195943.png",
+      "path": "/halo-assets/Pasted_image_20251228195943.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228195943.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228200247.png",
+      "path": "/halo-assets/Pasted_image_20251228200247.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228200247.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228200651.png",
+      "path": "/halo-assets/Pasted_image_20251228200651.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228200651.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228200827.png",
+      "path": "/halo-assets/Pasted_image_20251228200827.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228200827.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228201841.png",
+      "path": "/halo-assets/Pasted_image_20251228201841.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228201841.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228203432.png",
+      "path": "/halo-assets/Pasted_image_20251228203432.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228203432.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228210837.png",
+      "path": "/halo-assets/Pasted_image_20251228210837.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228210837.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228211007.png",
+      "path": "/halo-assets/Pasted_image_20251228211007.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228211007.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Pasted_image_20251228211108.png",
+      "path": "/halo-assets/Pasted_image_20251228211108.png",
+      "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251228211108.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+          "title": "第一章 Linux入门初步",
+          "slug": "eac0dd6d-c61a-4eab-9efa-aafc0505e3d7"
+        }
+      ]
+    },
+    {
+      "name": "Screenshot 2024-04-20 134528.png",
+      "path": "/halo-assets/Screenshot%202024-04-20%20134528.png",
+      "source": "https://dxlab.ehzsy.space/upload/Screenshot%202024-04-20%20134528.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c70ee396-defc-4a4b-9772-1f1d3405f562",
+          "title": "需求文档方案简述",
+          "slug": "b49a213e-698c-483b-98d5-b961dcf79b9f"
+        }
+      ]
+    },
+    {
+      "name": "terminal.png",
+      "path": "/halo-assets/terminal.png",
+      "source": "https://dxlab.ehzsy.space/upload/terminal.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+          "title": "第零章 Windows 使用与开发基本素养",
+          "slug": "4f972d2f-24fc-48c6-b9eb-d29da9671a23"
+        }
+      ]
+    },
+    {
+      "name": "top.png",
+      "path": "/halo-assets/top.png",
+      "source": "https://dxlab.ehzsy.space/upload/top.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "1aa623f3-9975-4f9e-a614-abb1c6580ca5",
+          "title": "配置属于自己的免费随机图库api",
+          "slug": "7b1386cf-759b-4217-b51e-efc75e5a3c2d"
+        }
+      ]
+    },
+    {
+      "name": "v2-32510d6cbade23c3452679fc0fb2968a_720w.png",
+      "path": "/halo-assets/v2-32510d6cbade23c3452679fc0fb2968a_720w.png",
+      "source": "https://dxlab.ehzsy.space/upload/v2-32510d6cbade23c3452679fc0fb2968a_720w.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "35518e8f-e186-481f-8468-57f69360156f",
+          "title": "8086默认寄存器",
+          "slug": "516a654a-eea2-4cf9-9d7c-e71e7b5f2c05"
+        },
+        {
+          "haloId": "d26ac261-d81c-4a59-99ba-bd470312aa59",
+          "title": "MBR",
+          "slug": "754c5185-8b6c-4b9d-90ff-d6d9d697211f"
+        },
+        {
+          "haloId": "5567b0a5-dcbd-4ae4-9ea3-930e2b50903b",
+          "title": "第零章的爆炸信息量",
+          "slug": "8ec1e427-15e2-4221-96e4-93e8707d76bd"
+        },
+        {
+          "haloId": "791efe8d-d2d0-42a2-81f1-e231f75ee8a4",
+          "title": "汇编补课",
+          "slug": "a63cfde5-a903-413a-8bf7-9093c24b8409"
+        },
+        {
+          "haloId": "6bee816c-066a-4898-8530-110079546860",
+          "title": "hello_world",
+          "slug": "c83b8f29-15fc-438f-8a98-9a0501b10187"
+        }
+      ]
+    },
+    {
+      "name": "wallhaven-qr27rq_640x640.png",
+      "path": "/halo-assets/wallhaven-qr27rq_640x640.png",
+      "source": "https://dxlab.ehzsy.space/upload/wallhaven-qr27rq_640x640.png",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "880d1f4a-c268-4286-a66d-b2a48a0ed685",
+          "title": "AArch64 与 AMD64 唤醒延迟的底层机理分析",
+          "slug": "aarch64-yu-amd64-huan-xing-yan-chi-de-di-ceng-ji-li-fen-xi"
+        }
+      ]
+    },
+    {
+      "name": "03f866bd-88bf-42fe-bea1-6ada1dabf9ff",
+      "path": "https://github.com/user-attachments/assets/03f866bd-88bf-42fe-bea1-6ada1dabf9ff",
+      "source": "https://github.com/user-attachments/assets/03f866bd-88bf-42fe-bea1-6ada1dabf9ff",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "363a5bc1-b2d9-4414-9ff1-9520dc351870",
+          "title": "EMIO",
+          "slug": "a62f8308-98f2-4e5d-b9d8-274584235e75"
+        }
+      ]
+    },
+    {
+      "name": "1a347a73-fc70-4ccd-84b0-8232efaef300",
+      "path": "https://github.com/user-attachments/assets/1a347a73-fc70-4ccd-84b0-8232efaef300",
+      "source": "https://github.com/user-attachments/assets/1a347a73-fc70-4ccd-84b0-8232efaef300",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd",
+          "title": "[番外]fast_livo2复刻",
+          "slug": "41aa0aa3-f8f4-4651-a1d5-967a47b44d79"
+        }
+      ]
+    },
+    {
+      "name": "251cf5d8-17ed-42c5-b1a9-099c2d4e6909",
+      "path": "https://github.com/user-attachments/assets/251cf5d8-17ed-42c5-b1a9-099c2d4e6909",
+      "source": "https://github.com/user-attachments/assets/251cf5d8-17ed-42c5-b1a9-099c2d4e6909",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "2fb30b18-176d-41f0-8be8-285f912b91e1",
+          "title": "AXI",
+          "slug": "6eb6a5b4-4bed-4d9a-afe8-1dbf05e8af64"
+        }
+      ]
+    },
+    {
+      "name": "2b137ea9-4d1a-4f35-a9fd-83a73d444a6c",
+      "path": "https://github.com/user-attachments/assets/2b137ea9-4d1a-4f35-a9fd-83a73d444a6c",
+      "source": "https://github.com/user-attachments/assets/2b137ea9-4d1a-4f35-a9fd-83a73d444a6c",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "67508f66-1140-4871-aa0c-b566d7dd340b",
+          "title": "Primitive",
+          "slug": "1ca2313c-2618-4c2b-8e36-e123aec2e047"
+        }
+      ]
+    },
+    {
+      "name": "395a8cef-239a-47bf-ac18-c297633dcb12",
+      "path": "https://github.com/user-attachments/assets/395a8cef-239a-47bf-ac18-c297633dcb12",
+      "source": "https://github.com/user-attachments/assets/395a8cef-239a-47bf-ac18-c297633dcb12",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "2fb30b18-176d-41f0-8be8-285f912b91e1",
+          "title": "AXI",
+          "slug": "6eb6a5b4-4bed-4d9a-afe8-1dbf05e8af64"
+        }
+      ]
+    },
+    {
+      "name": "457a1f39-78be-4a08-83a0-59cf6a3861e6",
+      "path": "https://github.com/user-attachments/assets/457a1f39-78be-4a08-83a0-59cf6a3861e6",
+      "source": "https://github.com/user-attachments/assets/457a1f39-78be-4a08-83a0-59cf6a3861e6",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "e82c6272-8050-43e1-b38a-20c94835ff87",
+          "title": "MMCM",
+          "slug": "cd2d61bc-c373-444e-b05e-6213070b6ba1"
+        }
+      ]
+    },
+    {
+      "name": "6c10dd04-dcf1-46df-a8a5-07909ca46220",
+      "path": "https://github.com/user-attachments/assets/6c10dd04-dcf1-46df-a8a5-07909ca46220",
+      "source": "https://github.com/user-attachments/assets/6c10dd04-dcf1-46df-a8a5-07909ca46220",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "2fb30b18-176d-41f0-8be8-285f912b91e1",
+          "title": "AXI",
+          "slug": "6eb6a5b4-4bed-4d9a-afe8-1dbf05e8af64"
+        }
+      ]
+    },
+    {
+      "name": "741e1f2b-ef76-4a23-b41b-c713f9b8e1e3",
+      "path": "https://github.com/user-attachments/assets/741e1f2b-ef76-4a23-b41b-c713f9b8e1e3",
+      "source": "https://github.com/user-attachments/assets/741e1f2b-ef76-4a23-b41b-c713f9b8e1e3",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd",
+          "title": "[番外]fast_livo2复刻",
+          "slug": "41aa0aa3-f8f4-4651-a1d5-967a47b44d79"
+        }
+      ]
+    },
+    {
+      "name": "854f1f68-141c-4664-a9a1-6a065113338f",
+      "path": "https://github.com/user-attachments/assets/854f1f68-141c-4664-a9a1-6a065113338f",
+      "source": "https://github.com/user-attachments/assets/854f1f68-141c-4664-a9a1-6a065113338f",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "67508f66-1140-4871-aa0c-b566d7dd340b",
+          "title": "Primitive",
+          "slug": "1ca2313c-2618-4c2b-8e36-e123aec2e047"
+        }
+      ]
+    },
+    {
+      "name": "88d3c16a-9fb2-42e4-9b9c-2ec2f0975d22",
+      "path": "https://github.com/user-attachments/assets/88d3c16a-9fb2-42e4-9b9c-2ec2f0975d22",
+      "source": "https://github.com/user-attachments/assets/88d3c16a-9fb2-42e4-9b9c-2ec2f0975d22",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "0a7b5d98-db16-4a6a-be13-38e4ce925966",
+          "title": "一些扫盲",
+          "slug": "a2d2585c-a751-468a-a53d-74c0ae2f0370"
+        }
+      ]
+    },
+    {
+      "name": "94d3f5be-8110-41d5-919e-bc098e2bf9b3",
+      "path": "https://github.com/user-attachments/assets/94d3f5be-8110-41d5-919e-bc098e2bf9b3",
+      "source": "https://github.com/user-attachments/assets/94d3f5be-8110-41d5-919e-bc098e2bf9b3",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "363a5bc1-b2d9-4414-9ff1-9520dc351870",
+          "title": "EMIO",
+          "slug": "a62f8308-98f2-4e5d-b9d8-274584235e75"
+        }
+      ]
+    },
+    {
+      "name": "965b4673-3789-447c-a860-c80fc8a4b656",
+      "path": "https://github.com/user-attachments/assets/965b4673-3789-447c-a860-c80fc8a4b656",
+      "source": "https://github.com/user-attachments/assets/965b4673-3789-447c-a860-c80fc8a4b656",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd",
+          "title": "[番外]fast_livo2复刻",
+          "slug": "41aa0aa3-f8f4-4651-a1d5-967a47b44d79"
+        }
+      ]
+    },
+    {
+      "name": "9960190a-31f2-410e-91f5-924775533b0e",
+      "path": "https://github.com/user-attachments/assets/9960190a-31f2-410e-91f5-924775533b0e",
+      "source": "https://github.com/user-attachments/assets/9960190a-31f2-410e-91f5-924775533b0e",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd",
+          "title": "[番外]fast_livo2复刻",
+          "slug": "41aa0aa3-f8f4-4651-a1d5-967a47b44d79"
+        }
+      ]
+    },
+    {
+      "name": "9c6c817d-6fd2-4579-ac6a-8a7d1920e3e3",
+      "path": "https://github.com/user-attachments/assets/9c6c817d-6fd2-4579-ac6a-8a7d1920e3e3",
+      "source": "https://github.com/user-attachments/assets/9c6c817d-6fd2-4579-ac6a-8a7d1920e3e3",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "2fb30b18-176d-41f0-8be8-285f912b91e1",
+          "title": "AXI",
+          "slug": "6eb6a5b4-4bed-4d9a-afe8-1dbf05e8af64"
+        }
+      ]
+    },
+    {
+      "name": "c29c959c-5ea4-4326-b037-3d3c19310e84",
+      "path": "https://github.com/user-attachments/assets/c29c959c-5ea4-4326-b037-3d3c19310e84",
+      "source": "https://github.com/user-attachments/assets/c29c959c-5ea4-4326-b037-3d3c19310e84",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "2fb30b18-176d-41f0-8be8-285f912b91e1",
+          "title": "AXI",
+          "slug": "6eb6a5b4-4bed-4d9a-afe8-1dbf05e8af64"
+        }
+      ]
+    },
+    {
+      "name": "c88ac622-040f-4fef-8787-7d3c0844f368",
+      "path": "https://github.com/user-attachments/assets/c88ac622-040f-4fef-8787-7d3c0844f368",
+      "source": "https://github.com/user-attachments/assets/c88ac622-040f-4fef-8787-7d3c0844f368",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "67508f66-1140-4871-aa0c-b566d7dd340b",
+          "title": "Primitive",
+          "slug": "1ca2313c-2618-4c2b-8e36-e123aec2e047"
+        }
+      ]
+    },
+    {
+      "name": "de24be7d-90da-4829-92f5-9d516a6bbd62",
+      "path": "https://github.com/user-attachments/assets/de24be7d-90da-4829-92f5-9d516a6bbd62",
+      "source": "https://github.com/user-attachments/assets/de24be7d-90da-4829-92f5-9d516a6bbd62",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "2fb30b18-176d-41f0-8be8-285f912b91e1",
+          "title": "AXI",
+          "slug": "6eb6a5b4-4bed-4d9a-afe8-1dbf05e8af64"
+        }
+      ]
+    },
+    {
+      "name": "e5b88285-bd5b-4f7f-b73d-85fed1495359",
+      "path": "https://github.com/user-attachments/assets/e5b88285-bd5b-4f7f-b73d-85fed1495359",
+      "source": "https://github.com/user-attachments/assets/e5b88285-bd5b-4f7f-b73d-85fed1495359",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "d962c743-b261-472c-b3ca-ba3fdc0da612",
+          "title": "zynq手册-bank电压",
+          "slug": "328c927d-50e7-4b40-9a0a-f89ccc21e5b2"
+        }
+      ]
+    },
+    {
+      "name": "f993ebe8-93d0-4938-b722-a20579a1bdc5",
+      "path": "https://github.com/user-attachments/assets/f993ebe8-93d0-4938-b722-a20579a1bdc5",
+      "source": "https://github.com/user-attachments/assets/f993ebe8-93d0-4938-b722-a20579a1bdc5",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd",
+          "title": "[番外]fast_livo2复刻",
+          "slug": "41aa0aa3-f8f4-4651-a1d5-967a47b44d79"
+        }
+      ]
+    },
+    {
+      "name": "468293237-c9f9f96c-208f-47aa-8476-7205631cdd43.png",
+      "path": "https://private-user-images.githubusercontent.com/162614736/468293237-c9f9f96c-208f-47aa-8476-7205631cdd43.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MzgzNjAsIm5iZiI6MTc1MjkzODA2MCwicGF0aCI6Ii8xNjI2MTQ3MzYvNDY4MjkzMjM3LWM5ZjlmOTZjLTIwOGYtNDdhYS04NDc2LTcyMDU2MzFjZGQ0My5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzE5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcxOVQxNTE0MjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1lMGEyMzUzMzFjZmVmOWQwYzhhM2YyZDdjNmE0NTgzNjgzNjhkMDcyZTFhM2ZjNmQwNDljM2JhMWQ4YzU0NDViJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.Fkx4vTVFcmApwRXIPF03g9gRotO0k3b3qm2ZDB9AfgY",
+      "source": "https://private-user-images.githubusercontent.com/162614736/468293237-c9f9f96c-208f-47aa-8476-7205631cdd43.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MzgzNjAsIm5iZiI6MTc1MjkzODA2MCwicGF0aCI6Ii8xNjI2MTQ3MzYvNDY4MjkzMjM3LWM5ZjlmOTZjLTIwOGYtNDdhYS04NDc2LTcyMDU2MzFjZGQ0My5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzE5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcxOVQxNTE0MjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1lMGEyMzUzMzFjZmVmOWQwYzhhM2YyZDdjNmE0NTgzNjgzNjhkMDcyZTFhM2ZjNmQwNDljM2JhMWQ4YzU0NDViJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.Fkx4vTVFcmApwRXIPF03g9gRotO0k3b3qm2ZDB9AfgY",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "98567ef8-8692-4ea7-8d02-333fea167ea7",
+          "title": "mid360外参标定",
+          "slug": "251a2cfd-cdac-41fd-bcb3-3935c5f673be"
+        }
+      ]
+    },
+    {
+      "name": "468293268-c685966d-d30e-4639-b572-fbea54c003e3.png",
+      "path": "https://private-user-images.githubusercontent.com/162614736/468293268-c685966d-d30e-4639-b572-fbea54c003e3.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MzgzNjAsIm5iZiI6MTc1MjkzODA2MCwicGF0aCI6Ii8xNjI2MTQ3MzYvNDY4MjkzMjY4LWM2ODU5NjZkLWQzMGUtNDYzOS1iNTcyLWZiZWE1NGMwMDNlMy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzE5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcxOVQxNTE0MjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04MDQ4NzJmNDg5NmIyMzRmNzkzYTZiZTdiZGMzNGYyZDNjNTdmYjM1OTdkODY5YzljZDJiM2EzNTMzODE3YTM1JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.kXPW4lmY2bdU305sTSIjaJi1viTeLJgw5_S02QCJ9wY",
+      "source": "https://private-user-images.githubusercontent.com/162614736/468293268-c685966d-d30e-4639-b572-fbea54c003e3.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MzgzNjAsIm5iZiI6MTc1MjkzODA2MCwicGF0aCI6Ii8xNjI2MTQ3MzYvNDY4MjkzMjY4LWM2ODU5NjZkLWQzMGUtNDYzOS1iNTcyLWZiZWE1NGMwMDNlMy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNzE5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDcxOVQxNTE0MjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04MDQ4NzJmNDg5NmIyMzRmNzkzYTZiZTdiZGMzNGYyZDNjNTdmYjM1OTdkODY5YzljZDJiM2EzNTMzODE3YTM1JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.kXPW4lmY2bdU305sTSIjaJi1viTeLJgw5_S02QCJ9wY",
+      "storage": "github-attachments",
+      "references": [
+        {
+          "haloId": "98567ef8-8692-4ea7-8d02-333fea167ea7",
+          "title": "mid360外参标定",
+          "slug": "251a2cfd-cdac-41fd-bcb3-3935c5f673be"
+        }
+      ]
+    }
+  ]
+}

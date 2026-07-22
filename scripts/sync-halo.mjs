@@ -5,8 +5,10 @@ const HALO_URL = (process.env.HALO_URL || 'https://dxlab.ehzsy.space').replace(/
 const CONTENT_DIR = path.resolve('src/content/blog');
 const ASSET_DIR = path.resolve('public/halo-assets');
 const MANIFEST_FILE = path.resolve('.halo-sync.json');
+const ASSET_INDEX_FILE = path.join(ASSET_DIR, 'manifest.json');
 const PAGE_SIZE = 100;
 const HALO_TOKEN = process.env.HALO_TOKEN || '';
+const EXPORT_VERSION = 2;
 
 async function requestJson(url) {
   const headers = { accept: 'application/json' };
@@ -80,8 +82,12 @@ async function localizeAssets(markdown, cover) {
 }
 
 function frontmatter(post, cover) {
+  const annotations = post.metadata.annotations || {};
+  const annotatedSource = annotations['astro.ehzsy.space/source'];
   const data = {
     haloId: post.metadata.name,
+    author: annotations['astro.ehzsy.space/author'] || post.owner?.displayName || post.spec.owner || 'Unknown',
+    source: annotatedSource === 'github' ? 'GitHub' : 'Halo',
     title: post.spec.title,
     slug: post.spec.slug,
     description: post.status.excerpt || post.spec.excerpt?.raw || '',
@@ -110,6 +116,7 @@ async function readManifest() {
 
 function signature(post) {
   return [
+    EXPORT_VERSION,
     post.metadata.version,
     post.metadata.annotations?.['checksum/content'],
     post.metadata.annotations?.['checksum/config'],
@@ -117,11 +124,35 @@ function signature(post) {
   ].join(':');
 }
 
-function retainDocumentAssets(document, retainedAssets) {
+function addAssetReference(assetIndex, asset, reference) {
+  const current = assetIndex.get(asset.path) || { ...asset, references: new Map() };
+  current.references.set(reference.haloId, reference);
+  assetIndex.set(asset.path, current);
+}
+
+function retainDocumentAssets(document, retainedAssets, assetIndex, reference) {
   const matches = document.matchAll(/\/halo-assets\/([^\s\"'<>)}\]]+)/g);
   for (const match of matches) {
     const target = path.resolve(ASSET_DIR, decodeURIComponent(match[1]));
-    if (target.startsWith(`${ASSET_DIR}${path.sep}`)) retainedAssets.add(target);
+    if (target.startsWith(`${ASSET_DIR}${path.sep}`)) {
+      retainedAssets.add(target);
+      addAssetReference(assetIndex, {
+        name: path.basename(target),
+        path: `/halo-assets/${match[1]}`,
+        source: new URL(`/upload/${match[1]}`, HALO_URL).href,
+        storage: 'github-repository',
+      }, reference);
+    }
+  }
+  const githubAssets = document.matchAll(/https:\/\/(?:github\.com\/user-attachments|private-user-images\.githubusercontent\.com)\/[^\s\"'<>)}\]]+/g);
+  for (const match of githubAssets) {
+    const source = match[0];
+    addAssetReference(assetIndex, {
+      name: decodeURIComponent(new URL(source).pathname.split('/').pop() || source),
+      path: source,
+      source,
+      storage: 'github-attachments',
+    }, reference);
   }
 }
 
@@ -146,19 +177,21 @@ const published = summaries.filter((post) =>
 );
 const retainedPosts = new Set();
 const retainedAssets = new Set();
+const assetIndex = new Map();
 const previousManifest = await readManifest();
 const nextManifest = {};
 let changed = 0;
 
 for (const summary of published) {
   const file = path.join(CONTENT_DIR, `${summary.metadata.name}.md`);
+  const reference = { haloId: summary.metadata.name, title: summary.spec.title, slug: summary.spec.slug };
   const currentSignature = signature(summary);
   nextManifest[summary.metadata.name] = currentSignature;
   if (previousManifest[summary.metadata.name] === currentSignature) {
     try {
       const document = await readFile(file, 'utf8');
       retainedPosts.add(file);
-      retainDocumentAssets(document, retainedAssets);
+      retainDocumentAssets(document, retainedAssets, assetIndex, reference);
       continue;
     } catch {}
   }
@@ -170,7 +203,7 @@ for (const summary of published) {
     try {
       const document = await readFile(file, 'utf8');
       retainedPosts.add(file);
-      retainDocumentAssets(document, retainedAssets);
+      retainDocumentAssets(document, retainedAssets, assetIndex, reference);
       if (previousManifest[summary.metadata.name]) nextManifest[summary.metadata.name] = previousManifest[summary.metadata.name];
       else delete nextManifest[summary.metadata.name];
     } catch {}
@@ -179,6 +212,7 @@ for (const summary of published) {
   const localized = await localizeAssets(post.content?.raw || '', post.spec.cover);
   for (const asset of localized.retained) retainedAssets.add(asset);
   const document = `---\n${frontmatter(post, localized.cover)}\n---\n\n${localized.body.trim()}\n`;
+  retainDocumentAssets(document, retainedAssets, assetIndex, reference);
   if (await writeIfChanged(file, document)) changed += 1;
   retainedPosts.add(file);
 }
@@ -191,8 +225,12 @@ for (const file of await walkFiles(CONTENT_DIR)) {
   }
 }
 for (const file of await walkFiles(ASSET_DIR)) {
-  if (!retainedAssets.has(file)) await rm(file);
+  if (file !== ASSET_INDEX_FILE && !retainedAssets.has(file)) await rm(file);
 }
+const indexedAssets = [...assetIndex.values()]
+  .map(({ references, ...asset }) => ({ ...asset, references: [...references.values()].sort((a, b) => a.slug.localeCompare(b.slug)) }))
+  .sort((a, b) => a.path.localeCompare(b.path));
+await writeIfChanged(ASSET_INDEX_FILE, `${JSON.stringify({ version: 1, assets: indexedAssets }, null, 2)}\n`);
 await writeIfChanged(MANIFEST_FILE, `${JSON.stringify(nextManifest, null, 2)}\n`);
 
-console.log(`Halo sync complete: ${published.length} published posts, ${changed} content files changed, ${retainedAssets.size} assets.`);
+console.log(`Halo sync complete: ${published.length} published posts, ${changed} content files changed, ${indexedAssets.length} indexed assets.`);

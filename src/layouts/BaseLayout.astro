@@ -14,7 +14,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -32,18 +32,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <body>
     <header class="site-header">
       <a class="brand" href="/">eH<span>.</span></a>
-      <nav aria-label="主导航">
-        <a href="/">文章</a>
-        <a href="/archives/">归档</a>
-        <a href="/categories/">分类</a>
-        <a href="/tags/">标签</a>
+      <nav aria-label="Primary navigation">
+        <a href="/">Journal</a>
+        <a href="/archives/">Archives</a>
+        <a href="/categories/">Categories</a>
+        <a href="/tags/">Tags</a>
         <a href="/rss.xml">RSS</a>
       </nav>
     </header>
     <main><slot /></main>
     <footer>
       <span>© {new Date().getFullYear()} {SITE.author}</span>
-      <span>由 Halo 写作，Astro 发布</span>
+      <span>Managed in Halo · Published with Astro</span>
     </footer>
   </body>
 </html>

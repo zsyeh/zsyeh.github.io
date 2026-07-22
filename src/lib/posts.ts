@@ -9,6 +9,6 @@ export function sortPosts(posts: Post[]) {
   });
 }
 
-export const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
+export const dateFormatter = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Shanghai',
 });
