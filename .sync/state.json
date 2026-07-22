@@ -309,9 +309,9 @@
     },
     "halo:post-wbxd68s0": {
       "haloId": "post-wbxd68s0",
-      "file": "src/content/blog/github-4.md",
-      "gitHash": "235568190b2d15aa82dd4baed62dfe0fc36270a00a4fe7c96b2f926e1e108ee9",
-      "haloSignature": null
+      "file": "src/content/blog/post-wbxd68s0.md",
+      "gitHash": "5d735afcc86e8c8ac6316cdcd8e23493665016440a8060f73ce712952f211ec6",
+      "haloSignature": "3:c179cace75d99fe29f44a8c49b103c070a18cb84e59f098a336febfefd96caa0:846d6ecf2a679d644cb4f985aea166665de211b0600ccbaea42b783b9f0f270c:2026-07-22T15:09:06.528173311Z"
     }
   }
 }
