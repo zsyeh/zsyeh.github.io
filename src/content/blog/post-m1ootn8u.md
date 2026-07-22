@@ -6,7 +6,7 @@ title: "从 Halo 到 Astro：构建同域名、同路由、可追溯的博客容
 slug: "halo-astro-same-domain-failover-and-sync"
 description: "记录 eH × DxLab 如何把 Halo、Astro、GitHub Pages、Nginx 与 GitHub Actions 组合成一套保留作者归属、统一 URI、支持图片归档和同域故障切换的发布系统。"
 pubDate: "2026-07-22T08:00:41.810106670Z"
-updatedDate: "2026-07-22T08:21:11.181620439Z"
+updatedDate: "2026-07-22T08:22:17.581337314Z"
 cover: "https://blog.ehzsy.space/article-assets/halo-astro-resilient-publishing-cover.png"
 categories: ["运维","技术杂谈"]
 tags: ["教程","Linux"]
