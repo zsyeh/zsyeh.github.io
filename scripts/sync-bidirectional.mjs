@@ -16,6 +16,7 @@ const HALO_TOKEN = process.env.HALO_TOKEN || '';
 const REQUIRE_HALO_TOKEN = process.env.REQUIRE_HALO_TOKEN === '1';
 const md = new MarkdownIt({ html: true, linkify: true, typographer: false });
 const taxonomyCache = new Map();
+let slugOwnersCache;
 
 if (REQUIRE_HALO_TOKEN && !HALO_TOKEN) {
   throw new Error('HALO_TOKEN is required for bidirectional synchronization');
@@ -49,6 +50,41 @@ async function documents() {
     output.set(key, { file, source, parsed });
   }
   return output;
+}
+
+async function slugOwners() {
+  if (slugOwnersCache) return slugOwnersCache;
+  const owners = new Map();
+  const response = await haloRequest('/apis/api.content.halo.run/v1alpha1/posts?page=1&size=500');
+  for (const post of response.items || []) owners.set(post.spec.slug, post.metadata.name);
+  for (const doc of (await documents()).values()) {
+    const owner = doc.parsed.data.haloId || `file:${path.relative(ROOT, doc.file)}`;
+    if (!owners.has(doc.parsed.data.slug)) owners.set(doc.parsed.data.slug, owner);
+  }
+  slugOwnersCache = owners;
+  return owners;
+}
+
+async function coordinateSlug(doc) {
+  const owners = await slugOwners();
+  const data = doc.parsed.data;
+  const owner = data.haloId || `file:${path.relative(ROOT, doc.file)}`;
+  const base = data.slug;
+  let candidate = base;
+  for (let suffix = 2; owners.has(candidate) && owners.get(candidate) !== owner; suffix += 1) {
+    candidate = `${base}-${suffix}`;
+  }
+  if (candidate === base) {
+    owners.set(candidate, owner);
+    return;
+  }
+  data.slug = candidate;
+  if (data.haloUrl) data.haloUrl = new URL(`/archives/${candidate}`, HALO_URL).href;
+  doc.source = matter.stringify(doc.parsed.content.trim(), data);
+  doc.parsed = matter(doc.source);
+  await writeFile(doc.file, doc.source);
+  owners.set(candidate, owner);
+  console.log(`${base}: slug already exists; coordinated as ${candidate}`);
 }
 
 async function haloRequest(endpoint, options = {}) {
@@ -104,6 +140,7 @@ function postSpec(data, existing = {}, taxonomy = {}) {
 }
 
 async function writeToHalo(doc) {
+  await coordinateSlug(doc);
   const { data, content } = doc.parsed;
   const taxonomy = {
     categories: await taxonomyIds('categories', data.categories),

@@ -47,6 +47,8 @@ flowchart LR
 - `author`：Halo 文章使用 Halo 的 `owner.displayName`；GitHub 文章使用 Issue 创建者的 GitHub 登录名。
 - `source`：标记首次写作入口为 `Halo` 或 `GitHub`。该来源会写入 Halo annotations，后续往返同步不会丢失。
 
+Slug 在 Halo 与 GitHub 的全部文章中统一检查。中文标题转成拼音连字符后若发生重复，第一篇保留原 Slug，后续文章按 `-2`、`-3` 递增；协调后的值会同时写回 Markdown 和 Halo，确保两端 `/archives/<slug>` 路由一致。
+
 ## 在 Halo 写作
 
 1. 登录 Halo 控制台，新建或编辑文章。

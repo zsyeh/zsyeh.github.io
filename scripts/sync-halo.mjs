@@ -170,6 +170,22 @@ async function walkFiles(directory) {
 await mkdir(CONTENT_DIR, { recursive: true });
 await mkdir(ASSET_DIR, { recursive: true });
 
+// GitHub-authored posts keep a readable filename after Halo assigns an ID.
+// Index the frontmatter so later Halo pulls update that file instead of
+// creating a second <haloId>.md copy of the same article.
+const existingFilesByHaloId = new Map();
+const existingHaloIdByFile = new Map();
+for (const file of await walkFiles(CONTENT_DIR)) {
+  if (!file.endsWith('.md')) continue;
+  let document;
+  try { document = await readFile(file, 'utf8'); } catch { continue; }
+  const frontmatter = document.match(/^---\s*\n([\s\S]*?)\n---/);
+  const haloId = frontmatter?.[1].match(/^haloId:\s*["']?([^"'\n]+)["']?\s*$/m)?.[1]?.trim();
+  if (!haloId) continue;
+  existingFilesByHaloId.set(haloId, file);
+  existingHaloIdByFile.set(file, haloId);
+}
+
 const summaries = await listPosts();
 const published = summaries.filter((post) =>
   post.spec.publish && !post.spec.deleted && post.spec.visible === 'PUBLIC' && post.status.phase === 'PUBLISHED'
@@ -182,7 +198,7 @@ const nextManifest = {};
 let changed = 0;
 
 for (const summary of published) {
-  const file = path.join(CONTENT_DIR, `${summary.metadata.name}.md`);
+  const file = existingFilesByHaloId.get(summary.metadata.name) || path.join(CONTENT_DIR, `${summary.metadata.name}.md`);
   const reference = { haloId: summary.metadata.name, title: summary.spec.title, slug: summary.spec.slug };
   const currentSignature = signature(summary);
   nextManifest[summary.metadata.name] = currentSignature;
@@ -217,7 +233,8 @@ for (const summary of published) {
 }
 
 for (const file of await walkFiles(CONTENT_DIR)) {
-  const managedByHalo = Object.hasOwn(previousManifest, path.basename(file, '.md'));
+  const haloId = existingHaloIdByFile.get(file) || path.basename(file, '.md');
+  const managedByHalo = Object.hasOwn(previousManifest, haloId);
   if (file.endsWith('.md') && managedByHalo && !retainedPosts.has(file)) {
     await rm(file);
     changed += 1;
