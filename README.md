@@ -2,6 +2,8 @@
 
 This publication is owned and operated by **eH** under the **eH × DxLab** identity. The collection includes work by multiple contributors; ownership of the site does not replace article-level authorship, so every article retains its original author and writing-source attribution.
 
+Halo metadata revisions are intentionally excluded from change detection. Only content, configuration, or modification-time changes trigger synchronization, preventing deployment-only version bumps from creating commit loops.
+
 `zsyeh.github.io` 的 Astro 静态站点源码。文章可以从 Halo 或 GitHub Issue 写作，两端通过三方状态合并保持同步；GitHub Actions 构建后发布到 GitHub Pages。
 
 - Halo 主站及统一入口：<https://dxlab.ehzsy.space>

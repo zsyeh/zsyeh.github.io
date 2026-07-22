@@ -8,7 +8,7 @@ const MANIFEST_FILE = path.resolve('.halo-sync.json');
 const ASSET_INDEX_FILE = path.join(ASSET_DIR, 'manifest.json');
 const PAGE_SIZE = 100;
 const HALO_TOKEN = process.env.HALO_TOKEN || '';
-const EXPORT_VERSION = 2;
+const EXPORT_VERSION = 3;
 
 async function requestJson(url) {
   const headers = { accept: 'application/json' };
@@ -117,7 +117,6 @@ async function readManifest() {
 function signature(post) {
   return [
     EXPORT_VERSION,
-    post.metadata.version,
     post.metadata.annotations?.['checksum/content'],
     post.metadata.annotations?.['checksum/config'],
     post.status.lastModifyTime,
