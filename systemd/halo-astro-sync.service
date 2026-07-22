@@ -1,0 +1,18 @@
+[Unit]
+Description=Synchronize Halo posts to Astro GitHub Pages
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/eh/halo2_docker/astro-site
+ExecStart=/home/eh/halo2_docker/astro-site/scripts/watch-and-sync.sh
+Restart=always
+RestartSec=15
+Environment=HALO_URL=https://dxlab.ehzsy.space
+Environment=SYNC_INTERVAL_SECONDS=20
+Environment=PATH=/home/eh/.local/bin:/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=-/home/eh/.config/halo-astro-sync.env
+
+[Install]
+WantedBy=default.target

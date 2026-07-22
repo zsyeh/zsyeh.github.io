@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { sortPosts } from '../lib/posts';
+
+const posts = sortPosts(await getCollection('blog'));
+---
+
+<BaseLayout>
+  <section class="hero">
+    <p class="kicker">THINK · BUILD · SHARE</p>
+    <h1>写下探索的过程，<br /><em>留下可复用的答案。</em></h1>
+    <p>这里收录我的技术笔记、项目实践和偶尔的灵感。</p>
+  </section>
+  <section class="feed">
+    <div class="section-head">
+      <div><span>最新发布</span><h2>全部文章</h2></div>
+      <label class="search"><span>⌕</span><input id="search" type="search" placeholder="搜索文章…" aria-label="搜索文章" /></label>
+    </div>
+    <div id="posts">
+      {posts.map((post) => <PostCard post={post} />)}
+      <p id="empty" class="empty" hidden>没有找到匹配的文章。</p>
+    </div>
+  </section>
+  <script>
+    const input = document.querySelector<HTMLInputElement>('#search');
+    const cards = [...document.querySelectorAll<HTMLElement>('.post-card')];
+    const empty = document.querySelector<HTMLElement>('#empty');
+    input?.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => {
+        const match = !query || card.dataset.search?.includes(query);
+        card.hidden = !match;
+        if (match) visible += 1;
+      });
+      if (empty) empty.hidden = visible !== 0;
+    });
+  </script>
+</BaseLayout>

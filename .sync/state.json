@@ -1,0 +1,281 @@
+{
+  "version": 1,
+  "posts": {
+    "halo:0342001b-98cb-4f10-9211-fce5831a7814": {
+      "haloId": "0342001b-98cb-4f10-9211-fce5831a7814",
+      "file": "src/content/blog/0342001b-98cb-4f10-9211-fce5831a7814.md",
+      "gitHash": "bcc3cd463576b395235a9ddae79197a53c25c1c9a0e80fa981cdf18c4fe1ebc9",
+      "haloSignature": "58:2a02b3f2fd104911d619f6cee812cde1ba718f6f6989c36f2c8d346de0db0b52:4e8df950e42ec15ac42032cbe311f89cd14d2f12df311ce6001410780d175fd6:2025-11-19T02:57:03.749324439Z"
+    },
+    "halo:0a7b5d98-db16-4a6a-be13-38e4ce925966": {
+      "haloId": "0a7b5d98-db16-4a6a-be13-38e4ce925966",
+      "file": "src/content/blog/0a7b5d98-db16-4a6a-be13-38e4ce925966.md",
+      "gitHash": "e5eb9bec2a7c3f94d7948515948c6072de7e12a30ed1ea1c82cf1865eaf4a727",
+      "haloSignature": "95:d10aa28dfecf58bb2f0bfffbfe084993d34a3d1df74210151d7b8a74fbd0b306:e0ed23c372abfc0c1dc22ff72dacc50dca171bfd794e45dd5cecd24b8ca3e7d8:2025-11-17T16:59:36.697366611Z"
+    },
+    "halo:0b266a9a-e5f8-41f9-ac40-816a46b7f424": {
+      "haloId": "0b266a9a-e5f8-41f9-ac40-816a46b7f424",
+      "file": "src/content/blog/0b266a9a-e5f8-41f9-ac40-816a46b7f424.md",
+      "gitHash": "f6e1ce8ca3108c877d537e776475deb754306ebb70192b46b516dad7dbb7aaa5",
+      "haloSignature": "84:4a60f1556b3a7d608fdaf499a6de14310b8ebb4b116711b0dffe361b9dfcfc17:295554debe7603a7d616ee5a92d69eeadcbf1063b5e1625aa12e000a133d5ee7:2025-11-30T07:36:22.254338742Z"
+    },
+    "halo:0b29ee2f-bf53-423e-81ca-ee4d91815350": {
+      "haloId": "0b29ee2f-bf53-423e-81ca-ee4d91815350",
+      "file": "src/content/blog/0b29ee2f-bf53-423e-81ca-ee4d91815350.md",
+      "gitHash": "962e6aff616dc49c5babe50e55a37832dce3a0ca1cea4f53a44bc4ac5b14b494",
+      "haloSignature": "31:8feb02b8e357cbf6ba5f12bae208cae49c9427d860acdab4180b41e599b601bf:e0d42457f33e8b1dc90c237b5e0c47ca1c98d72517e75ec3a080a9dbbbcf5cf4:2026-06-21T12:53:10.197646096Z"
+    },
+    "halo:1aa623f3-9975-4f9e-a614-abb1c6580ca5": {
+      "haloId": "1aa623f3-9975-4f9e-a614-abb1c6580ca5",
+      "file": "src/content/blog/1aa623f3-9975-4f9e-a614-abb1c6580ca5.md",
+      "gitHash": "3e39dbf3ea7a10e00a14081efffadefdbd38551ef42d701d3ea68020ad9d0bec",
+      "haloSignature": "90:4ad3ef025955c6613af347f1e9331a7c80fbe84ba0cd64d8fd71d2c57bbe6f55:cc38de2243818c8b74be3ffabaf7cd7696d4eef256e6f14176007dca4fd193d6:2025-11-30T18:00:44.442389479Z"
+    },
+    "halo:1f4c921f-a775-4ab8-b163-de1cc367a35d": {
+      "haloId": "1f4c921f-a775-4ab8-b163-de1cc367a35d",
+      "file": "src/content/blog/1f4c921f-a775-4ab8-b163-de1cc367a35d.md",
+      "gitHash": "7ed17650859af16497ac2f197717a141057c8bb57b4018e3e9adff244eb2e9d5",
+      "haloSignature": "96:f30e9636af941abe374851b7f65ded23bd1a0326a3909eed123b6f173222bdd0:43b168de22a4d67856223e3b31d103178bea07cdf3b3fcae9a2dcffa52668ef7:2025-12-20T14:21:20.625476547Z"
+    },
+    "halo:21f98037-a5a7-48be-b3d0-90b7ee6ed2b5": {
+      "haloId": "21f98037-a5a7-48be-b3d0-90b7ee6ed2b5",
+      "file": "src/content/blog/21f98037-a5a7-48be-b3d0-90b7ee6ed2b5.md",
+      "gitHash": "5cc1ae4246eeeb4acdcdb9755102b4988f91f74b97aa294bb2e9ae01c074a62d",
+      "haloSignature": "95:8459ba3fc0debee4093052e067ef17fc7017a3b6e303318584df56049753d0b2:73ac07a7a04c1841cdbd021c67ce36b21772ddc43428957887bbfbc88f151297:2025-11-29T16:27:58.615378399Z"
+    },
+    "halo:22751d37-8952-4df2-a6bf-ba5c8176165b": {
+      "haloId": "22751d37-8952-4df2-a6bf-ba5c8176165b",
+      "file": "src/content/blog/22751d37-8952-4df2-a6bf-ba5c8176165b.md",
+      "gitHash": "3058381062f775df0714448b1f3c1acc0ff3975ef9b9d01245da30b9050e8372",
+      "haloSignature": "83:b100900061271ddd2b8a30b5864f7bcde1576c39dc9021beb96f33c6f72cc126:171b68d9ebcd85526f4b82e422a8972757b94456f4abcd31e4949a9d094457c6:2025-11-17T16:58:47.683257423Z"
+    },
+    "halo:2cd92285-8671-4598-97b7-2972b98b475c": {
+      "haloId": "2cd92285-8671-4598-97b7-2972b98b475c",
+      "file": "src/content/blog/2cd92285-8671-4598-97b7-2972b98b475c.md",
+      "gitHash": "9d2a254d9e730293ec7f774d450b811689fe84b71400f2c3108dfdd4ebd3028a",
+      "haloSignature": "68:9473e8eee48153d239b9e80c3dface3811f84575fa8db69b44ba0f266319bcde:3b63221ce71bffbc7a13adae8d6670d624b692b8c93d5ed81bb67ba2e0be0711:2025-11-25T06:16:04.673039782Z"
+    },
+    "halo:2fb30b18-176d-41f0-8be8-285f912b91e1": {
+      "haloId": "2fb30b18-176d-41f0-8be8-285f912b91e1",
+      "file": "src/content/blog/2fb30b18-176d-41f0-8be8-285f912b91e1.md",
+      "gitHash": "eaa7ebd25f16bbfcbeb6130d90cd4168601a133d4b67665dcbad07e29e36b02a",
+      "haloSignature": "85:bfc2f8fd88c19d92d5582afcdae7735a56d418670f8a60aafb2a6fc2c770f11e:4870b8c7e7e433bf4c1d0143c8d7856e316b1db5965760e34c31bf5e5577fae6:2025-11-17T17:00:37.305012112Z"
+    },
+    "halo:33c4d579-4622-4c9c-a390-a60978a37d10": {
+      "haloId": "33c4d579-4622-4c9c-a390-a60978a37d10",
+      "file": "src/content/blog/33c4d579-4622-4c9c-a390-a60978a37d10.md",
+      "gitHash": "0082fda8261c351d4bf16791cf53203b767f9c68008acc5d5103aa1620431d79",
+      "haloSignature": "95:c919f1cfa6721fc0c196df1a21310063958c0a56f89014ae2c0abb0636af9d2f:e37e1c4914453f09d37dcde3390ed6762b21a268e3335b88bf28e420bd08b597:2025-11-17T16:57:48.742669144Z"
+    },
+    "halo:343862e8-78b6-4c5e-844e-8cc6b1751e0c": {
+      "haloId": "343862e8-78b6-4c5e-844e-8cc6b1751e0c",
+      "file": "src/content/blog/343862e8-78b6-4c5e-844e-8cc6b1751e0c.md",
+      "gitHash": "6009d474552f6e8532b63531b38feb518244431a2c289610539f5af032a0c42e",
+      "haloSignature": "86:a28a0172ad3b2aee1e2778ec810415bcbe726c145c21f3a78458a52b79e3c6b9:27a0e87ba10efdd0b988e88747d18a7a5bca2598b479bc2b413afa6001a6b439:2025-11-29T16:28:00.581295659Z"
+    },
+    "halo:35518e8f-e186-481f-8468-57f69360156f": {
+      "haloId": "35518e8f-e186-481f-8468-57f69360156f",
+      "file": "src/content/blog/35518e8f-e186-481f-8468-57f69360156f.md",
+      "gitHash": "a01efec6304e2d34b00e2a4100218a66f7ebf91078b087f2320972f4c59c78e8",
+      "haloSignature": "92:e72541d92003a0f113ec11855d6339fc31700dccb62dfc59362afa5c5906815b:2a513e90ca0e619c0b093a268ca6421fb937720f8ec6c864f6d5846c7652529a:2025-11-17T16:58:06.986704954Z"
+    },
+    "halo:363a5bc1-b2d9-4414-9ff1-9520dc351870": {
+      "haloId": "363a5bc1-b2d9-4414-9ff1-9520dc351870",
+      "file": "src/content/blog/363a5bc1-b2d9-4414-9ff1-9520dc351870.md",
+      "gitHash": "a1f6254dbdcc69dfb8ab51d1419108551c9fa2a335b089eb0edde11e42588367",
+      "haloSignature": "83:b5299e2088cf0cbf490fbaa12fa10af16e83f96e76dcfe54f9002d47661e3a51:868211fff08ac50e0ec6920341c09fe03e93e6a852214548d0406aff56625642:2025-11-17T16:58:37.881612961Z"
+    },
+    "halo:377f6459-90bf-4a74-9c93-be4997916eea": {
+      "haloId": "377f6459-90bf-4a74-9c93-be4997916eea",
+      "file": "src/content/blog/377f6459-90bf-4a74-9c93-be4997916eea.md",
+      "gitHash": "2821ae052baaf149f5fa30968ca1f8e06a8c6a1d61b14e9e2de2e27ca3f2caad",
+      "haloSignature": "94:36d01763fe60e72165c3286ca5b0e9b771e417edcdcd8d43bb98ba6f9c615e57:9827165650c8748fba2b61dd8a40b47de64fd650ca083684d2666473208b7c0b:2026-04-26T07:02:34.778912538Z"
+    },
+    "halo:37a23c1e-06dc-4ac1-848e-b71406800d99": {
+      "haloId": "37a23c1e-06dc-4ac1-848e-b71406800d99",
+      "file": "src/content/blog/37a23c1e-06dc-4ac1-848e-b71406800d99.md",
+      "gitHash": "7d91165e3b725f8b9c32fff02bf677c1ea7b91b5f1d889911e5bc6db790825a2",
+      "haloSignature": "100:58e2c7382a2e63c336bd3e32ac2b3b7803052b605ed5adfd4a56afbdfee12c3c:b2f8f291a25a6b1b0f1b37ab9abba8c58f4192f92dbf072f7cf4a7617bee4950:2025-11-17T17:16:00.948866092Z"
+    },
+    "halo:5567b0a5-dcbd-4ae4-9ea3-930e2b50903b": {
+      "haloId": "5567b0a5-dcbd-4ae4-9ea3-930e2b50903b",
+      "file": "src/content/blog/5567b0a5-dcbd-4ae4-9ea3-930e2b50903b.md",
+      "gitHash": "de725dd0d890e54c7155847ae696433a27ed31b00ffd1b0142f8c4a813917b5a",
+      "haloSignature": "106:64576ae42432b986932c4d17706200ca4080a198ef12527fc8aab6f0ba4d632f:426def021db74270fa9b6ae513d83e0c2644948bde13b97cf1493ccbe99d5b46:2025-11-17T17:38:06.951315895Z"
+    },
+    "halo:5ec63b8e-ced1-47ca-810e-6b01a63070af": {
+      "haloId": "5ec63b8e-ced1-47ca-810e-6b01a63070af",
+      "file": "src/content/blog/5ec63b8e-ced1-47ca-810e-6b01a63070af.md",
+      "gitHash": "c87eaab3ec5ebfdf73da4de730bcff7bf73621d8a4810d0aa9806a864bb50d0a",
+      "haloSignature": "153:3a5eaebcf6e9b9db8a5df49ce7f4cebe3e9ad437a317ab68368a319c4fae2bbe:766e7c9956ee2d97f28a9b5bb4bdf1e92fe368f26d3435c2fcf2ded762ffc4fa:2025-11-17T16:43:50.567271539Z"
+    },
+    "halo:67508f66-1140-4871-aa0c-b566d7dd340b": {
+      "haloId": "67508f66-1140-4871-aa0c-b566d7dd340b",
+      "file": "src/content/blog/67508f66-1140-4871-aa0c-b566d7dd340b.md",
+      "gitHash": "4419d021dbe57c40cd22def617b838a11d894114c7cd447c416925bd6ffdaee0",
+      "haloSignature": "92:c88708f0c71b89181e4b8ebde2154188c53beb456d3c982cd73eac590f52123d:06bac91c2bae217e0df6b6c2129bd9fb9d7507b6c1d34cac3bb1e6f929444ccd:2025-11-17T16:59:34.179245666Z"
+    },
+    "halo:6bee816c-066a-4898-8530-110079546860": {
+      "haloId": "6bee816c-066a-4898-8530-110079546860",
+      "file": "src/content/blog/6bee816c-066a-4898-8530-110079546860.md",
+      "gitHash": "80a5e0990f3c1b3072948b5e01789a007ef1b9d3841c7d3bdf013a8a8bbadc4b",
+      "haloSignature": "105:0749e462d70595ae752bcba4c34a2d6098d7859c5267e0967f927c3b47bf4a73:08897105ba71a7f9bc85ab252c8842ae1facacbfee283d73b057d5300ece953a:2025-11-17T17:30:49.130897201Z"
+    },
+    "halo:6d0837a3-97d6-463e-96d8-43791e0ba106": {
+      "haloId": "6d0837a3-97d6-463e-96d8-43791e0ba106",
+      "file": "src/content/blog/6d0837a3-97d6-463e-96d8-43791e0ba106.md",
+      "gitHash": "da8dff0d3001666f378636e24d4231004c250437577765f38417133a82e9924c",
+      "haloSignature": "81:dd2e0b26490946a7057e3e22a0d5d83f843974dbb85c122e6fd17f03c50d3008:f6f45f80fe027a47169b6de7264705abbbc56f188efc43b5e1fe588238d61236:2025-11-29T16:27:56.563935498Z"
+    },
+    "halo:791efe8d-d2d0-42a2-81f1-e231f75ee8a4": {
+      "haloId": "791efe8d-d2d0-42a2-81f1-e231f75ee8a4",
+      "file": "src/content/blog/791efe8d-d2d0-42a2-81f1-e231f75ee8a4.md",
+      "gitHash": "33de6c336e06c49cb3e6e0971f6cc49e37581b83ffc614f8bd1f82a3c77d621e",
+      "haloSignature": "95:2ab6003d300dcea19a8bfe39de221bc8911ef96d4cdb3fcfe3366c369da6d107:4a85db1e63943fa1cd028f771a8dddf4b10b36a872552a9bc0681cb4c2113c6e:2025-11-17T16:57:24.076005339Z"
+    },
+    "halo:7aa82676-9b3f-4f25-9baa-fc75bcdffe04": {
+      "haloId": "7aa82676-9b3f-4f25-9baa-fc75bcdffe04",
+      "file": "src/content/blog/7aa82676-9b3f-4f25-9baa-fc75bcdffe04.md",
+      "gitHash": "1b55485d1d93fbb903f53fbbe6445e34a0cbfd2926132abc016be09fb157bafe",
+      "haloSignature": "92:722ec1c760a7a0b1bbfbcc042cc319539d4e62580016c846ef4ed29c9a134969:aa8d9fb2dd9e1949e23964312e19dc9f946987280f003dd7154e0197965cd57a:2025-11-17T16:58:01.981750347Z"
+    },
+    "halo:7e2b17f8-b00e-4dfb-9a00-82615c6d6ccd": {
+      "haloId": "7e2b17f8-b00e-4dfb-9a00-82615c6d6ccd",
+      "file": "src/content/blog/7e2b17f8-b00e-4dfb-9a00-82615c6d6ccd.md",
+      "gitHash": "c8f85960e2f443480b01c62a311bf72220cd240e8d96875056026647e4f04562",
+      "haloSignature": "32:3a056a3dd4d9293b1abf6835acf92ed8991eb0fa6d2410a137955cab66b371d5:2fa72d5e8d3b85f8cb9508d16ee1f3908037cce556fd26e0a90479e13a45ba3c:2026-07-19T06:57:48.649400034Z"
+    },
+    "halo:824641de-62d2-45e8-8888-7b6d7a08de09": {
+      "haloId": "824641de-62d2-45e8-8888-7b6d7a08de09",
+      "file": "src/content/blog/824641de-62d2-45e8-8888-7b6d7a08de09.md",
+      "gitHash": "05b3ee8f3c35e1c2a0efd86d5cd9e6a4f2ef0a2807f4e34a1b87eb4847b737f5",
+      "haloSignature": "134:f5858c98e1dc9503cdbdb898220d0b90137e32dcd7512e219045e73ba99cd9db:3828c292e3a838b31d695eeb93e297256e4e7eecaa46d78cc09def8612b8592d:2025-12-20T14:19:24.639600723Z"
+    },
+    "halo:82d4b221-b12b-430e-b054-0d9539a688e2": {
+      "haloId": "82d4b221-b12b-430e-b054-0d9539a688e2",
+      "file": "src/content/blog/82d4b221-b12b-430e-b054-0d9539a688e2.md",
+      "gitHash": "17cdbf08b78082fc6412e9f12506dcf07f76469b31151c356bcd1070faf542a6",
+      "haloSignature": "113:effd8221e161ebd279bc0eb0c7d215822f102690ea0d79a0ad5125ae66274d49:e150d85ce5315226dc934483dae5d8336cc3bc263284072e1e86bd6ee4df81d7:2025-11-17T17:21:04.363282914Z"
+    },
+    "halo:82fef2a8-abde-4058-b1f9-cd4cd7296160": {
+      "haloId": "82fef2a8-abde-4058-b1f9-cd4cd7296160",
+      "file": "src/content/blog/82fef2a8-abde-4058-b1f9-cd4cd7296160.md",
+      "gitHash": "b0a5f403e7822ae5645b675743be586d3d87f1402ab3c8b6b045dc0913fa0b2f",
+      "haloSignature": "83:b39ea0a436db42d2f21fc4b95709f4f5b71fdfefb3d6b3f877ec3b624a62426d:5d79a879803bfebbe0435f15d19fa97270cf78e1ee574396b3a6a7e5bc5f85bc:2025-11-29T16:27:51.082852526Z"
+    },
+    "halo:85a89c36-ca91-4cba-96d5-ef8638b361a8": {
+      "haloId": "85a89c36-ca91-4cba-96d5-ef8638b361a8",
+      "file": "src/content/blog/85a89c36-ca91-4cba-96d5-ef8638b361a8.md",
+      "gitHash": "7941581b8354d3661ef9bbd8ac3b78074b63716ac0bc2823374ad4b164cfc203",
+      "haloSignature": "60:44c0a95256e06222021f10023936ec8740b69c96a6256bbde797c541e6125903:e8746f66a2aa6282610891eb1c712b7e61e747884af2ed87177a00f2e5a71f12:2026-04-22T09:20:09.149153833Z"
+    },
+    "halo:880d1f4a-c268-4286-a66d-b2a48a0ed685": {
+      "haloId": "880d1f4a-c268-4286-a66d-b2a48a0ed685",
+      "file": "src/content/blog/880d1f4a-c268-4286-a66d-b2a48a0ed685.md",
+      "gitHash": "2036d572cf85511664fb5efec1681fdbe0e8ddd7550c4679d659c73d38524d60",
+      "haloSignature": "70:0580632dbf01f9bc4bc1ff6549a4c39b1360ca85c3476ee6989c9de0f6e433f9:c909ddca400c20f195fa9b3abab4ff1fbf22839833eb30a54c6ce79cfc1c1029:2025-11-24T03:42:05.503047255Z"
+    },
+    "halo:8ff55609-d3e6-4545-aefa-2935607888a5": {
+      "haloId": "8ff55609-d3e6-4545-aefa-2935607888a5",
+      "file": "src/content/blog/8ff55609-d3e6-4545-aefa-2935607888a5.md",
+      "gitHash": "958a06d08a83c98b067cc78a6441318987b0d2d8420c86835de4c7c7c62b3d1d",
+      "haloSignature": "72:999192127c74b6df28a99de5a1bc8a4f4b7bc9e6743b4d95c72b810a7441b87f:e32c174f9ff8791562e9f5371f2aa8a3dfbfbe4f5ed7613d963e62b54e1862dd:2025-11-29T16:28:11.002502003Z"
+    },
+    "halo:939ac6cb-7002-4bc4-8f0c-8872a668df38": {
+      "haloId": "939ac6cb-7002-4bc4-8f0c-8872a668df38",
+      "file": "src/content/blog/939ac6cb-7002-4bc4-8f0c-8872a668df38.md",
+      "gitHash": "32a522752c72fbfb6dce2d95ab51b07fdf8c93efc38c1b76b62c5d1b5e63d2b8",
+      "haloSignature": "127:7175f87038124e2dd42535a6f35037b1a89e2607f7823d15a492021fd87a3cda:e38082d1c4b2ba07d264e76770f7d2e6469724a685d8e5119b448483bd5ffd79:2025-12-28T15:13:05.872448448Z"
+    },
+    "halo:98567ef8-8692-4ea7-8d02-333fea167ea7": {
+      "haloId": "98567ef8-8692-4ea7-8d02-333fea167ea7",
+      "file": "src/content/blog/98567ef8-8692-4ea7-8d02-333fea167ea7.md",
+      "gitHash": "d09b1221172b2f526035e1b3a330f372d091db550512602bae16c55c22dfabd1",
+      "haloSignature": "296:c0371273302b326fb6524930c81ffffcf18d8d8ad9a2f640a8d12e6ffd3927dc:2074a7463896d88d6008ab06c7d43f6f85e578e51750f99f297c50302756d532:2025-11-17T16:55:24.725263082Z"
+    },
+    "halo:9f3fe6f9-508f-432c-aa96-d979638ab46b": {
+      "haloId": "9f3fe6f9-508f-432c-aa96-d979638ab46b",
+      "file": "src/content/blog/9f3fe6f9-508f-432c-aa96-d979638ab46b.md",
+      "gitHash": "fdb4eaa46bcccf990dfa736e5c181388f680bee13980481a1f4c72f1f691d99f",
+      "haloSignature": "115:18968b56e4eaa7ec6969aabbe8d61ecfd09949503145eddb9a3a307db36d440b:dcb6b353797ef20dd9d6915f67e72173a703e2a1c175af96b497c76a64c79be6:2026-03-27T02:24:40.630878780Z"
+    },
+    "halo:a2a5059c-2a50-405a-afd9-cd294d839ff3": {
+      "haloId": "a2a5059c-2a50-405a-afd9-cd294d839ff3",
+      "file": "src/content/blog/a2a5059c-2a50-405a-afd9-cd294d839ff3.md",
+      "gitHash": "bc4b63101778d23e28d1831e1f6907b6e9a93d5256defced88af8ea74e21e89d",
+      "haloSignature": "70:714eb59230623b8f50a500c27ca6d338a1d0d74f70a543a00f4d3f0e2c9db5c4:af29f561f701b1eb719d3549ed2f2dee3e167f3b7b32998cd673d2f17dbbd2ab:2025-11-29T16:28:23.431254241Z"
+    },
+    "halo:a6a0b251-9c6c-4ab1-baa2-6955c31db5fd": {
+      "haloId": "a6a0b251-9c6c-4ab1-baa2-6955c31db5fd",
+      "file": "src/content/blog/a6a0b251-9c6c-4ab1-baa2-6955c31db5fd.md",
+      "gitHash": "7ac09216477f9c94f17dafea9cfb5aad9968a9810b370df6b7e05d3b220a4812",
+      "haloSignature": "79:6da8351b63873107b33bb50d6f53c91e6041982416d10b78588a7672a32556bb:67c807c561d392a44f0d04a4384cddd9fd54b1f9a13b72eaad31923c2481aa34:2025-11-17T16:58:20.136460726Z"
+    },
+    "halo:bb68a258-39ad-43e3-a6dc-3777aed37b66": {
+      "haloId": "bb68a258-39ad-43e3-a6dc-3777aed37b66",
+      "file": "src/content/blog/bb68a258-39ad-43e3-a6dc-3777aed37b66.md",
+      "gitHash": "f5e15f49e45b2960f8a89ecfd8e876e7bff8de53092ea9135c91a9beb3702a42",
+      "haloSignature": "94:a85507069d983d1448c177bbdcf3e4608565eb3557132be5a0c2a7bf9d5c013a:6f9128f04fb2a6f14d20db92619506d794c365462bb0ff9b246bc14276ccbf42:2025-11-29T08:34:36.238325453Z"
+    },
+    "halo:bda5fd12-4354-477b-b747-6ad6813f848b": {
+      "haloId": "bda5fd12-4354-477b-b747-6ad6813f848b",
+      "file": "src/content/blog/bda5fd12-4354-477b-b747-6ad6813f848b.md",
+      "gitHash": "931ab3a5aed40caefade58182a476d0a3e7794bf642ee8a65b5799818d7dbe59",
+      "haloSignature": "70:34ca9c7ca99818659a9c22a242157f0ce551a6ab410fe08c15dd0fdb7c181610:db8823f1bacfd7fba1705d736496813fc9be2a5e1ebc1c2d18f2a2696e60d0ef:2025-11-29T16:28:18.865299363Z"
+    },
+    "halo:be568564-107f-46b4-bab3-354d777ed5bf": {
+      "haloId": "be568564-107f-46b4-bab3-354d777ed5bf",
+      "file": "src/content/blog/be568564-107f-46b4-bab3-354d777ed5bf.md",
+      "gitHash": "9ee87d1716b21e397522d40019e1f9f07bbe54ed5b51e3566f4416dbb7153856",
+      "haloSignature": "86:e2fc104580a11491b848c5e2668884b5810e79f4dc2ac048cfaf81b308c26c0a:9105b3f5e91165f856d05adbba650eec27403d5936ba166210cbcc89f1c08b49:2025-11-29T16:49:34.294943745Z"
+    },
+    "halo:c099120e-a336-4ad3-83b4-8d69bb6ec638": {
+      "haloId": "c099120e-a336-4ad3-83b4-8d69bb6ec638",
+      "file": "src/content/blog/c099120e-a336-4ad3-83b4-8d69bb6ec638.md",
+      "gitHash": "d3f0572ec7776f939f95c19c68750e929bac60a8547abbb4f56366c276b99c58",
+      "haloSignature": "168:b1005e711180578679322b85455050f3203410e3e642af155d3ea17a517b2c1b:a5d88dbdcffed8c2ceacba5807dfd19e83732435892e130253c1037546b9fada:2025-12-27T06:32:29.315804550Z"
+    },
+    "halo:c70ee396-defc-4a4b-9772-1f1d3405f562": {
+      "haloId": "c70ee396-defc-4a4b-9772-1f1d3405f562",
+      "file": "src/content/blog/c70ee396-defc-4a4b-9772-1f1d3405f562.md",
+      "gitHash": "7f1e934dd4228bb36038df04f2d50621e1d3e7ecccc030b82ac5373b175e6bc2",
+      "haloSignature": "99:939fc4adbb9c1bb5afbeea7ef1aa10b00a4a2cf722b60c1c578c54b071ecb7f9:6cc6087a3ef054f6120d664812a62b4f77a9a45b10ac56236a9c77cb7f3a10e3:2025-11-17T17:18:49.154596928Z"
+    },
+    "halo:ce043748-ca19-4d6a-a0a1-c3f0208b8399": {
+      "haloId": "ce043748-ca19-4d6a-a0a1-c3f0208b8399",
+      "file": "src/content/blog/ce043748-ca19-4d6a-a0a1-c3f0208b8399.md",
+      "gitHash": "d09cb222fc7b8c8bdd0bfecb1975dd17880ad6e9dc07b3e422d29b8365d28533",
+      "haloSignature": "104:339ea1b91d3ed61a9d2ee14d75e1a7ad03e8adb0e7cbcdcaf6ef6b42ab079c21:2b4dd0b802ba8efddcd22ebd7051f01876711b1be1951dd375a3d46cde34ddda:2025-11-29T16:27:53.382625435Z"
+    },
+    "halo:d26ac261-d81c-4a59-99ba-bd470312aa59": {
+      "haloId": "d26ac261-d81c-4a59-99ba-bd470312aa59",
+      "file": "src/content/blog/d26ac261-d81c-4a59-99ba-bd470312aa59.md",
+      "gitHash": "09b29baa8b38eb60c4e14e860d4e7dc8af6d6ba98970b2b48e0394a471525618",
+      "haloSignature": "105:3768461d1caa17d1426f44b862d950db610d2f2a2ddf5f59cf9321379cf58af9:0006c065e66242aba4c70ccd13fb3f535998ed6e66cef46b7d413d5362ef0a49:2025-11-17T16:57:26.665579261Z"
+    },
+    "halo:d73cddfe-ef58-407b-afcd-93004d6804a0": {
+      "haloId": "d73cddfe-ef58-407b-afcd-93004d6804a0",
+      "file": "src/content/blog/d73cddfe-ef58-407b-afcd-93004d6804a0.md",
+      "gitHash": "4dc17f9005968de81eff5bc78d33edf79ec2f03a69909c2668195fdefc4a3acd",
+      "haloSignature": "70:725dc65535a05f723bc27b690dfab03f95361e8921c5858cec4d660375cc73a3:468a9d77c8fafcdec9f5a6a7b240bffd6708037b3469c7308b91e0a764cebb44:2025-11-29T16:28:29.502392918Z"
+    },
+    "halo:d962c743-b261-472c-b3ca-ba3fdc0da612": {
+      "haloId": "d962c743-b261-472c-b3ca-ba3fdc0da612",
+      "file": "src/content/blog/d962c743-b261-472c-b3ca-ba3fdc0da612.md",
+      "gitHash": "ebb58018d29c7d89fa004a040568e92bf305d032b990c89adfae1ffc47073508",
+      "haloSignature": "115:9669aeb59e565c9e0b7def8837bcb224d3f5e75a333e29be22e6998571611428:99357b4423501fb377bb85fa9eedfeae19cf79cb2a399608cb8319ab5bc76ecf:2025-11-17T17:03:49.457899339Z"
+    },
+    "halo:e82c6272-8050-43e1-b38a-20c94835ff87": {
+      "haloId": "e82c6272-8050-43e1-b38a-20c94835ff87",
+      "file": "src/content/blog/e82c6272-8050-43e1-b38a-20c94835ff87.md",
+      "gitHash": "8295bf98d1479811418e53c4450c4f2b28185c9f5566cb64185bfc53eccac1be",
+      "haloSignature": "92:c293fa3b4358781359c36b6e4b9681aa5d24462acd4a28c5c57df5acaaf0266d:1f66c24e3c89ccd2a6d13960a454a8f45215fe48239e9be0218c83094d881b6d:2025-11-17T16:59:41.135624371Z"
+    },
+    "halo:fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd": {
+      "haloId": "fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd",
+      "file": "src/content/blog/fb7adee9-7e1e-4a89-bcf0-a5d6e761c7dd.md",
+      "gitHash": "e6ab4891341c98b3c4babfe799cd906d7d6c153317f3bf806f7d3185af305de6",
+      "haloSignature": "107:997062b016cdaa6d0cd36b543b382b5d4b725ab7ae3cc12d0df345d619d2535f:9f5f3cb7a364af346af3677feb878d2e464f7ac7159304d5e6ed05cfac1ed4c4:2025-11-29T16:31:24.171616678Z"
+    }
+  }
+}

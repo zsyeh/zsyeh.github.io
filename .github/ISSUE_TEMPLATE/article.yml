@@ -1,0 +1,41 @@
+name: 写文章 / 编辑草稿
+description: 在任意设备用 GitHub 编辑器写 Markdown、粘贴图片并发布
+title: "[文章] "
+labels: ["article", "draft"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        正文支持 Markdown。图片可直接粘贴或拖入编辑框，GitHub 会自动上传。
+        写完后保存 Issue，再添加 `published` 标签即可发布；移除标签会撤回。
+  - type: input
+    id: slug
+    attributes:
+      label: 文章网址标识
+      description: 只使用小写字母、数字和连字符；发布后尽量不要修改。
+      placeholder: my-new-post
+    validations:
+      required: true
+  - type: input
+    id: description
+    attributes:
+      label: 摘要
+      description: 用于首页和搜索引擎展示。
+  - type: input
+    id: categories
+    attributes:
+      label: 分类
+      description: 多个分类使用英文逗号分隔。
+  - type: input
+    id: tags
+    attributes:
+      label: 标签
+      description: 多个标签使用英文逗号分隔。
+  - type: textarea
+    id: content
+    attributes:
+      label: 正文
+      description: 可整篇粘贴本地 Markdown，也可跨设备持续编辑此 Issue。
+      render: markdown
+    validations:
+      required: true

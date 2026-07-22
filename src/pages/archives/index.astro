@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sortPosts, dateFormatter } from '../../lib/posts';
+
+const posts = sortPosts(await getCollection('blog'));
+const groups = new Map<number, typeof posts>();
+for (const post of posts) {
+  const year = post.data.pubDate.getFullYear();
+  groups.set(year, [...(groups.get(year) || []), post]);
+}
+---
+
+<BaseLayout title="归档">
+  <section class="page-head"><span>ARCHIVE</span><h1>文章归档</h1><p>共 {posts.length} 篇公开文章。</p></section>
+  <div class="archive-list">
+    {[...groups].map(([year, items]) => <section><h2>{year}</h2>{items.map((post) => <a href={`/posts/${post.data.slug}/`}><time>{dateFormatter.format(post.data.pubDate)}</time><strong>{post.data.title}</strong></a>)}</section>)}
+  </div>
+</BaseLayout>

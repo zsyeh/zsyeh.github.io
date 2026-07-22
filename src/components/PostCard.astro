@@ -1,0 +1,22 @@
+---
+import type { Post } from '../lib/posts';
+import { dateFormatter } from '../lib/posts';
+
+const { post } = Astro.props as { post: Post };
+---
+
+<article class="post-card" data-search={`${post.data.title} ${post.data.description} ${post.data.categories.join(' ')} ${post.data.tags.join(' ')}`.toLowerCase()}>
+  <div class="post-card-content">
+    <div class="eyebrow">
+      <time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time>
+      {post.data.pinned && <span>置顶</span>}
+    </div>
+    <h2><a href={`/posts/${post.data.slug}/`}>{post.data.title}</a></h2>
+    {post.data.description && <p>{post.data.description}</p>}
+    <div class="chips">
+      {post.data.categories.map((name) => <a href={`/categories/${encodeURIComponent(name)}/`}>{name}</a>)}
+      {post.data.tags.slice(0, 4).map((name) => <a class="tag" href={`/tags/${encodeURIComponent(name)}/`}>#{name}</a>)}
+    </div>
+  </div>
+  {post.data.cover && <a class="post-cover" href={`/posts/${post.data.slug}/`} tabindex="-1"><img src={post.data.cover} alt="" loading="lazy" /></a>}
+</article>
