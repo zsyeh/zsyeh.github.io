@@ -279,9 +279,9 @@
     },
     "halo:post-m1ootn8u": {
       "haloId": "post-m1ootn8u",
-      "file": "src/content/blog/halo-astro-same-domain-failover-and-sync.md",
-      "gitHash": "90196357b2a27307bcd0b9c3757dade9e897bdb1ed515a6ad77d855f67062b5f",
-      "haloSignature": null
+      "file": "src/content/blog/post-m1ootn8u.md",
+      "gitHash": "29db67fe778639b639b82839b8c8633d678bcd97d67f2b0a29f941a799493aeb",
+      "haloSignature": "3::dee8cee3e2a6690eb64336b89e235500f7265cf530b860c1125c58fea8798611:2026-07-22T08:00:41.446905648Z"
     }
   }
 }
