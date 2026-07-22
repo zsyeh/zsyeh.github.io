@@ -14,6 +14,7 @@ const CONFLICT_DIR = path.resolve('.sync/conflicts');
 const HALO_URL = (process.env.HALO_URL || 'https://dxlab.ehzsy.space').replace(/\/$/, '');
 const HALO_TOKEN = process.env.HALO_TOKEN || '';
 const REQUIRE_HALO_TOKEN = process.env.REQUIRE_HALO_TOKEN === '1';
+const STATE_VERSION = 3;
 const md = new MarkdownIt({ html: true, linkify: true, typographer: false });
 const taxonomyCache = new Map();
 let slugOwnersCache;
@@ -23,7 +24,15 @@ if (REQUIRE_HALO_TOKEN && !HALO_TOKEN) {
 }
 
 const hash = (value) => createHash('sha256').update(value).digest('hex');
-const valueHash = (file) => file == null ? null : hash(file);
+const documentHash = (source) => {
+  if (source == null) return null;
+  const parsed = matter(source);
+  const data = { ...parsed.data };
+  // Halo owns this timestamp. Ignoring it prevents a server-side write time
+  // from being mistaken for a new author edit on the next workflow run.
+  delete data.updatedDate;
+  return hash(matter.stringify(parsed.content.trim(), data));
+};
 
 async function json(file, fallback = {}) {
   try { return JSON.parse(await readFile(file, 'utf8')); } catch { return fallback; }
@@ -127,7 +136,7 @@ function postSpec(data, existing = {}, taxonomy = {}) {
     cover: data.cover || '',
     deleted: false,
     publish: existing.publish ?? false,
-    publishTime: existing.publishTime || null,
+    publishTime: existing.publishTime || (data.pubDate ? new Date(data.pubDate).toISOString() : null),
     pinned: Boolean(data.pinned),
     allowComment: existing.allowComment ?? true,
     visible: 'PUBLIC',
@@ -193,9 +202,9 @@ async function mergeDocuments(current, base, incoming, key) {
 await mkdir(BASE_DIR, { recursive: true });
 await mkdir(CONFLICT_DIR, { recursive: true });
 const storedState = await json(STATE_FILE, { posts: {} });
-// Version 2 adds author/source provenance to the shared baseline. Re-bootstrap
-// once instead of treating the exporter migration as edits on both sides.
-const oldState = storedState.version === 2 ? storedState : { posts: {} };
+// Re-bootstrap after hash-schema changes instead of interpreting generated
+// metadata as edits on both sides.
+const oldState = storedState.version === STATE_VERSION ? storedState : { posts: {} };
 const before = await documents();
 
 execFileSync(process.execPath, ['scripts/sync-halo.mjs'], { cwd: ROOT, stdio: 'inherit', env: process.env });
@@ -204,7 +213,7 @@ const haloManifest = await json(path.resolve('.halo-sync.json'));
 const after = await documents();
 // Keep the state file deterministic. A per-run timestamp would make every
 // polling pass look like a content change and create an empty sync commit.
-const next = { version: 2, posts: {} };
+const next = { version: STATE_VERSION, posts: {} };
 const keys = new Set([...Object.keys(oldState.posts), ...before.keys(), ...after.keys()]);
 
 for (const key of keys) {
@@ -222,7 +231,7 @@ for (const key of keys) {
       localAfter = (await documents()).get(`halo:${localAfter.parsed.data.haloId}`) || localAfter;
     } else continue;
   } else {
-    const gitChanged = valueHash(localBefore?.source) !== previous.gitHash;
+    const gitChanged = documentHash(localBefore?.source) !== previous.gitHash;
     const haloChanged = haloSignature !== previous.haloSignature;
 
     if (!localBefore && haloSignature && !haloChanged) {
@@ -262,7 +271,7 @@ for (const key of keys) {
   next.posts[finalKey] = {
     haloId: localAfter.parsed.data.haloId || null,
     file: path.relative(ROOT, localAfter.file),
-    gitHash: valueHash(localAfter.source),
+    gitHash: documentHash(localAfter.source),
     haloSignature: localAfter.parsed.data.haloId === haloId ? haloSignature : null,
   };
 }
