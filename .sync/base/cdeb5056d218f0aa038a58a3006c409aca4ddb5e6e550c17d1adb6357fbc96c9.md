@@ -1,25 +1,19 @@
 ---
-author: eH
-source: GitHub
-title: KDraw 互操作性研究记录：从 Java 运行时分析到 GFont 与 G-code 重建
-slug: kdraw-java-native-gfont-interoperability-record
-description: >-
-  记录对本地 KDraw 环境进行 Java 运行时观察、JNA 边界分析、GFont 格式解析、独立兼容实现和 G-code
-  可视化验收的过程，重点讨论方法、数据布局和工程验证。
-pubDate: '2026-07-07T09:30:00.000Z'
-updatedDate: '2026-07-22T08:15:00.000Z'
-cover: 'https://blog.ehzsy.space/article-assets/kdraw-interoperability-cover.png'
-categories:
-  - 技术杂谈
-  - 嵌入式
-tags:
-  - Linux
-  - 教程
+haloId: "post-yq6gvltm"
+author: "eH"
+source: "GitHub"
+title: "KDraw 互操作性研究记录：从 Java 运行时分析到 GFont 与 G-code 重建"
+slug: "kdraw-java-native-gfont-interoperability-record"
+description: "记录对本地 KDraw 环境进行 Java 运行时观察、JNA 边界分析、GFont 格式解析、独立兼容实现和 G-code 可视化验收的过程，重点讨论方法、数据布局和工程验证。"
+pubDate: "2026-07-22T08:17:30.409184064Z"
+updatedDate: "2026-07-22T08:17:30.109172072Z"
+cover: "https://blog.ehzsy.space/article-assets/kdraw-interoperability-cover.png"
+categories: ["技术杂谈","嵌入式"]
+tags: ["教程","Linux"]
 pinned: false
-haloId: post-yq6gvltm
-haloUrl: >-
-  https://dxlab.ehzsy.space/archives/kdraw-java-native-gfont-interoperability-record
+haloUrl: "https://dxlab.ehzsy.space/archives/kdraw-java-native-gfont-interoperability-record"
 ---
+
 本文整理一次针对本地 KDraw 安装环境的互操作性研究。目标不是发布原软件、破解授权或复制专有实现，而是回答三个工程问题：Java 应用如何跨过 JNA 调用本地库、`.gfont` 如何表达字形路径、以及能否用独立实现把合法持有的字体数据转换成可验证的 G-code。
 
 研究代码和可公开的独立工具位于：

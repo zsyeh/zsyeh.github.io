@@ -1,26 +1,19 @@
 ---
-author: eH
-source: GitHub
-title: SmartZynq XC7Z020 实战记录：在 PL 中实现 HackCPU，并从 TF 卡启动
-slug: smartzynq-zynq020-pl-hackcpu-build-record
-description: >-
-  记录在 SmartZynq SL XC7Z020CLG484-1 上完成 HackCPU、AXI4-Lite、UART、LED、HDMI HUD 与
-  BOOT.BIN 命令行构建的全过程，以及裁剪版 Vitis、JTAG 和视频输出中的真实问题。
-pubDate: '2026-07-09T10:30:00.000Z'
-updatedDate: '2026-07-22T08:15:00.000Z'
-cover: 'https://blog.ehzsy.space/article-assets/smartzynq-hackcpu-fpga-cover.png'
-categories:
-  - FPGA
-  - 嵌入式
-tags:
-  - zynq
-  - axi
-  - mmcm
-  - 教程
+haloId: "post-2kfhmtlh"
+author: "eH"
+source: "GitHub"
+title: "SmartZynq XC7Z020 实战记录：在 PL 中实现 HackCPU，并从 TF 卡启动"
+slug: "smartzynq-zynq020-pl-hackcpu-build-record"
+description: "记录在 SmartZynq SL XC7Z020CLG484-1 上完成 HackCPU、AXI4-Lite、UART、LED、HDMI HUD 与 BOOT.BIN 命令行构建的全过程，以及裁剪版 Vitis、JTAG 和视频输出中的真实问题。"
+pubDate: "2026-07-22T08:17:31.131550353Z"
+updatedDate: "2026-07-22T08:17:30.891111051Z"
+cover: "https://blog.ehzsy.space/article-assets/smartzynq-hackcpu-fpga-cover.png"
+categories: ["FPGA","嵌入式"]
+tags: ["教程","mmcm","axi","zynq"]
 pinned: false
-haloId: post-2kfhmtlh
-haloUrl: 'https://dxlab.ehzsy.space/archives/smartzynq-zynq020-pl-hackcpu-build-record'
+haloUrl: "https://dxlab.ehzsy.space/archives/smartzynq-zynq020-pl-hackcpu-build-record"
 ---
+
 这是一份完整的工程记录：目标不是在 Zynq 的 ARM 核上模拟一颗 CPU，而是在 **XC7Z020 的 PL 中真正实现 HackCPU**；PS 只承担程序装载、串口输出和辅助控制。最终产物包含 bitstream、XSA、裸机程序、FSBL 和可直接放入 TF 卡的 `BOOT.BIN`。
 
 项目目录：

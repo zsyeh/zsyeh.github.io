@@ -280,20 +280,20 @@
     "halo:post-m1ootn8u": {
       "haloId": "post-m1ootn8u",
       "file": "src/content/blog/post-m1ootn8u.md",
-      "gitHash": "1fefcce214e69694f8753f27308b5f6e3bfc9ba52aa1b11da54bb96db441a867",
-      "haloSignature": "3::9ed2d7b949a4776ad103d1d929c7b1da67beba7e740dd3ee2273d51c84c297ca:2026-07-22T08:05:49.591415081Z"
+      "gitHash": "562d5afa03f4048b5be0ba2082d0da16e5cdf8633a9dd97f29be10ddd0e40414",
+      "haloSignature": "3::54a7602e0f7422522d330ffbe733a6059fab4c1550bf6c4039e73d32777bf515:2026-07-22T08:17:29.383949835Z"
     },
     "halo:post-yq6gvltm": {
       "haloId": "post-yq6gvltm",
       "file": "src/content/blog/kdraw-java-native-gfont-interoperability-record.md",
-      "gitHash": "7c4579edcb38796fab1a33d7293fece057b5261917a8e5937e51695b6bb2d38c",
-      "haloSignature": null
+      "gitHash": "59b5cf24f165d49c77ef2e94e83b0baca1acd2f750e21b99bb53dc75f403234d",
+      "haloSignature": "3::aeb6fbd48554fc734631a536ed1b168010877a456327211cf60592b55d75441e:2026-07-22T08:17:30.109172072Z"
     },
     "halo:post-2kfhmtlh": {
       "haloId": "post-2kfhmtlh",
       "file": "src/content/blog/smartzynq-zynq020-pl-hackcpu-build-record.md",
-      "gitHash": "c64e7aa9a6ab5e22a4bf3cf9f3ea6976a85ac07b9cfddbc6e3069ff4808831e3",
-      "haloSignature": null
+      "gitHash": "4bb8465977f94cb28d72b1273aea203d9bf58315bbb022dc673a0b64e1cfaba8",
+      "haloSignature": "3::90a2771282162766f3535efeec25b6a656011dbf7d2c345081b4c0adccb7b7cb:2026-07-22T08:17:30.891111051Z"
     }
   }
 }
