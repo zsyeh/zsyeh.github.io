@@ -294,6 +294,12 @@
       "file": "src/content/blog/smartzynq-zynq020-pl-hackcpu-build-record.md",
       "gitHash": "2905517afb0aab2ade9e1baeba8faf78c87425052297a24a0210ab6e6d9622ef",
       "haloSignature": "3::e3f00d2b9d9a95fcc0e603c258cad4219d14d49877bf973d87d848931cb6ed49:2026-07-22T08:23:20.430463377Z"
+    },
+    "halo:post-jy4ptzrv": {
+      "haloId": "post-jy4ptzrv",
+      "file": "src/content/blog/github-4.md",
+      "gitHash": "dd16f778e7fb1dc4a111ac3a28289d5c29f850343a617b12b250b3b6341c4644",
+      "haloSignature": null
     }
   }
 }
