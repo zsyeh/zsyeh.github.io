@@ -292,8 +292,8 @@
     "halo:post-2kfhmtlh": {
       "haloId": "post-2kfhmtlh",
       "file": "src/content/blog/smartzynq-zynq020-pl-hackcpu-build-record.md",
-      "gitHash": "c3111cffafcff7dde570a61e91bfc85bf2af020edc2be80299598e47c1150e91",
-      "haloSignature": "3::692cff25c917dc877475df9187af9ccf13414a54f855995e3d6328fa5571216d:2026-07-22T08:21:13.405846254Z"
+      "gitHash": "5b646ad6839eb0a50bc709833a292b965c43b29da853ea38100d8215d768ad80",
+      "haloSignature": "3::85f5addb01f16a58b33ca27127815c6141d5cf52e262de5a12db50c67ad7d597:2026-07-22T08:22:19.803720969Z"
     }
   }
 }
