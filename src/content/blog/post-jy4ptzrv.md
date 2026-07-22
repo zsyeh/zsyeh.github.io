@@ -6,7 +6,7 @@ title: "Acer Nitro 5（AN515-58）DC 电源接口维修log"
 slug: "acer-dc-fix-log"
 description: "前言 我的 Acer Nitro 5（2023 款暗影骑士·擎，AN515-58）最近出现了一个非常烦人的问题。 最开始只是偶尔听到电源蜂鸣器报警，后来发展到： 轻轻碰一下 DC 插头就掉电 插头旋转一点点立即断电 甚至继续向里面压插头也会掉电 起初一直以为是充电器接触不良，但后来逐渐确认，真正损坏"
 pubDate: "2026-07-22T14:24:18Z"
-updatedDate: "2026-07-22T14:45:43.272963306Z"
+updatedDate: "2026-07-22T14:46:33.839436436Z"
 categories: []
 tags: []
 pinned: false
