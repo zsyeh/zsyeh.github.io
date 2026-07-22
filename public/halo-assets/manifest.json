@@ -274,6 +274,19 @@
       ]
     },
     {
+      "name": "manifest.json",
+      "path": "/halo-assets/manifest.json",
+      "source": "https://dxlab.ehzsy.space/upload/manifest.json",
+      "storage": "github-repository",
+      "references": [
+        {
+          "haloId": "post-m1ootn8u",
+          "title": "从 Halo 到 Astro：构建同域名、同路由、可追溯的博客容灾与双向同步系统",
+          "slug": "halo-astro-same-domain-failover-and-sync"
+        }
+      ]
+    },
+    {
       "name": "Pasted_image_20251222144033.png",
       "path": "/halo-assets/Pasted_image_20251222144033.png",
       "source": "https://dxlab.ehzsy.space/upload/Pasted_image_20251222144033.png",
