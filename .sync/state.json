@@ -306,6 +306,12 @@
       "file": "src/content/blog/post-5cxyt7nk.md",
       "gitHash": "0e353e0f6a9eaf876846d49963f0c4682d7ca60fe1f4f3908e1beab0043d4978",
       "haloSignature": "3:fe296fe91055ebcf2aaeacc3a8f34093bbef2f3fa79324729d0dfb8d63839ba2:d34ed70d95e584b8781c88a479964ac0eade5813ebc46d11469c8066d66cf2bb:2026-07-22T14:57:02.760727482Z"
+    },
+    "halo:post-wbxd68s0": {
+      "haloId": "post-wbxd68s0",
+      "file": "src/content/blog/github-4.md",
+      "gitHash": "235568190b2d15aa82dd4baed62dfe0fc36270a00a4fe7c96b2f926e1e108ee9",
+      "haloSignature": null
     }
   }
 }
