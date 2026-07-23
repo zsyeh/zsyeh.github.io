@@ -300,6 +300,12 @@
       "file": "src/content/blog/post-jy4ptzrv.md",
       "gitHash": "c00f9e9346850c30d39e4bba56880f3af45a106954f42ca76eac5a4dba3cb53e",
       "haloSignature": "3:f78ed30303c89444f4fbbfd191ae1a2c13f080ea68b941427d6b92e512938636:477f57cdc20d2bef19c73d9c5d70476366689423eba30979e6740e90ee9cd83c:2026-07-22T14:47:27.759887105Z"
+    },
+    "halo:post-yy2fevyf": {
+      "haloId": "post-yy2fevyf",
+      "file": "src/content/blog/github-4.md",
+      "gitHash": "8331c36cda554ca4c041f38829eca739ea2337a87bfd0c8d64ebff3f43f2e8d9",
+      "haloSignature": null
     }
   }
 }
