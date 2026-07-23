@@ -1,23 +1,18 @@
 ---
-githubIssue: 4
-author: zsyeh
-source: GitHub
-title: Acer Nitro 5（AN515-58）DC 电源接口维修log
-slug: acer-dc-fix-log-2
-description: ''
-pubDate: '2026-07-22T14:24:18Z'
-updatedDate: '2026-07-23T00:38:10Z'
-categories:
-  - 日常
-tags:
-  - 折腾
-  - 维修
-  - dc
-  - 电源
+haloId: "post-yy2fevyf"
+author: "zsyeh"
+source: "GitHub"
+title: "Acer Nitro 5（AN515-58）DC 电源接口维修log"
+slug: "acer-dc-fix-log-2"
+description: "前言 我的 Acer Nitro 5（2023 款暗影骑士·擎，AN515-58）最近出现了一个非常烦人的问题。 最开始只是偶尔听到电源蜂鸣器报警，后来发展到： 轻轻碰一下 DC 插头就掉电 插头旋转一点点立即断电 甚至继续向里面压插头也会掉电 起初一直以为是充电器接触不良，但后来逐渐确认，真正损坏"
+pubDate: "2026-07-22T14:24:18Z"
+updatedDate: "2026-07-23T00:38:37.705652927Z"
+categories: []
+tags: []
 pinned: false
-haloId: post-yy2fevyf
-haloUrl: 'https://dxlab.ehzsy.space/archives/acer-dc-fix-log-2'
+haloUrl: "https://dxlab.ehzsy.space/archives/acer-dc-fix-log-2"
 ---
+
 ## 前言
 
 <img width="2388" height="1792" alt="Image" src="https://github.com/user-attachments/assets/21d67a62-0394-4dff-a001-8182dddbd2b0" />
