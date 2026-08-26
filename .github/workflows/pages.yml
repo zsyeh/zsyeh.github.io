@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://blog.ehzsy.site
     steps:
       - uses: actions/checkout@v4
         with:
@@ -56,10 +56,12 @@ jobs:
           git push
       - name: Build Astro
         run: npm run build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages branch
+        run: |
+          PAGES_AUTH_HEADER="$(git config --get http.https://github.com/.extraheader)"
+          git -C dist init -b gh-pages
+          git -C dist config user.name "github-actions[bot]"
+          git -C dist config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C dist add --all
+          git -C dist commit -m "deploy: ${GITHUB_SHA}"
+          git -C dist -c http.https://github.com/.extraheader="$PAGES_AUTH_HEADER" push --force "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages
