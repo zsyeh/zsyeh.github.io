@@ -9,11 +9,11 @@ const { post } = Astro.props as { post: Post };
   {post.data.cover ? <a class="post-cover" href={`/archives/${post.data.slug}`} tabindex="-1"><img src={post.data.cover} alt="" loading="lazy" /></a> : <a class="post-cover post-cover-fallback" href={`/archives/${post.data.slug}`} tabindex="-1"><span>eH</span></a>}
   <div class="post-card-content">
     <div class="eyebrow">
-      <span>{post.data.categories[0] || '工程笔记'}</span>
+      <span>{post.data.categories[0] || 'Engineering Notes'}</span>
       <time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time>
     </div>
     <h2><a href={`/archives/${post.data.slug}`}>{post.data.title}</a></h2>
     {post.data.description && <p>{post.data.description}</p>}
-    <a class="card-read" href={`/archives/${post.data.slug}`}>阅读文章 <span>→</span></a>
+    <a class="card-read" href={`/archives/${post.data.slug}`}>Read article <span>→</span></a>
   </div>
 </article>
