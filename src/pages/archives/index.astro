@@ -11,9 +11,9 @@ for (const post of posts) {
 }
 ---
 
-<BaseLayout title="Archives">
-  <section class="page-head"><span>eH × DxLab</span><h1>Article Archives</h1><p>{posts.length} published articles, organized by year and credited to their original authors.</p></section>
+<BaseLayout title="文章归档" description="按年份浏览 eH Blog 的全部文章。">
+  <section class="page-head"><span>ARCHIVE</span><h1>文章归档</h1><p>共 {posts.length} 篇文章。按时间回看那些写下来的问题、尝试与答案。</p></section>
   <div class="archive-list">
-    {[...groups].map(([year, items]) => <section><h2>{year}</h2><div class="archive-year-posts">{items.map((post) => <a href={`/archives/${post.data.slug}`}><time>{dateFormatter.format(post.data.pubDate)}</time><strong>{post.data.title}</strong></a>)}</div></section>)}
+    {[...groups].map(([year, items]) => <section><h2>{year}</h2><div class="archive-year-posts">{items.map((post) => <a href={`/archives/${post.data.slug}`}><time>{dateFormatter.format(post.data.pubDate)}</time><strong>{post.data.title}</strong><span>→</span></a>)}</div></section>)}
   </div>
 </BaseLayout>

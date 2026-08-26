@@ -5,23 +5,38 @@ import PostCard from '../components/PostCard.astro';
 import { sortPosts } from '../lib/posts';
 
 const posts = sortPosts(await getCollection('blog'));
+const [featured, ...rest] = posts;
 ---
 
 <BaseLayout>
   <section class="hero">
-    <p class="kicker">eH × DxLab · OWNED BY eH</p>
-    <h1>Technology in Practice.<br /><em>Ideas Built to Last.</em></h1>
-    <p>An eH-owned journal for engineering, systems, and applied research. Individual articles remain credited to their original authors.</p>
+    <p class="kicker">eH BLOG</p>
+    <h1>记录创造，<br />也记录如何抵达。</h1>
+    <p>关于工程、系统与日常实践的文章。这里收集真实的问题、推演过程和那些值得留下的答案。</p>
   </section>
+  {featured && (
+    <section class="featured">
+      <a class="featured-copy" href={`/archives/${featured.data.slug}`}>
+        <span class="topic">{featured.data.categories[0] || '最新文章'}</span>
+        <h2>{featured.data.title}</h2>
+        <p>{featured.data.description || '阅读这篇最新发布的工程与实践记录。'}</p>
+        <span class="read-more">阅读全文 <b>→</b></span>
+      </a>
+      <a class="featured-media" href={`/archives/${featured.data.slug}`} tabindex="-1">
+        {featured.data.cover ? <img src={featured.data.cover} alt="" /> : <div class="cover-fallback"><span>eH</span><small>Ideas in practice.</small></div>}
+      </a>
+    </section>
+  )}
   <section class="feed">
     <div class="section-head">
-      <div><span>LATEST RELEASES</span><h2>All Articles</h2></div>
-      <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search articles…" aria-label="Search articles" /></label>
+      <div><span>LATEST STORIES</span><h2>最新文章</h2></div>
+      <label class="search"><span>⌕</span><input id="search" type="search" placeholder="搜索文章" aria-label="搜索文章" /></label>
     </div>
     <div id="posts">
-      {posts.map((post) => <PostCard post={post} />)}
-      <p id="empty" class="empty" hidden>No matching articles found.</p>
+      {rest.map((post) => <PostCard post={post} />)}
+      <p id="empty" class="empty" hidden>没有找到匹配的文章。</p>
     </div>
+    <a class="archive-button" href="/archives/">查看全部归档 <span>→</span></a>
   </section>
   <script>
     const input = document.querySelector<HTMLInputElement>('#search');

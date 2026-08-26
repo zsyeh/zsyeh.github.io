@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.9",
+    "@rolldown/binding-linux-x64-gnu": "^1.2.6",
     "typescript": "5.9.3"
   }
 }

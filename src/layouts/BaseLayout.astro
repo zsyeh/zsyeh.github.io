@@ -14,7 +14,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -31,19 +31,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/">eH <span>×</span> DxLab</a>
-      <nav aria-label="Primary navigation">
-        <a href="/">Journal</a>
-        <a href="/archives/">Archives</a>
-        <a href="/categories/">Categories</a>
-        <a href="/tags/">Tags</a>
-        <a href="/rss.xml">RSS</a>
-      </nav>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="eH Blog 首页"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a>
+        <nav aria-label="主导航">
+          <a href="/">首页</a>
+          <a href="/archives/">归档</a>
+          <a href="/categories/">分类</a>
+          <a href="/tags/">标签</a>
+        </nav>
+        <a class="home-link" href="https://ehzsy.site" aria-label="返回 eH 主站">eH 主页 ↗</a>
+      </div>
     </header>
     <main><slot /></main>
     <footer>
-      <span>© {new Date().getFullYear()} {SITE.owner} · Site Owner</span>
-      <span>eH × DxLab · Articles retain their original author attribution</span>
+      <a class="footer-brand" href="/">eH Blog</a>
+      <div><a href="/archives/">归档</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">主站</a></div>
+      <span>© {new Date().getFullYear()} {SITE.owner} · 文章保留原作者署名</span>
     </footer>
   </body>
 </html>
