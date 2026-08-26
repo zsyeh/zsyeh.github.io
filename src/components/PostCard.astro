@@ -6,7 +6,6 @@ const { post } = Astro.props as { post: Post };
 ---
 
 <article class="post-card" data-search={`${post.data.title} ${post.data.description} ${post.data.categories.join(' ')} ${post.data.tags.join(' ')}`.toLowerCase()}>
-  {post.data.cover ? <a class="post-cover" href={`/archives/${post.data.slug}`} tabindex="-1"><img src={post.data.cover} alt="" loading="lazy" /></a> : <a class="post-cover post-cover-fallback" href={`/archives/${post.data.slug}`} tabindex="-1"><span>eH</span></a>}
   <div class="post-card-content">
     <div class="eyebrow">
       <span>{post.data.categories[0] || 'Engineering Notes'}</span>

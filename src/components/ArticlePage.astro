@@ -18,7 +18,6 @@ const { Content, headings } = await render(post);
         {post.data.tags.map((name: string) => <a class="tag" href={`/tags/${encodeURIComponent(name)}/`}>#{name}</a>)}
       </div>
     </header>
-    {post.data.cover && <img class="hero-cover" src={post.data.cover} alt="" />}
     <div class:list={["article-grid", { "no-toc": headings.length < 3 }]}>
       <div class="prose"><Content /></div>
       {headings.length >= 3 && <aside class="toc"><strong>ON THIS PAGE</strong>{headings.filter((h) => h.depth <= 3).map((h) => <a class={`depth-${h.depth}`} href={`#${h.slug}`}>{h.text}</a>)}</aside>}
