@@ -24,3 +24,25 @@ const { Content, headings } = await render(post);
     </div>
   </article>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLImageElement>('.prose img').forEach((image) => {
+    image.loading = 'lazy';
+    image.decoding = 'async';
+
+    const showFallback = () => {
+      if (image.nextElementSibling?.classList.contains('image-unavailable')) return;
+
+      const fallback = document.createElement('span');
+      fallback.className = 'image-unavailable';
+      fallback.textContent = image.alt
+        ? `Image unavailable: ${image.alt}`
+        : 'This image is temporarily unavailable.';
+      image.insertAdjacentElement('afterend', fallback);
+      image.hidden = true;
+    };
+
+    if (image.complete && image.naturalWidth === 0) showFallback();
+    else image.addEventListener('error', showFallback, { once: true });
+  });
+</script>
