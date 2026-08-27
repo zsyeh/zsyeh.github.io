@@ -5,35 +5,21 @@ import PostCard from '../components/PostCard.astro';
 import { sortPosts } from '../lib/posts';
 
 const posts = sortPosts(await getCollection('blog'));
-const [featured, ...rest] = posts;
 ---
 
 <BaseLayout>
-  <section class="hero">
-    <p class="kicker">eH BLOG</p>
-    <h1>Stories about building.<br />And how we get there.</h1>
-    <p>Notes on engineering, systems, and everyday practice—real problems, careful thinking, and answers worth keeping.</p>
-  </section>
-  {featured && (
-    <section class="featured">
-      <a class="featured-copy" href={`/archives/${featured.data.slug}`}>
-        <div class="featured-topline"><span class="topic">{featured.data.categories[0] || 'Latest story'}</span><span class="featured-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
-        <h2>{featured.data.title}</h2>
-        <p>{featured.data.description || 'Read the latest story from the field.'}</p>
-        <span class="read-more">Read the story <b>→</b></span>
-      </a>
-    </section>
-  )}
-  <section class="feed">
+  <section class="feed home-feed">
     <div class="section-head">
-      <div><span>LATEST STORIES</span><h2>What’s new</h2></div>
-      <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search stories" aria-label="Search stories" /></label>
+      <div><span>EH BLOG</span><h1>Latest stories</h1></div>
+      <div class="section-head-actions">
+        <a class="archive-inline" href="/archives/">Archive <span>→</span></a>
+        <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search stories" aria-label="Search stories" /></label>
+      </div>
     </div>
     <div id="posts">
-      {rest.map((post) => <PostCard post={post} />)}
+      {posts.map((post) => <PostCard post={post} />)}
       <p id="empty" class="empty" hidden>No matching stories found.</p>
     </div>
-    <a class="archive-button" href="/archives/">Explore the archive <span>→</span></a>
   </section>
   <script>
     const input = document.querySelector<HTMLInputElement>('#search');

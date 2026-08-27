@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { sortPosts, dateFormatter } from '../../lib/posts';
+import { sortPosts } from '../../lib/posts';
 
 const posts = sortPosts(await getCollection('blog'));
+const compactDate = new Intl.DateTimeFormat('en-CA', { month: '2-digit', day: '2-digit', timeZone: 'Asia/Shanghai' });
 const groups = new Map<number, typeof posts>();
 for (const post of posts) {
   const year = post.data.pubDate.getFullYear();
@@ -12,8 +13,10 @@ for (const post of posts) {
 ---
 
 <BaseLayout title="Story Archive" description="Browse every eH Blog story by year.">
-  <section class="page-head"><span>ARCHIVE</span><h1>All stories</h1><p>{posts.length} published stories, organized by year—from early questions to the answers that followed.</p></section>
-  <div class="archive-list">
-    {[...groups].map(([year, items]) => <section><h2>{year}</h2><div class="archive-year-posts">{items.map((post) => <a href={`/archives/${post.data.slug}`}><time>{dateFormatter.format(post.data.pubDate)}</time><strong>{post.data.title}</strong><span>→</span></a>)}</div></section>)}
-  </div>
+  <section class="archive-page">
+    <header class="archive-bar"><div><span>ARCHIVE</span><strong>{posts.length} stories</strong></div><a href="/">← Latest</a></header>
+    <div class="archive-list">
+      {[...groups].map(([year, items]) => <section><h2>{year}</h2><div class="archive-year-posts">{items.map((post) => <a href={`/archives/${post.data.slug}`}><time>{compactDate.format(post.data.pubDate)}</time><strong>{post.data.title}</strong><span>↗</span></a>)}</div></section>)}
+    </div>
+  </section>
 </BaseLayout>
