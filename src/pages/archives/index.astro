@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { sortPosts } from '../../lib/posts';
+import { SITE } from '../../config';
+import { sortPosts, visiblePosts } from '../../lib/posts';
 
-const posts = sortPosts(await getCollection('blog'));
+const posts = sortPosts(visiblePosts(await getCollection('blog')));
 const compactDate = new Intl.DateTimeFormat('en-CA', { month: '2-digit', day: '2-digit', timeZone: 'Asia/Shanghai' });
 const groups = new Map<number, typeof posts>();
 for (const post of posts) {
@@ -12,7 +13,7 @@ for (const post of posts) {
 }
 ---
 
-<BaseLayout title="Story Archive" description="Browse every eH Blog story by year.">
+<BaseLayout title="Story Archive" description={`Browse every ${SITE.title} story by year.`}>
   <section class="archive-page">
     <header class="archive-bar"><div><span>ARCHIVE</span><strong>{posts.length} stories</strong></div><a href="/">← Latest</a></header>
     <div class="archive-list">

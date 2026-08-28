@@ -2,15 +2,16 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
-import { sortPosts } from '../lib/posts';
+import { SITE } from '../config';
+import { sortPosts, visiblePosts } from '../lib/posts';
 
-const posts = sortPosts(await getCollection('blog'));
+const posts = sortPosts(visiblePosts(await getCollection('blog')));
 ---
 
 <BaseLayout>
   <section class="feed home-feed">
     <div class="section-head">
-      <div><span>EH BLOG</span><h1>Latest stories</h1></div>
+      <div><span>{SITE.kicker}</span><h1>{SITE.latestTitle}</h1></div>
       <div class="section-head-actions">
         <a class="archive-inline" href="/archives/">Archive <span>→</span></a>
         <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search stories" aria-label="Search stories" /></label>
