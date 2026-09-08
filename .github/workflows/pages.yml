@@ -42,12 +42,15 @@ jobs:
         if: github.event_name == 'issues'
         run: npm run issue:sync
       - name: Synchronize GitHub and Halo
+        id: halo-sync
+        continue-on-error: true
         env:
           HALO_URL: https://dxlab.ehzsy.space
           HALO_TOKEN: ${{ secrets.HALO_TOKEN }}
           REQUIRE_HALO_TOKEN: "1"
         run: npm run sync:bidirectional
       - name: Save synchronized content
+        if: steps.halo-sync.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
