@@ -1,5 +1,5 @@
 ---
-author: "赵盛宇"
+author: "eH"
 source: "GitHub"
 title: "从产品开箱到飞行验证 雷迅创新 CUAV 助力无人机项目实践"
 slug: "cuav-university-sponsorship-v6x-v2-neo4-se-gps"
@@ -50,5 +50,3 @@ NEO 4 SE GPS 计划用于室外开阔场景的位置获取、导航和返航链�
 本次赞助让团队能够围绕飞控、定位和视觉任务协同开展更系统的实践。现阶段已经完成产品与品牌物资开箱、基础飞行场景拍摄和宣传视频制作。后续我们会在确保安全、遵守当地法规和保护第三方权益的前提下，继续完善测试记录并反馈项目进展。
 
 再次感谢广州雷迅创新科技股份有限公司 CUAV 高校赞助项目的支持。
-
-![CUAV Logo](/article-assets/cuav-sponsorship-2026/cuav-logo.png)

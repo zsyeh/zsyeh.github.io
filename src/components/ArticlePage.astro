@@ -5,11 +5,22 @@ import { dateFormatter, type Post } from '../lib/posts';
 
 const { post } = Astro.props as { post: Post };
 const { Content, headings } = await render(post);
+const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2-neo4-se-gps';
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description} image={post.data.cover}>
-  <article class="article-shell">
+  <article class:list={["article-shell", { "cuav-sponsorship": isCuavSponsorship }]}>
     <header class="article-header">
+      {isCuavSponsorship && (
+        <div class="cuav-brand" aria-label="CUAV 高校赞助项目">
+          <img src="/article-assets/cuav-sponsorship-2026/cuav-logo.png" alt="CUAV" />
+          <span aria-hidden="true"></span>
+          <div>
+            <strong>高校赞助项目</strong>
+            <small>项目实践记录 · 2026</small>
+          </div>
+        </div>
+      )}
       <div class="eyebrow"><time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time><span>BY {post.data.author}</span><span>WRITTEN ON {post.data.source.toUpperCase()}</span><span>{Math.max(1, Math.ceil((post.body?.length || 0) / 900))} MIN READ</span></div>
       <h1>{post.data.title}</h1>
       {post.data.description && <p>{post.data.description}</p>}
@@ -46,3 +57,64 @@ const { Content, headings } = await render(post);
     else image.addEventListener('error', showFallback, { once: true });
   });
 </script>
+
+<style>
+  .cuav-brand {
+    display: flex;
+    width: fit-content;
+    margin: 0 0 28px;
+    padding: 14px 18px;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid rgba(24, 45, 76, .1);
+    border-radius: 14px;
+    background: linear-gradient(135deg, #fff 0%, #f5f8fb 100%);
+    box-shadow: 0 10px 32px rgba(26, 44, 72, .06);
+  }
+
+  .cuav-brand img {
+    width: 116px;
+    height: 52px;
+    margin: 0;
+    border-radius: 0;
+    object-fit: contain;
+  }
+
+  .cuav-brand > span {
+    width: 1px;
+    height: 34px;
+    background: rgba(24, 45, 76, .14);
+  }
+
+  .cuav-brand div {
+    display: grid;
+    gap: 3px;
+  }
+
+  .cuav-brand strong {
+    color: #14253d;
+    font-size: 14px;
+    letter-spacing: .04em;
+  }
+
+  .cuav-brand small {
+    color: #6c7685;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 520px) {
+    .cuav-brand {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 14px;
+      gap: 12px;
+    }
+
+    .cuav-brand img {
+      width: 92px;
+      height: 42px;
+    }
+  }
+</style>
