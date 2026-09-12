@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="添加wsl代理:废弃，已被下面的镜像Windows网卡替代 进入wsl用户主目录：cd ~ 创建.wslconfig文件：nano .wslconfig 输入并保存:autoProxy = true 重启wsl（在Windows终端）: wsl --shutdown
+wsl
+ 添加代理 export"><link rel="canonical" href="https://blog.ehzsy.site/archives/d53926a8-a121-48bf-af37-87507ea71583/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="7.安装mid360相关驱动 · eH Blog"><meta property="og:description" content="添加wsl代理:废弃，已被下面的镜像Windows网卡替代 进入wsl用户主目录：cd ~ 创建.wslconfig文件：nano .wslconfig 输入并保存:autoProxy = true 重启wsl（在Windows终端）: wsl --shutdown
+wsl
+ 添加代理 export"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/image-Uomy.png"><title>7.安装mid360相关驱动 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-29T16:20:01.271Z" data-astro-cid-7natcuz3>30 November 2025</time><span data-astro-cid-7natcuz3>BY YangLuoNou</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>4 MIN READ</span></div><h1 data-astro-cid-7natcuz3>7.安装mid360相关驱动</h1><p data-astro-cid-7natcuz3>添加wsl代理:废弃，已被下面的镜像Windows网卡替代 进入wsl用户主目录：cd ~ 创建.wslconfig文件：nano .wslconfig 输入并保存:autoProxy = true 重启wsl（在Windows终端）: wsl --shutdown
+wsl
+ 添加代理 export</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E9%A3%9E%E6%8E%A7/" data-astro-cid-7natcuz3>飞控</a><a class="tag" href="/tags/mid360/" data-astro-cid-7natcuz3>#mid360</a><a class="tag" href="/tags/%E4%B8%89%E7%BB%B4%E9%9B%B7%E8%BE%BE/" data-astro-cid-7natcuz3>#三维雷达</a><a class="tag" href="/tags/%E5%AE%9A%E7%82%B9/" data-astro-cid-7natcuz3>#定点</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h2 id="添加wsl代理废弃已被下面的镜像windows网卡替代">添加wsl代理:废弃，已被下面的镜像Windows网卡替代</h2>
+<p>进入wsl用户主目录：<code>cd ~</code><br>
+创建.wslconfig文件：<code>nano .wslconfig</code><br>
+输入并保存:<code>autoProxy = true</code><br>
+重启wsl（在Windows终端）:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">wsl</span><span style="color:#79B8FF"> --shutdown</span></span>
+<span class="line"><span style="color:#B392F0">wsl</span></span></code></pre>
+<p>添加代理</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> http_proxy</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">http://</span><span style="color:#F97583">&lt;</span><span style="color:#E1E4E8">windows-host-ip</span><span style="color:#F97583">&gt;</span><span style="color:#E1E4E8">:</span><span style="color:#F97583">&lt;</span><span style="color:#E1E4E8">port</span><span style="color:#F97583">&gt;</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> https_proxy</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">http://</span><span style="color:#F97583">&lt;</span><span style="color:#E1E4E8">windows-host-ip</span><span style="color:#F97583">&gt;</span><span style="color:#E1E4E8">:</span><span style="color:#F97583">&lt;</span><span style="color:#E1E4E8">port</span><span style="color:#F97583">&gt;</span></span></code></pre>
+<h2 id="安装cmake高版本">安装cmake高版本</h2>
+<p>前往<a href="https://github.com/Kitware/CMake/releases/">cmake</a>手动下载<br>
+执行:<br>
+<code>sudo ./*.sh --prefix=/usr/local --skip-license</code></p>
+<h2 id="按照readmemd文件分别安装">按照readme.md文件分别安装：</h2>
+<p><a href="https://github.com/Livox-SDK/Livox-SDK">Livox-SDK</a><br>
+<a href="https://github.com/Livox-SDK/livox_ros_driver">livox_ros_driver</a><br>
+^用于fast_livo<br>
+<a href="https://github.com/Livox-SDK/Livox-SDK2">Livox-SDK2</a><br>
+<a href="https://github.com/Livox-SDK/livox_ros_driver2">livox_ros_driver2</a><br>
+^用于mid360驱动</p>
+<h3 id="安装pcl">安装PCL:</h3>
+<p><code>sudo apt install libpcl-dev</code><br>
+<code>sudo apt install ros-noetic-pcl-ros</code></p>
+<h3 id="安装eigen">安装Eigen：</h3>
+<p><code>sudo apt install libeigen3-dev</code>
+<code>sudo apt install ros-noetic-eigen-conversions</code></p>
+<h3 id="安装fast_lio">安装fast_lio:</h3>
+<p><a href="https://github.com/SylarAnh/fast_lio_mid360">FAST_LIO</a></p>
+<h3 id="安装lio-sam"><em>安装lio-sam</em></h3>
+<p><a href="https://github.com/TixiaoShan/LIO-SAM">LIO-SAM</a>
+<strong>或者直接使用已适配好的<a href="https://github.com/nkymzsy/LIO-SAM-MID360">LIO-SAM</a></strong>
+<strong>安装时出错解决方法</strong>:</p>
+<ul>
+<li>opencv，pcl问题：<br>
+<a href="https://blog.csdn.net/qq_32761549/article/details/126640468">解决方法</a></li>
+<li>error: ‘class std::unordered_map&lt;unsigned int, std::vector<unsigned int> &gt;’ has no member named ‘serialize’报错<br>
+编辑src/LIO-SAM/include内的utility.h文件，将opencv引用与pcl引用顺序调换，使opencv引用在pcl后面</li>
+<li>fatal error: livox_ros_driver/CustomMsg.h: No such file or directory
+58 | #include “livox_ros_driver/CustomMsg.h”
+编辑CMakeLists文件确保含有
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="txt"><code><span class="line"><span>find_package(catkin REQUIRED COMPONENTS</span></span>
+<span class="line"><span>     livox_ros_driver</span></span>
+<span class="line"><span>   )</span></span>
+<span class="line"><span>   </span></span>
+<span class="line"><span>   include_directories(</span></span>
+<span class="line"><span>     ${catkin_INCLUDE_DIRS}</span></span>
+<span class="line"><span>   )</span></span></code></pre>
+</li>
+</ul>
+<h3 id="安装fast_livo">安装fast_livo:</h3>
+<p><a href="https://github.com/hku-mars/FAST-LIVO2?tab=readme-ov-file">FAST-LIVO2</a><br>
+<strong>安装时报错</strong><a href="https://zhuanlan.zhihu.com/p/398575632">解决方法</a>:(在Sophus目录下)<code>nano ./sophus/so2.cpp</code></p>
+<h2 id="配置wsl以连接mid360">配置wsl以连接mid360</h2>
+<h3 id="一-配置wsl镜像windows网卡">一 配置wsl镜像Windows网卡</h3>
+<p>1.打开Windows用户文件夹，(win+R输入<code>%USERPROFILE%</code>)<br>
+2.新建文件<code>.wslconfig</code>,内容:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>[experimental]</span></span>
+<span class="line"><span>networkingMode=mirrored</span></span>
+<span class="line"><span>dnsTunneling=true</span></span>
+<span class="line"><span>firewall=true</span></span>
+<span class="line"><span>autoProxy=true</span></span></code></pre>
+<p>3.重启运行wsl:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>wsl --shutdown</span></span>
+<span class="line"><span>wsl</span></span></code></pre>
+<blockquote>
+<p>注：1.此配置仅支持Windows11 22h2及以上版本<br>
+2.使用管理员权限在 PowerShell 窗口中运行以下命令，以配置 Hyper-V 防火墙设置，从而允许入站连接：<br>
+<code>NetFirewallHyperVVMSetting -Name '{40E0AC32-46A5-438A-A0B2-2B479E8F2E90}' -DefaultInboundAction Allow</code><br>
+<a href="https://learn.microsoft.com/zh-cn/windows/wsl/networking">参考</a></p>
+</blockquote>
+<h3 id="二-配置wsl静态ip-无用废弃不需要这一步">二 配置wsl静态IP <em><strong>无用，废弃，不需要这一步</strong></em></h3>
+<p><em><strong>在Windows配置好静态IP后配置好wsl镜像Windows网卡后不需要这一步</strong></em><br>
+1.查看需要使用的网卡(没安装请安装)：<br>
+<code>ifconfig</code><br>
+此处以eth0网卡为例<br>
+2.编辑Netplan配置文件<br>
+<code>sudo nano /etc/netplan/01-netcfg.yaml</code></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">network</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  version</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span></span>
+<span class="line"><span style="color:#85E89D">  renderer</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">networkd</span></span>
+<span class="line"><span style="color:#85E89D">  ethernets</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    eth0</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">      dhcp4</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">no</span></span>
+<span class="line"><span style="color:#85E89D">      addresses</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">        - </span><span style="color:#9ECBFF">192.168.1.50/24</span></span>
+<span class="line"><span style="color:#85E89D">      gateway4</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">192.168.1.1</span></span>
+<span class="line"><span style="color:#85E89D">      nameservers</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">        addresses</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">          - </span><span style="color:#79B8FF">8.8.8.8</span></span>
+<span class="line"><span style="color:#E1E4E8">          - </span><span style="color:#79B8FF">8.8.4.4</span></span></code></pre>
+<p>此处192.168.1.50为wsl主机地址<br>
+<code>sudo netplan apply</code><br>
+<code>sudo systemctl restart systemd-networkd</code><br>
+<em><strong>上面的步骤不需要</strong></em><br>
+<em><strong>下面这个还是需要配置一下的</strong></em><br>
+<strong>3.配置livox_driver2配置文件</strong><br>
+<code>nano ./src/livox_ros_driver2/config/MID360_config.json</code><br>
+将“host_net_info”内的ip全部改为192.168.1.50(wsl主机地址)<br>
+将“lidar_configs”内的ip改为雷达地址</p>
+<h3 id="三-启动点云图查看是否正常">三 启动点云图查看是否正常</h3>
+<p><code>roslaunch livox_ros_driver2 rviz_MID360.launch</code></p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#添加wsl代理废弃已被下面的镜像windows网卡替代" data-astro-cid-7natcuz3>添加wsl代理:废弃，已被下面的镜像Windows网卡替代</a><a class="depth-2" href="#安装cmake高版本" data-astro-cid-7natcuz3>安装cmake高版本</a><a class="depth-2" href="#按照readmemd文件分别安装" data-astro-cid-7natcuz3>按照readme.md文件分别安装：</a><a class="depth-3" href="#安装pcl" data-astro-cid-7natcuz3>安装PCL:</a><a class="depth-3" href="#安装eigen" data-astro-cid-7natcuz3>安装Eigen：</a><a class="depth-3" href="#安装fast_lio" data-astro-cid-7natcuz3>安装fast_lio:</a><a class="depth-3" href="#安装lio-sam" data-astro-cid-7natcuz3>安装lio-sam</a><a class="depth-3" href="#安装fast_livo" data-astro-cid-7natcuz3>安装fast_livo:</a><a class="depth-2" href="#配置wsl以连接mid360" data-astro-cid-7natcuz3>配置wsl以连接mid360</a><a class="depth-3" href="#一-配置wsl镜像windows网卡" data-astro-cid-7natcuz3>一 配置wsl镜像Windows网卡</a><a class="depth-3" href="#二-配置wsl静态ip-无用废弃不需要这一步" data-astro-cid-7natcuz3>二 配置wsl静态IP 无用，废弃，不需要这一步</a><a class="depth-3" href="#三-启动点云图查看是否正常" data-astro-cid-7natcuz3>三 启动点云图查看是否正常</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

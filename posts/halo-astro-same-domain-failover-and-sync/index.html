@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="记录 eH × DxLab 如何把 Halo、Astro、GitHub Pages、Nginx 与 GitHub Actions 组合成一套保留作者归属、统一 URI、支持图片归档和同域故障切换的发布系统。"><link rel="canonical" href="https://blog.ehzsy.site/posts/halo-astro-same-domain-failover-and-sync/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="从 Halo 到 Astro：构建同域名、同路由、可追溯的博客容灾与双向同步系统 · eH Blog"><meta property="og:description" content="记录 eH × DxLab 如何把 Halo、Astro、GitHub Pages、Nginx 与 GitHub Actions 组合成一套保留作者归属、统一 URI、支持图片归档和同域故障切换的发布系统。"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.space/article-assets/halo-astro-resilient-publishing-cover.png"><title>从 Halo 到 Astro：构建同域名、同路由、可追溯的博客容灾与双向同步系统 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2026-07-22T08:00:41.810Z" data-astro-cid-7natcuz3>22 July 2026</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON GITHUB</span><span data-astro-cid-7natcuz3>9 MIN READ</span></div><h1 data-astro-cid-7natcuz3>从 Halo 到 Astro：构建同域名、同路由、可追溯的博客容灾与双向同步系统</h1><p data-astro-cid-7natcuz3>记录 eH × DxLab 如何把 Halo、Astro、GitHub Pages、Nginx 与 GitHub Actions 组合成一套保留作者归属、统一 URI、支持图片归档和同域故障切换的发布系统。</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E8%BF%90%E7%BB%B4/" data-astro-cid-7natcuz3>运维</a><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" data-astro-cid-7natcuz3>技术杂谈</a><a class="tag" href="/tags/%E6%95%99%E7%A8%8B/" data-astro-cid-7natcuz3>#教程</a><a class="tag" href="/tags/Linux/" data-astro-cid-7natcuz3>#Linux</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><p>一套个人或小团队博客系统，通常会在“方便写作”和“可靠发布”之间做选择：动态 CMS 适合管理内容，但依赖数据库、运行时和服务器；静态站点稳定、快速、容易托管，却不一定适合日常编辑。</p>
+<p>这次改造没有在 Halo 和 Astro 之间二选一，而是让两者承担不同职责：Halo 继续作为主要写作与内容管理系统，Astro 负责生成可独立存活的静态副本，GitHub 保存文章和图片，Nginx 则在统一域名下完成故障切换。</p>
+<p>最终形成的站点以 <strong>eH × DxLab</strong> 对外展示，由 <strong>eH</strong> 负责站点所有权和基础设施维护。站内文章可能来自多位贡献者，因此站点 Owner 与文章 Author 被明确分开：平台属于 eH，但每篇文章仍保留自己的原始作者和首次写作入口。</p>
+<h2 id="一改造目标">一、改造目标</h2>
+<p>这套系统需要同时满足以下要求：</p>
+<ol>
+<li>Halo 正常时，<code>dxlab.ehzsy.space</code> 直接访问 Halo。</li>
+<li>Halo、FRP 或源站不可用时，同一个域名自动回源 Astro GitHub Pages。</li>
+<li>故障切换期间浏览器不跳转到备用域名。</li>
+<li>Halo 与 Astro 的文章 URI 完全一致，刷新当前文章也能落到正确的备用页面。</li>
+<li>Halo 与 GitHub 两端都能写作，并保留作者、来源和更新记录。</li>
+<li>Halo 图片进入 GitHub 仓库，静态副本不依赖已经失效的源站图片。</li>
+<li>同步必须是增量的，不能因为内部版本号变化不断制造空提交。</li>
+</ol>
+<p>整体结构如下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>                         ┌──────────────┐</span></span>
+<span class="line"><span>                         │ Halo writers │</span></span>
+<span class="line"><span>                         └──────┬───────┘</span></span>
+<span class="line"><span>                                │ publish</span></span>
+<span class="line"><span>                                ▼</span></span>
+<span class="line"><span>┌────────┐   primary   ┌────────────────┐</span></span>
+<span class="line"><span>│ Browser│────────────▶│  Entry Nginx   │────────────▶ Halo</span></span>
+<span class="line"><span>└────────┘             │ dxlab.ehzsy... │</span></span>
+<span class="line"><span>     ▲                  └───────┬────────┘</span></span>
+<span class="line"><span>     │ same host/path           │ 5xx / timeout</span></span>
+<span class="line"><span>     │                          ▼</span></span>
+<span class="line"><span>     │                  ┌────────────────┐</span></span>
+<span class="line"><span>     └──────────────────│  Astro Pages   │</span></span>
+<span class="line"><span>                        │ blog.ehzsy...  │</span></span>
+<span class="line"><span>                        └───────▲────────┘</span></span>
+<span class="line"><span>                                │ build</span></span>
+<span class="line"><span>                         ┌──────┴───────┐</span></span>
+<span class="line"><span>                         │ GitHub repo  │</span></span>
+<span class="line"><span>                         └──────▲───────┘</span></span>
+<span class="line"><span>                                │ sync</span></span>
+<span class="line"><span>                         ┌──────┴───────┐</span></span>
+<span class="line"><span>                         │ Halo content │</span></span>
+<span class="line"><span>                         └──────────────┘</span></span></code></pre>
+<h2 id="二为什么备用站必须与-halo-使用相同-uri">二、为什么备用站必须与 Halo 使用相同 URI</h2>
+<p>最初 Astro 的文章详情页位于：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>/posts/&lt;slug&gt;/</span></span></code></pre>
+<p>而 Halo 的公开 permalink 是：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>/archives/&lt;slug&gt;</span></span></code></pre>
+<p>这种差异在普通浏览时不明显，却会直接破坏容灾。假设读者正在访问：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>https://dxlab.ehzsy.space/archives/example-post</span></span></code></pre>
+<p>如果 Halo 恰好故障，Nginx 会把完全相同的请求路径交给 Astro。Astro 如果只生成 <code>/posts/example-post/</code>，备用站只能返回 404。入口代理知道上游是否健康，却不应该猜测每种内容的路径映射。</p>
+<p>解决方案是在 Astro 中直接生成 Halo 的 permalink：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>src/pages/archives/[slug].astro</span></span></code></pre>
+<p>核心静态路径生成逻辑是：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ts"><code><span class="line"><span style="color:#F97583">export</span><span style="color:#F97583"> async</span><span style="color:#F97583"> function</span><span style="color:#B392F0"> getStaticPaths</span><span style="color:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> posts</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> getCollection</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'blog'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">  return</span><span style="color:#E1E4E8"> posts.</span><span style="color:#B392F0">map</span><span style="color:#E1E4E8">((</span><span style="color:#FFAB70">post</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=&gt;</span><span style="color:#E1E4E8"> ({</span></span>
+<span class="line"><span style="color:#E1E4E8">    params: { slug: post.data.slug },</span></span>
+<span class="line"><span style="color:#E1E4E8">    props: { post },</span></span>
+<span class="line"><span style="color:#E1E4E8">  }));</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>所有首页卡片、归档列表和分类链接也统一指向 <code>/archives/&lt;slug&gt;</code>。旧的 <code>/posts/&lt;slug&gt;/</code> 页面暂时保留，用于兼容过去可能存在的收藏和外链，但它不再是站内主链接。</p>
+<p>这次构建共为 46 篇公开文章生成了对应的 <code>/archives/&lt;slug&gt;</code> 静态页面。URI 对齐后，主站和备用站可以使用同一份请求路径，不再需要按文章执行重写。</p>
+<h2 id="三nginx-如何在不切换域名的情况下回源-github-pages">三、Nginx 如何在不切换域名的情况下回源 GitHub Pages</h2>
+<p><code>blog.ehzsy.space</code> 是 GitHub Pages 的独立检查入口，<code>dxlab.ehzsy.space</code> 才是公开访问时的统一入口。浏览器始终请求后者，是否使用备用站由服务器内部决定。</p>
+<p>入口配置的关键部分可以抽象为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="nginx"><code><span class="line"><span style="color:#F97583">upstream</span><span style="color:#B392F0"> astro_github_pages </span><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    server</span><span style="color:#E1E4E8"> &lt;github-pages-origin&gt;:443;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">server</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">    listen </span><span style="color:#79B8FF">443</span><span style="color:#E1E4E8"> ssl;</span></span>
+<span class="line"><span style="color:#F97583">    server_name </span><span style="color:#E1E4E8">dxlab.ehzsy.space;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    location</span><span style="color:#B392F0"> / </span><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">        proxy_pass </span><span style="color:#E1E4E8">http://127.0.0.1:8080;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_connect_timeout </span><span style="color:#79B8FF">3s</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_read_timeout </span><span style="color:#79B8FF">8s</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        proxy_intercept_errors </span><span style="color:#79B8FF">on</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        error_page </span><span style="color:#79B8FF">500</span><span style="color:#79B8FF"> 502</span><span style="color:#79B8FF"> 503</span><span style="color:#79B8FF"> 504</span><span style="color:#E1E4E8"> = @astro_fallback;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        proxy_set_header </span><span style="color:#E1E4E8">Host $host;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_set_header </span><span style="color:#E1E4E8">X-Forwarded-Proto https;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_set_header </span><span style="color:#E1E4E8">X-Real-IP $remote_addr;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_set_header </span><span style="color:#E1E4E8">X-Forwarded-For $proxy_add_x_forwarded_for;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    location</span><span style="color:#B392F0"> @astro_fallback </span><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">        proxy_pass </span><span style="color:#E1E4E8">https://astro_github_pages;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_ssl_server_name </span><span style="color:#79B8FF">on</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_ssl_name </span><span style="color:#E1E4E8">blog.ehzsy.space;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_set_header </span><span style="color:#E1E4E8">Host blog.ehzsy.space;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_set_header </span><span style="color:#E1E4E8">X-Forwarded-Host $host;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_set_header </span><span style="color:#E1E4E8">X-Forwarded-Proto https;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        proxy_redirect </span><span style="color:#E1E4E8">https://blog.ehzsy.space/ https://dxlab.ehzsy.space/;</span></span>
+<span class="line"><span style="color:#F97583">        proxy_redirect </span><span style="color:#E1E4E8">http://blog.ehzsy.space/ https://dxlab.ehzsy.space/;</span></span>
+<span class="line"><span style="color:#F97583">        add_header </span><span style="color:#E1E4E8">X-Dxlab-Upstream astro-github-pages always;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>这里有四个容易忽略的细节。</p>
+<h3 id="1-使用内部命名-location">1. 使用内部命名 location</h3>
+<p><code>error_page ... = @astro_fallback</code> 让 Nginx 在服务器内部发起第二次回源，而不是向浏览器返回 302。用户看到的 Host 和 URI 都不会因为切换而改变。</p>
+<h3 id="2-正确设置-tls-sni-和-host">2. 正确设置 TLS SNI 和 Host</h3>
+<p>GitHub Pages 依赖域名选择站点。仅修改 <code>Host</code> 不够，TLS 握手还需要：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="nginx"><code><span class="line"><span style="color:#F97583">proxy_ssl_server_name </span><span style="color:#79B8FF">on</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">proxy_ssl_name </span><span style="color:#E1E4E8">blog.ehzsy.space;</span></span></code></pre>
+<p>缺少它们时，共享 CDN 可能返回证书错误或错误站点。</p>
+<h3 id="3-重写备用站的规范化跳转">3. 重写备用站的规范化跳转</h3>
+<p>静态托管通常会把 <code>/archives/example</code> 规范化到 <code>/archives/example/</code>。如果把上游 <code>Location</code> 原样返回，浏览器会看到 <code>blog.ehzsy.space</code>，破坏“中途不切换域名”的要求。</p>
+<p><code>proxy_redirect</code> 会将这类响应重新写回 <code>dxlab.ehzsy.space</code>。即使发生末尾斜杠规范化，域名仍保持不变。</p>
+<h3 id="4-不要把失效判定时间设得过长">4. 不要把失效判定时间设得过长</h3>
+<p>源站断开时，FRP 的入口端口有时仍能接受连接，却迟迟没有响应。原先 30 秒的 <code>proxy_read_timeout</code> 会让用户长时间看到加载状态。将其调整为 8 秒后，实测约 9.2 秒即可得到备用文章页面。</p>
+<p>这个时间不是理论上的零延迟。若需要亚秒级切换，应增加主动健康检查、双 upstream 或在更靠近用户的边缘层实现健康探测。对于当前架构，8 秒是在正常后台操作与故障体验之间的折中。</p>
+<h2 id="四halo-与-astro-的内容同步">四、Halo 与 Astro 的内容同步</h2>
+<p>同步分为两条链路，而不是让所有任务都塞进同一个定时脚本。</p>
+<h3 id="halo-到-github">Halo 到 GitHub</h3>
+<p>本机用户级 systemd 服务每 20 秒执行一次 Halo 导出：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>halo-astro-sync.service</span></span>
+<span class="line"><span>  └─ watch-and-sync.sh</span></span>
+<span class="line"><span>      └─ scripts/sync-halo.mjs</span></span></code></pre>
+<p>导出器只选择同时满足以下条件的文章：</p>
+<ul>
+<li>已发布；</li>
+<li>未删除；</li>
+<li>可见性为公开；</li>
+<li>当前状态为 <code>PUBLISHED</code>。</li>
+</ul>
+<p>文章被转换为带 frontmatter 的 Markdown，保存在 <code>src/content/blog/</code>。只有真实文件发生变化时，轮询服务才提交 Git 记录并推送。</p>
+<h3 id="github-到-halo">GitHub 到 Halo</h3>
+<p>GitHub Actions 在仓库推送、Issue 更新、手动触发和定时任务中运行双向同步。同步器保存三类状态：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>.halo-sync.json   Halo 文章内容签名</span></span>
+<span class="line"><span>.sync/state.json  两端上次一致时的状态</span></span>
+<span class="line"><span>.sync/base/       三方合并所需的共同基线</span></span></code></pre>
+<p>判断逻辑可以概括为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>仅 Halo 改动   -&gt; 导出到 GitHub</span></span>
+<span class="line"><span>仅 GitHub 改动 -&gt; 写回 Halo</span></span>
+<span class="line"><span>两端同时改动   -&gt; 使用共同基线进行三方合并</span></span>
+<span class="line"><span>同一段冲突     -&gt; 保留原文并生成冲突记录</span></span></code></pre>
+<p>同步系统不会在冲突时静默选择某一边，因为对于文章来说，“最后写入者覆盖”通常意味着不可恢复的内容损失。</p>
+<h2 id="五消除-revision-引起的提交循环">五、消除 revision 引起的提交循环</h2>
+<p>Halo 的 <code>metadata.version</code> 会在资源被更新时增长，但 version 变化不一定意味着文章正文、标题或配置发生变化。如果把它放入同步签名，就可能出现下面的循环：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>GitHub Actions 写回 Halo</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>Halo metadata.version + 1</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>本机轮询认为文章变化</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>提交新的状态文件</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>再次触发 GitHub Actions</span></span></code></pre>
+<p>更糟的是，46 篇文章会一起改动状态，看起来像一次大规模内容更新，实际上正文一个字都没有变化。</p>
+<p>修复后的签名只保留与发布结果有关的字段：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> signature</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">post</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">  return</span><span style="color:#E1E4E8"> [</span></span>
+<span class="line"><span style="color:#79B8FF">    EXPORT_VERSION</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    post.metadata.annotations?.[</span><span style="color:#9ECBFF">'checksum/content'</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#E1E4E8">    post.metadata.annotations?.[</span><span style="color:#9ECBFF">'checksum/config'</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#E1E4E8">    post.status.lastModifyTime,</span></span>
+<span class="line"><span style="color:#E1E4E8">  ].</span><span style="color:#B392F0">join</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">':'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p><code>metadata.version</code> 被明确排除。连续执行两次同步时，第二次应当得到：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>46 published posts, 0 content files changed</span></span></code></pre>
+<p>同时 Git 工作区保持干净。这比单纯在脚本末尾忽略状态文件更可靠，因为真正的内容变化仍会触发部署。</p>
+<h2 id="六站点-owner文章-author-与写作来源">六、站点 Owner、文章 Author 与写作来源</h2>
+<p>站点使用 <strong>eH × DxLab</strong> 品牌，但这不表示全部文章都由 eH 创作。为了避免平台归属覆盖创作者署名，每篇 Markdown 都保留两个独立字段：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">author</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"YangLuoNou"</span></span>
+<span class="line"><span style="color:#85E89D">source</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Halo"</span></span></code></pre>
+<p>它们在页面上显示为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>BY YangLuoNou · WRITTEN ON HALO</span></span></code></pre>
+<p>其语义分别是：</p>
+<ul>
+<li><strong>Owner</strong>：eH，负责域名、仓库、发布系统和站点维护；</li>
+<li><strong>Author</strong>：文章实际作者，来自 Halo Owner 显示名或 GitHub Issue 创建者；</li>
+<li><strong>Source</strong>：文章首次写作并上传的平台，即 Halo 或 GitHub。</li>
+</ul>
+<p>作者和来源还会写入 Halo annotations。文章在两端往返同步后，署名不会退化为运行同步任务的机器人账号。</p>
+<h2 id="七把图片放进-github并保持可检索">七、把图片放进 GitHub，并保持可检索</h2>
+<p>只同步 Markdown 并不能形成真正独立的备用站。如果正文仍引用 Halo 的上传目录，Halo 停机后页面虽然能打开，图片却会全部失效。</p>
+<p>同步器会识别 Halo 封面和正文中的上传地址，将文件下载到：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>public/halo-assets/</span></span></code></pre>
+<p>随后把 Markdown 引用改写为仓库中的静态路径。GitHub Issue 中粘贴的图片则继续使用 GitHub Attachments。这样当前发布内容不依赖第三方公共图床，也不依赖 Halo 在线提供图片。</p>
+<p>为了方便检索，系统还生成：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>public/halo-assets/manifest.json</span></span></code></pre>
+<p>索引记录包括：</p>
+<ul>
+<li>文件名；</li>
+<li>当前访问路径；</li>
+<li>原始来源；</li>
+<li>存储类型；</li>
+<li>引用文章标题；</li>
+<li>文章 Slug；</li>
+<li>Halo ID。</li>
+</ul>
+<p>例如可以按文章 Slug 查找全部图片：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">jq</span><span style="color:#9ECBFF"> '.assets[] | select(.references[].slug == "article-slug")'</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#9ECBFF">  public/halo-assets/manifest.json</span></span></code></pre>
+<p>Git 仓库由此同时承担版本库、静态资源源站和轻量图片目录的职责。</p>
+<h2 id="八验证故障切换不能只看首页">八、验证故障切换不能只看首页</h2>
+<p>只请求首页得到 200，无法证明容灾真正可用。完整测试至少需要覆盖：</p>
+<ol>
+<li>首页；</li>
+<li>归档页；</li>
+<li>一篇 eH 的文章；</li>
+<li>一篇其他贡献者的文章；</li>
+<li>分类与标签页；</li>
+<li>RSS；</li>
+<li>图片资源；</li>
+<li>无末尾斜杠的文章 URI。</li>
+</ol>
+<p>测试时先暂停同步轮询，再停止 Halo，避免轮询任务把预期内的故障记录成持续错误：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">systemctl</span><span style="color:#79B8FF"> --user</span><span style="color:#9ECBFF"> stop</span><span style="color:#9ECBFF"> halo-astro-sync.service</span></span>
+<span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> stop</span><span style="color:#9ECBFF"> halo</span></span></code></pre>
+<p>从外部网络验证：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -sS</span><span style="color:#79B8FF"> -D</span><span style="color:#9ECBFF"> -</span><span style="color:#79B8FF"> -o</span><span style="color:#9ECBFF"> /tmp/page</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#9ECBFF">  https://dxlab.ehzsy.space/archives/example-post/</span></span></code></pre>
+<p>预期响应包含：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>HTTP/2 200</span></span>
+<span class="line"><span>X-Dxlab-Upstream: astro-github-pages</span></span></code></pre>
+<p>同时检查正文中存在正确的 <code>BY &lt;author&gt;</code> 和 <code>WRITTEN ON &lt;source&gt;</code>，浏览器有效 URL 仍属于 <code>dxlab.ehzsy.space</code>。</p>
+<p>测试完成后显式恢复服务：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> start</span><span style="color:#9ECBFF"> halo</span></span>
+<span class="line"><span style="color:#B392F0">systemctl</span><span style="color:#79B8FF"> --user</span><span style="color:#9ECBFF"> start</span><span style="color:#9ECBFF"> halo-astro-sync.service</span></span></code></pre>
+<p>最后再次确认容器、同步服务和公网文章均正常。不要只依赖 shell 的退出钩子恢复关键服务；远程命令超时或执行环境强制终止时，退出钩子未必有机会完整运行。</p>
+<h2 id="九最终结果与边界">九、最终结果与边界</h2>
+<p>改造完成后，这套发布系统具备以下特性：</p>
+<ul>
+<li>Halo 保留成熟的后台写作体验；</li>
+<li>Astro 提供独立、快速的静态副本；</li>
+<li>GitHub 保存文章、历史版本和绝大多数图片；</li>
+<li>主站与备用站使用相同文章 URI；</li>
+<li>Nginx 在服务端回源，切换时不暴露备用域名；</li>
+<li>eH 的站点所有权与贡献者的文章署名互不冲突；</li>
+<li>GitHub 和 Halo 的首次写作来源可追溯；</li>
+<li>双向修改通过共同基线合并；</li>
+<li>revision-only 变化不会制造持续部署循环。</li>
+</ul>
+<p>它仍然不是跨地域数据库级双活：Halo 后台只有主实例，GitHub Pages 的更新也受构建时间影响。但对于个人技术站和小型团队知识库，这套设计把动态 CMS 的易用性、静态站点的生存能力以及 Git 的可追溯性组合在了一起。</p>
+<p>真正可靠的博客并不是“永远不故障”，而是在某一层故障时，读者仍能用原来的域名和原来的链接读到同一篇文章；系统恢复后，作者也能继续在熟悉的入口写作。</p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#一改造目标" data-astro-cid-7natcuz3>一、改造目标</a><a class="depth-2" href="#二为什么备用站必须与-halo-使用相同-uri" data-astro-cid-7natcuz3>二、为什么备用站必须与 Halo 使用相同 URI</a><a class="depth-2" href="#三nginx-如何在不切换域名的情况下回源-github-pages" data-astro-cid-7natcuz3>三、Nginx 如何在不切换域名的情况下回源 GitHub Pages</a><a class="depth-3" href="#1-使用内部命名-location" data-astro-cid-7natcuz3>1. 使用内部命名 location</a><a class="depth-3" href="#2-正确设置-tls-sni-和-host" data-astro-cid-7natcuz3>2. 正确设置 TLS SNI 和 Host</a><a class="depth-3" href="#3-重写备用站的规范化跳转" data-astro-cid-7natcuz3>3. 重写备用站的规范化跳转</a><a class="depth-3" href="#4-不要把失效判定时间设得过长" data-astro-cid-7natcuz3>4. 不要把失效判定时间设得过长</a><a class="depth-2" href="#四halo-与-astro-的内容同步" data-astro-cid-7natcuz3>四、Halo 与 Astro 的内容同步</a><a class="depth-3" href="#halo-到-github" data-astro-cid-7natcuz3>Halo 到 GitHub</a><a class="depth-3" href="#github-到-halo" data-astro-cid-7natcuz3>GitHub 到 Halo</a><a class="depth-2" href="#五消除-revision-引起的提交循环" data-astro-cid-7natcuz3>五、消除 revision 引起的提交循环</a><a class="depth-2" href="#六站点-owner文章-author-与写作来源" data-astro-cid-7natcuz3>六、站点 Owner、文章 Author 与写作来源</a><a class="depth-2" href="#七把图片放进-github并保持可检索" data-astro-cid-7natcuz3>七、把图片放进 GitHub，并保持可检索</a><a class="depth-2" href="#八验证故障切换不能只看首页" data-astro-cid-7natcuz3>八、验证故障切换不能只看首页</a><a class="depth-2" href="#九最终结果与边界" data-astro-cid-7natcuz3>九、最终结果与边界</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="记录对本地 KDraw 环境进行 Java 运行时观察、JNA 边界分析、GFont 格式解析、独立兼容实现和 G-code 可视化验收的过程，重点讨论方法、数据布局和工程验证。"><link rel="canonical" href="https://blog.ehzsy.site/posts/kdraw-java-native-gfont-interoperability-record/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="KDraw 互操作性研究记录：从 Java 运行时分析到 GFont 与 G-code 重建 · eH Blog"><meta property="og:description" content="记录对本地 KDraw 环境进行 Java 运行时观察、JNA 边界分析、GFont 格式解析、独立兼容实现和 G-code 可视化验收的过程，重点讨论方法、数据布局和工程验证。"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.space/article-assets/kdraw-interoperability-cover.png"><title>KDraw 互操作性研究记录：从 Java 运行时分析到 GFont 与 G-code 重建 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2026-07-22T08:17:30.409Z" data-astro-cid-7natcuz3>22 July 2026</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON GITHUB</span><span data-astro-cid-7natcuz3>6 MIN READ</span></div><h1 data-astro-cid-7natcuz3>KDraw 互操作性研究记录：从 Java 运行时分析到 GFont 与 G-code 重建</h1><p data-astro-cid-7natcuz3>记录对本地 KDraw 环境进行 Java 运行时观察、JNA 边界分析、GFont 格式解析、独立兼容实现和 G-code 可视化验收的过程，重点讨论方法、数据布局和工程验证。</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" data-astro-cid-7natcuz3>技术杂谈</a><a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-astro-cid-7natcuz3>嵌入式</a><a class="tag" href="/tags/%E6%95%99%E7%A8%8B/" data-astro-cid-7natcuz3>#教程</a><a class="tag" href="/tags/Linux/" data-astro-cid-7natcuz3>#Linux</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><p>本文整理一次针对本地 KDraw 安装环境的互操作性研究。目标不是发布原软件、破解授权或复制专有实现，而是回答三个工程问题：Java 应用如何跨过 JNA 调用本地库、<code>.gfont</code> 如何表达字形路径、以及能否用独立实现把合法持有的字体数据转换成可验证的 G-code。</p>
+<p>研究代码和可公开的独立工具位于：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>https://github.com/zsyeh/arthas-kdraw</span></span></code></pre>
+<p>仓库不应包含原厂 JAR、原厂 native 二进制、授权信息或其他不可再分发产物。复现实验前，也应确认自己拥有分析目标和字体文件的合法使用权。</p>
+<h2 id="一研究路径">一、研究路径</h2>
+<p>整个过程分成五层：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Java 运行时观察</span></span>
+<span class="line"><span>      ↓</span></span>
+<span class="line"><span>类与调用关系恢复</span></span>
+<span class="line"><span>      ↓</span></span>
+<span class="line"><span>JNA / native ABI 识别</span></span>
+<span class="line"><span>      ↓</span></span>
+<span class="line"><span>GFont 容器和字形格式解析</span></span>
+<span class="line"><span>      ↓</span></span>
+<span class="line"><span>独立 G-code 生成与可视化验收</span></span></code></pre>
+<p>最终形成的公开工具包括：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>scripts/gfont_to_gcode.py</span></span>
+<span class="line"><span>scripts/gfont_text_to_gcode.py</span></span>
+<span class="line"><span>scripts/decrypt_chinese_gfont_to_gcode.py</span></span>
+<span class="line"><span>scripts/render_gcode_preview.py</span></span>
+<span class="line"><span>scripts/analyze_callchains.py</span></span>
+<span class="line"><span>native_rewrite/</span></span>
+<span class="line"><span>run_acceptance.sh</span></span></code></pre>
+<h2 id="二为什么只做静态反编译不够">二、为什么只做静态反编译不够</h2>
+<p>安装包的启动配置表明，应用通过 jpackage launcher 启动，并在 JVM 启动阶段加载额外 native agent。部分 class 在磁盘状态下并不适合直接进行常规静态分析，因此研究过程转向运行时：只在本机进程中观察已经由 JVM 正常装载的类。</p>
+<p>使用 Arthas 时，关键不是机械地 dump 全部内容，而是先确认：</p>
+<ol>
+<li>实际应用进程；</li>
+<li>负责业务类的 ClassLoader；</li>
+<li>已经加载和尚未触发加载的类；</li>
+<li>Java bridge 与 native 库的边界；</li>
+<li>导出结果是否仍然具有标准 class magic。</li>
+</ol>
+<p>标准 Java class 文件头应为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>CA FE BA BE</span></span></code></pre>
+<p>需要特别注意 JAR 的资源条目编码。把整个归档 <code>unzip</code> 后再普通 <code>zip</code>，可能破坏原有 central directory 中的特殊文件名。研究中采用“保留资源归档，只更新经过授权分析的 class 条目”的方式，避免因为归档工具差异产生假故障。原始和导出的专有 JAR 均不作为博客附件发布。</p>
+<h2 id="三定位-java-到-native-的边界">三、定位 Java 到 native 的边界</h2>
+<p>应用通过 JNA 声明 native bridge。研究重点不是复刻内部算法，而是确认公开可观察的 ABI：参数类型、返回指针、结果长度和内存释放责任。</p>
+<p>一类典型接口返回 <code>Pointer</code>。Java 侧协议表现为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>offset 0: 32-bit result length</span></span>
+<span class="line"><span>offset 4: result int array</span></span></code></pre>
+<p>调用方读取长度后再取数组，最后必须调用 <code>freeMemory</code>。这条规则非常重要：如果 ctypes 或自写 bridge 忘记释放 native 分配的内存，批量处理字体时会持续泄漏；如果误判长度单位，则可能越界读取。</p>
+<p>另一类图像与路径接口涉及：</p>
+<ul>
+<li>阈值计算；</li>
+<li>二值化；</li>
+<li>骨架细化；</li>
+<li>路径追踪；</li>
+<li>Ramer–Douglas–Peucker 简化；</li>
+<li>squiggle 路径生成。</li>
+</ul>
+<p>独立兼容实现采用 Otsu 阈值、Zhang–Suen 细化、简单路径跟踪与 RDP 简化。这是基于公开算法重新实现相同类型的功能，并非原厂本地库的逐位复刻。</p>
+<h2 id="四gfont-是什么">四、GFont 是什么</h2>
+<p><code>.gfont</code> 可以被 ZIP API 定位到 central directory，但文件头前还包含自己的版本元数据。解析器首先读取：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>文件前 4 字节：big-endian int，表示 GFont version</span></span></code></pre>
+<p>字形 entry 命名随版本变化：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>version &lt; 3  : 使用原始字符名</span></span>
+<span class="line"><span>version &gt;= 3 : 使用 Java UTF-16 code unit 的十进制形式</span></span></code></pre>
+<p>例如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>A    -&gt; 65</span></span>
+<span class="line"><span>竖   -&gt; 31446</span></span>
+<span class="line"><span>中文 -&gt; 20013_25991</span></span></code></pre>
+<p>这样做时不能简单使用 Python Unicode code point 代替 Java UTF-16 code unit。BMP 外字符需要正确处理代理对，否则 entry 名会不匹配。</p>
+<h2 id="五字形-entry-的二进制布局">五、字形 entry 的二进制布局</h2>
+<p>字形头随版本不同：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>version &lt;= 7:</span></span>
+<span class="line"><span>  readChar()     // 2 字节 UTF-16</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>version &gt;= 8:</span></span>
+<span class="line"><span>  readUTF()      // Java modified UTF-8</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>version &gt;= 9:</span></span>
+<span class="line"><span>  readFloat()    // advance / width</span></span></code></pre>
+<p>后续由若干路径块构成：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>readInt()               float_count</span></span>
+<span class="line"><span>readFloat() × count     coordinates</span></span>
+<span class="line"><span>readInt()               command_count</span></span>
+<span class="line"><span>readByte() × count      commands</span></span></code></pre>
+<p>已观察到的路径命令：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+<th>消耗坐标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>moveTo</td>
+<td>2 个 float</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>lineTo</td>
+<td>2 个 float</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>cubicTo</td>
+<td>6 个 float</td>
+</tr>
+</tbody>
+</table>
+<p>一个重要踩坑是：新版英文 Hershey 字体常见 version 9，而中文字体大量使用 version 5、6、7。如果无条件按 version 9 多读一个 advance，中文 entry 会在路径区错位，最终表现为 EOF 或完全错误的坐标。</p>
+<h2 id="六从字形路径生成-g-code">六、从字形路径生成 G-code</h2>
+<p>转换器把每个 glyph 的 path command 变成刀具轨迹：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>moveTo  -&gt; 抬刀后快速移动</span></span>
+<span class="line"><span>lineTo  -&gt; 落刀后直线插补</span></span>
+<span class="line"><span>cubicTo -&gt; 将三次 Bézier 自适应采样为折线</span></span></code></pre>
+<p>典型输出结构：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>G21</span></span>
+<span class="line"><span>G90</span></span>
+<span class="line"><span>G0 Z5.000</span></span>
+<span class="line"><span>G0 X10.000 Y10.000</span></span>
+<span class="line"><span>G1 Z-1.000 F200</span></span>
+<span class="line"><span>G1 X12.500 Y14.000 F600</span></span>
+<span class="line"><span>G0 Z5.000</span></span>
+<span class="line"><span>M2</span></span></code></pre>
+<p>实际刀具参数必须由使用者根据材料、主轴和机床重新确认。博客中的数值只用于软件路径验证，不能直接视为生产加工参数。</p>
+<h2 id="七横排居中与竖排">七、横排、居中与竖排</h2>
+<p>排版器支持：</p>
+<ul>
+<li>自定义页面宽高；</li>
+<li>A4、A3 等页面预设；</li>
+<li>字号、字符间距和行距；</li>
+<li>左、中、右对齐；</li>
+<li>横排与竖排；</li>
+<li>安全边距；</li>
+<li>多行文本。</li>
+</ul>
+<p>布局过程先测量 glyph advance 和边界，再确定每行或每列的原点，最后将局部字形坐标变换到页面坐标。竖排不是简单交换 X/Y：还需要重新定义列推进方向、字符中心和行间距。</p>
+<p>当字体不包含某个字符时，工具会先做 coverage 检查，并输出缺失列表，而不是静默生成空白。这对中文字体尤其关键，因为同名字体的不同版本未必包含相同字符集。</p>
+<h2 id="八独立兼容库">八、独立兼容库</h2>
+<p><code>native_rewrite/</code> 中有两组 C/C++ 兼容实现，用于验证 Java/Python 与 native ABI 的理解：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>libDrawsoftEncrypt_compat.so</span></span>
+<span class="line"><span>libkenjoycnc_compat.so</span></span></code></pre>
+<p>它们的设计原则是：</p>
+<ol>
+<li>导出测试环境需要的相同函数签名；</li>
+<li>遵循已观察到的返回内存布局；</li>
+<li>为路径与图像功能使用公开算法；</li>
+<li>只服务于互操作性和测试；</li>
+<li>不复制或分发原厂实现。</li>
+</ol>
+<p>smoke test 会检查内存协议、round-trip、阈值、路径数组和 RDP 结果长度。任何调用 native 返回指针的路径都必须同时覆盖释放测试。</p>
+<h2 id="九一键验收">九、一键验收</h2>
+<p>公开仓库提供：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">./run_acceptance.sh</span></span></code></pre>
+<p>验收流程包括：</p>
+<ol>
+<li>Python 语法检查；</li>
+<li>编译独立 native 兼容库；</li>
+<li>执行 ABI smoke test；</li>
+<li>检查输入文本的字形覆盖率；</li>
+<li>生成横排与竖排 G-code；</li>
+<li>导出本次使用的字形 JSON；</li>
+<li>渲染 HTML/SVG 预览。</li>
+</ol>
+<p>主要输出：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>output/acceptance/acceptance_center.gcode</span></span>
+<span class="line"><span>output/acceptance/acceptance_vertical.gcode</span></span>
+<span class="line"><span>output/acceptance/decoded_glyphs.json</span></span>
+<span class="line"><span>output/acceptance/acceptance_center.svg</span></span>
+<span class="line"><span>output/acceptance/acceptance_vertical.svg</span></span></code></pre>
+<p>预览器不控制机床，只解释 G0/G1 路径并绘制矢量图。它可以在真正加工前发现空字形、坐标翻转、页面越界、抬刀遗漏和竖排方向错误。</p>
+<h2 id="十典型排错记录">十、典型排错记录</h2>
+<h3 id="中文解析到一半-eof">中文解析到一半 EOF</h3>
+<p>先检查 GFont version。version 5–7 不包含 version 9 的 advance 字段，多读 4 字节会破坏后续所有边界。</p>
+<h3 id="生成成功但预览空白">生成成功但预览空白</h3>
+<p>检查字形覆盖率、页面范围、坐标缩放和 Z 安全高度；同时确认预览器识别的是当前生成器使用的 G0/G1 方言。</p>
+<h3 id="部分字符消失">部分字符消失</h3>
+<p>不要用字体文件名推测覆盖范围。直接枚举 ZIP entry，并用 Java UTF-16 命名规则计算目标字符 entry。</p>
+<h3 id="native-测试跑久后内存持续增长">native 测试跑久后内存持续增长</h3>
+<p>逐个检查返回 <code>Pointer</code> 的接口是否在异常路径和正常路径上都调用了对应的 <code>freeMemory</code>。</p>
+<h3 id="归档能打开但-jar-tf-失败">归档能打开但 <code>jar tf</code> 失败</h3>
+<p>检查 central directory 文件名编码。不要无条件使用 unzip/zip 重建包含特殊资源名的归档。</p>
+<h2 id="十一结论">十一、结论</h2>
+<p>这次研究最有价值的不是某一个 dump 文件，而是一套可复核的方法：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>先从运行时确定真实边界</span></span>
+<span class="line"><span>再用静态调用关系缩小范围</span></span>
+<span class="line"><span>明确 native ABI 与内存所有权</span></span>
+<span class="line"><span>按版本解析容器和字形</span></span>
+<span class="line"><span>最后用独立实现与可视化输出验收</span></span></code></pre>
+<p>对于跨 Java、native、二进制字体和 CNC 路径的系统，任何一层“看起来能运行”都不足以证明正确。只有格式解析、ABI、排版、G-code 和可视化结果全部闭环，才算完成了可维护的互操作性工程。</p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#一研究路径" data-astro-cid-7natcuz3>一、研究路径</a><a class="depth-2" href="#二为什么只做静态反编译不够" data-astro-cid-7natcuz3>二、为什么只做静态反编译不够</a><a class="depth-2" href="#三定位-java-到-native-的边界" data-astro-cid-7natcuz3>三、定位 Java 到 native 的边界</a><a class="depth-2" href="#四gfont-是什么" data-astro-cid-7natcuz3>四、GFont 是什么</a><a class="depth-2" href="#五字形-entry-的二进制布局" data-astro-cid-7natcuz3>五、字形 entry 的二进制布局</a><a class="depth-2" href="#六从字形路径生成-g-code" data-astro-cid-7natcuz3>六、从字形路径生成 G-code</a><a class="depth-2" href="#七横排居中与竖排" data-astro-cid-7natcuz3>七、横排、居中与竖排</a><a class="depth-2" href="#八独立兼容库" data-astro-cid-7natcuz3>八、独立兼容库</a><a class="depth-2" href="#九一键验收" data-astro-cid-7natcuz3>九、一键验收</a><a class="depth-2" href="#十典型排错记录" data-astro-cid-7natcuz3>十、典型排错记录</a><a class="depth-3" href="#中文解析到一半-eof" data-astro-cid-7natcuz3>中文解析到一半 EOF</a><a class="depth-3" href="#生成成功但预览空白" data-astro-cid-7natcuz3>生成成功但预览空白</a><a class="depth-3" href="#部分字符消失" data-astro-cid-7natcuz3>部分字符消失</a><a class="depth-3" href="#native-测试跑久后内存持续增长" data-astro-cid-7natcuz3>native 测试跑久后内存持续增长</a><a class="depth-3" href="#归档能打开但-jar-tf-失败" data-astro-cid-7natcuz3>归档能打开但 jar tf 失败</a><a class="depth-2" href="#十一结论" data-astro-cid-7natcuz3>十一、结论</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

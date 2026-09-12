@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="ROS2 Humble xrce-dds px4 仿真 使用1.14版本 以正常方式在 Ubuntu 上设置 PX4 开发环境： cd
+git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+bash ./PX4-Autopilo"><link rel="canonical" href="https://blog.ehzsy.site/posts/7dd146c9-0612-4838-8e97-1ee191d24e7f/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="ROS2 Humble xrce-dds px4 仿真 · eH Blog"><meta property="og:description" content="ROS2 Humble xrce-dds px4 仿真 使用1.14版本 以正常方式在 Ubuntu 上设置 PX4 开发环境： cd
+git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+bash ./PX4-Autopilo"><meta property="og:type" content="article"><meta property="og:image" content="https://nas.yanghong.dev:8200/wp-content/uploads/2024/02/image-194-1024x297.png"><title>ROS2 Humble xrce-dds px4 仿真 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T16:57:42.847Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>8 MIN READ</span></div><h1 data-astro-cid-7natcuz3>ROS2 Humble xrce-dds px4 仿真</h1><p data-astro-cid-7natcuz3>ROS2 Humble xrce-dds px4 仿真 使用1.14版本 以正常方式在 Ubuntu 上设置 PX4 开发环境： cd
+git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+bash ./PX4-Autopilo</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E6%81%B0%E9%A5%AD/" data-astro-cid-7natcuz3>恰饭</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h1 id="ros2-humble-xrce-dds-px4-仿真">ROS2 Humble xrce-dds px4 仿真</h1>
+<p>使用1.14版本</p>
+<p>以正常方式在 Ubuntu 上设置 PX4 开发环境：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#79B8FF">cd</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/PX4/PX4-Autopilot.git</span><span style="color:#79B8FF"> --recursive</span></span>
+<span class="line"><span style="color:#B392F0">bash</span><span style="color:#9ECBFF"> ./PX4-Autopilot/Tools/setup/ubuntu.sh</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> PX4-Autopilot/</span></span>
+<span class="line"><span style="color:#B392F0">make</span><span style="color:#9ECBFF"> px4_sitl</span></span></code></pre>
+<p>输入以下命令以从源获取和构建代理：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#79B8FF"> -b</span><span style="color:#9ECBFF"> v2.4.2</span><span style="color:#9ECBFF"> https://github.com/eProsima/Micro-XRCE-DDS-Agent.git</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> Micro-XRCE-DDS-Agent</span></span>
+<span class="line"><span style="color:#B392F0">mkdir</span><span style="color:#9ECBFF"> build</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> build</span></span>
+<span class="line"><span style="color:#B392F0">cmake</span><span style="color:#9ECBFF"> ..</span></span>
+<span class="line"><span style="color:#B392F0">make</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> make</span><span style="color:#9ECBFF"> install</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> ldconfig</span><span style="color:#9ECBFF"> /usr/local/lib/</span></span>
+<span class="line"><span style="color:#6A737D"># 在运行sitl之前先启动代理</span></span>
+<span class="line"><span style="color:#B392F0">MicroXRCEAgent</span><span style="color:#9ECBFF"> udp4</span><span style="color:#79B8FF"> -p</span><span style="color:#79B8FF"> 8888</span></span></code></pre>
+<p>然后运行 sitl</p>
+<p><code>make px4_sitl gz_x500</code></p>
+<h2 id="构建消息包">构建消息包</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">mkdir</span><span style="color:#79B8FF"> -p</span><span style="color:#9ECBFF"> ~/ws_sensor_combined/src/</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> ~/ws_sensor_combined/src/</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/PX4/px4_msgs.git</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/PX4/px4_ros_com.git</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> ..</span></span>
+<span class="line"><span style="color:#79B8FF">source</span><span style="color:#9ECBFF"> /opt/ros/humble/setup.bash</span></span>
+<span class="line"><span style="color:#B392F0">colcon</span><span style="color:#9ECBFF"> build</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">ros2</span><span style="color:#9ECBFF"> launch</span><span style="color:#9ECBFF"> px4_ros_com</span><span style="color:#9ECBFF"> sensor_combined_listener.launch.py</span></span></code></pre>
+<p>如果这有效，您应该会在启动 ROS 侦听器的终端/控制台上看到打印的数据：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>RECEIVED DATA FROM SENSOR COMBINED</span></span>
+<span class="line"><span>================================</span></span>
+<span class="line"><span>ts: 870938190</span></span>
+<span class="line"><span>gyro_rad[0]: 0.00341645</span></span>
+<span class="line"><span>gyro_rad[1]: 0.00626475</span></span>
+<span class="line"><span>gyro_rad[2]: -0.000515705</span></span>
+<span class="line"><span>gyro_integral_dt: 4739</span></span>
+<span class="line"><span>accelerometer_timestamp_relative: 0</span></span>
+<span class="line"><span>accelerometer_m_s2[0]: -0.273381</span></span>
+<span class="line"><span>accelerometer_m_s2[1]: 0.0949186</span></span>
+<span class="line"><span>accelerometer_m_s2[2]: -9.76044</span></span>
+<span class="line"><span>accelerometer_integral_dt: 4739</span></span></code></pre>
+<p><strong>注意固件版本和 消息类型是相关的,请务必保证消息类型合适</strong></p>
+<p>否则需要使用消息转换节点</p>
+<p>PX4 v1.16 PX4 v1.16 版本 Experimental 实验的</p>
+<p>This example is built with PX4 and ROS2 versions that use the same message definitions. If you were to use incompatible <a href="https://docs.px4.io/main/en/middleware/uorb.html#message-versioning">message versions</a> you would need to install and run the <a href="https://docs.px4.io/main/en/ros2/px4_ros2_msg_translation_node.html">Message Translation Node</a> as well, before running the example:
+此示例使用使用相同消息定义的 PX4 和 ROS2 版本构建。如果要使用不兼容的<a href="https://docs.px4.io/main/en/middleware/uorb.html#message-versioning">消息版本 </a>，则在运行示例之前，还需要安装并运行<a href="https://docs.px4.io/main/en/ros2/px4_ros2_msg_translation_node.html">消息转换节点 </a>：</p>
+<ol>
+<li>
+<p>Include the <a href="https://docs.px4.io/main/en/ros2/px4_ros2_msg_translation_node.html">Message Translation Node</a> into the example workspace or a separate workspace by running the following script:
+通过运行以下脚本，将<a href="https://docs.px4.io/main/en/ros2/px4_ros2_msg_translation_node.html">消息转换节点</a>包括到示例工作区或单独的工作区中：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cd /path/to/ros_ws</span></span>
+<span class="line"><span>/path/to/PX4-Autopilot/Tools/copy_to_ros_ws.sh .</span></span></code></pre>
+</li>
+<li>
+<p>Build and run the translation node:
+构建并运行翻译节点：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>colcon build</span></span>
+<span class="line"><span>source install/local_setup.bash</span></span>
+<span class="line"><span>ros2 run translation_node translation_node_bin</span></span></code></pre>
+</li>
+</ol>
+<h2 id="附录-名词解释">附录 名词解释</h2>
+<p>下表解释了在本次交流中我们遇到的几个关键技术名词及其相互关系。</p>
+<table>
+<thead>
+<tr>
+<th>名词 (Term)</th>
+<th>全称 / 类型 (Full Name / Type)</th>
+<th>角色与解释 (Role &amp; Explanation)</th>
+<th>与其它名词的关系 (Relationship to Other Terms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SITL</strong></td>
+<td>Software-In-The-Loop (软件在环仿真)</td>
+<td><strong>一种仿真方法</strong>。它让完整的 PX4 飞控固件代码可以直接在电脑上运行，而无需任何物理硬件。它从 Gazebo 等模拟器获取虚拟的传感器数据，并将计算出的电机指令发回给模拟器，从而实现对虚拟无人机的控制。可以理解为无人机的“<strong>大脑</strong>”运行在一个“<strong>虚拟身体</strong>”里。</td>
+<td><strong>SITL</strong> 运行 PX4 固件，并通过 <strong>XRCE-DDS</strong> 协议与外部（如ROS 2）通信。</td>
+</tr>
+<tr>
+<td><strong>XRCE-DDS</strong></td>
+<td>DDS for eXtremely Resource-Constrained Environments (面向极度资源受限环境的DDS协议)</td>
+<td><strong>一种通信协议</strong>。它是 ROS 2 标准通信中间件 DDS 的轻量化版本，专门设计用于在像无人机飞控这样的微控制器上高效运行。它定义了资源受限设备与完整 ROS 2 网络之间对话的“<strong>语言</strong>”和规则。</td>
+<td><strong>SITL</strong> 中的客户端和 <strong>Micro-XRCE-DDS-Agent</strong> 之间使用 <strong>XRCE-DDS</strong> 协议进行对话。</td>
+</tr>
+<tr>
+<td><strong>Micro-XRCE-DDS-Agent</strong></td>
+<td>(程序名称)</td>
+<td><strong>一个独立的桥接程序</strong>。它扮演着“<strong>翻译官</strong>”和“<strong>中间人</strong>”的角色。它在您的电脑上运行，监听来自 SITL (或真实飞控) 的 <strong>XRCE-DDS</strong> 数据流，并将其“翻译”成标准的 ROS 2 数据流，反之亦然。没有它，ROS 2 节点就无法看到或与 PX4 通信。</td>
+<td><strong>Agent</strong> 是 <strong>XRCE-DDS</strong> 协议的服务端，它将数据桥接后，以 <strong>px4_msgs</strong> 定义的话题格式发布到 ROS 2 网络中。</td>
+</tr>
+<tr>
+<td><strong>px4_msgs</strong></td>
+<td>PX4 ROS 2 Messages (PX4 的 ROS 2 消息包)</td>
+<td><strong>一个 ROS 2 消息包</strong>。这个包里包含了所有 PX4 特有话题的数据结构定义（例如 <code>VehicleStatus.msg</code>, <code>TrajectorySetpoint.msg</code>）。您的 Python 或 C++ 脚本需要 <code>import</code> 这些消息定义，才能理解和创建与 PX4 通信的数据。它就像一本“<strong>数据字典</strong>”。</td>
+<td><strong>px4_msgs</strong> 由 <strong>px4_ros_com</strong> 在编译时根据 PX4 固件源码生成。您的控制脚本（如<code>fly_to_point.py</code>）需要依赖这个包。</td>
+</tr>
+<tr>
+<td><strong>px4_ros_com</strong></td>
+<td>PX4 ROS 2 Communication (PX4 的 ROS 2 通信包)</td>
+<td><strong>一个 ROS 2 源码仓库/元包</strong>。这是您克隆到 ROS 2 工作空间的核心仓库。它包含了生成 <strong>px4_msgs</strong> 的编译逻辑、一些示例程序（如 <code>sensor_combined_listener</code>）和方便使用的 <code>launch</code> 文件。</td>
+<td><strong>px4_ros_com</strong> 是您 <code>ros2_ws</code> 中的一个关键源码包，它负责生成 <strong>px4_msgs</strong>。</td>
+</tr>
+<tr>
+<td><strong>sensor_combined_listener</strong></td>
+<td>(ROS 2 节点名称)</td>
+<td><strong>一个用于调试的示例程序</strong>。这个小程序由 <strong>px4_ros_com</strong> 提供，它的唯一作用就是订阅 <code>/fmu/out/sensor_combined</code> 这个话题，并将接收到的原始传感器数据（如陀螺仪、加速度计）打印到屏幕上。它是一个完美的“Hello, World!”程序，用来快速<strong>验证整个通信链路是否正常工作</strong>。</td>
+<td><strong>sensor_combined_listener</strong> 是一个最简单的 ROS 2 节点，它订阅由 <strong>Agent</strong> 桥接过来、并由 <strong>px4_msgs</strong> 定义的传感器话题。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="工作流程总结">工作流程总结</h3>
+<h2 id="直接从px4-autopilot拉的代码sitl版本是多少4">直接从px4-autopilot拉的代码sitl版本是多少4</h2>
+<p>如果直接从 <code>PX4-Autopilot</code> 仓库拉取代码，没有指定任何分支或标签（即运行 <code>git clone https://github.com/PX4/PX4-Autopilot.git</code>），那么获取到的是 <strong><code>main</code> 分支</strong>的代码。</p>
+<blockquote>
+<p>main 分支意味着什么？
+它是最新的开发版本: main 分支包含了所有最新的功能、修复和改动。可以把它看作是正在开发中的、未来的 PX4 版本（例如，可能是将来的 v1.16 或更高版本）。</p>
+<p>它没有一个固定的版本号: main 分支是持续更新的，所以它不像 v1.15 或 v1.14 那样有一个明确的版本号。它的版本是“流动的”。</p>
+<p>它可能不稳定: 作为最前沿的开发分支，它可能包含一些未经充分测试的新代码，因此存在不稳定的风险。</p>
+</blockquote>
+<p>您好，这是一个非常重要的问题，能帮助我们理解版本管理的策略。</p>
+<p>如果您直接从 <code>PX4-Autopilot</code> 仓库拉取代码，没有指定任何分支或标签（即运行 <code>git clone https://github.com/PX4/PX4-Autopilot.git</code>），那么您获取到的是 <strong><code>main</code> 分支</strong>的代码。</p>
+<h3 id="main-分支意味着什么"><code>main</code> 分支意味着什么？</h3>
+<ol>
+<li><strong>它是最新的开发版本</strong>: <code>main</code> 分支包含了所有最新的功能、修复和改动。可以把它看作是<strong>正在开发中的、未来的 PX4 版本</strong>（例如，可能是将来的 v1.16 或更高版本）。</li>
+<li><strong>它没有一个固定的版本号</strong>: <code>main</code> 分支是持续更新的，所以它不像 <code>v1.15</code> 或 <code>v1.14</code> 那样有一个明确的版本号。它的版本是“流动的”。</li>
+<li><strong>它可能不稳定</strong>: 作为最前沿的开发分支，它可能包含一些未经充分测试的新代码，因此存在不稳定的风险。</li>
+</ol>
+<h3 id="sitl-的版本是多少">SITL 的版本是多少？</h3>
+<p>SITL（软件在环仿真）本身没有独立的版本号。<strong>SITL 的版本和您编译它的固件源码版本是完全一致的。</strong></p>
+<p>所以，如果您从 <code>main</code> 分支的源码编译 SITL，那么您得到的 SITL 就是 <code>main</code> 分支开发版的 SITL。</p>
+<h3 id="如何查看您当前代码的精确版本">如何查看您当前代码的精确“版本”？</h3>
+<p>即使 <code>main</code> 分支没有固定版本号，您也可以通过 <code>git</code> 命令来精确地知道您当前处于哪个代码状态。在 <code>PX4-Autopilot</code> 目录下运行：</p>
+<p>Bash</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git describe --always --tags</span></span></code></pre>
+<p>这个命令的输出可能会是像这样的格式： <code>v1.15.0-rc2-45-g123abcde</code></p>
+<ul>
+<li><code>v1.15.0-rc2</code>: 表示您当前的代码是基于 <code>v1.15.0-rc2</code> 这个标签的。</li>
+<li><code>45</code>: 表示在那个标签之后，又有 45 个新的提交。</li>
+<li><code>g123abcde</code>: 是您当前代码快照的唯一哈希值缩写。</li>
+</ul>
+<p>这直接关系到我们之前遇到的<strong>版本不匹配问题</strong>。</p>
+<ul>
+<li>如果您使用 <code>main</code> 分支的 <code>PX4-Autopilot</code>，那么为了保证消息定义一致，您<strong>也必须使用 <code>main</code> 分支的 <code>px4_ros_com</code></strong>。</li>
+<li>这样做的好处是能体验最新功能，但缺点是您可能会遇到像之前那样的、由于两个项目开发进度不完全同步导致的不兼容问题。</li>
+</ul>
+<p>这就是为什么在之前的回答中，我建议您切换到 <code>release/1.15</code> 或 <code>v1.14.0</code> 这样的稳定分支或标签。这能为您提供一个经过验证、保证兼容的“版本快照”。</p>
+<p><strong>总结:</strong></p>
+<table>
+<thead>
+<tr>
+<th>您拉取的分支</th>
+<th>版本类型</th>
+<th>稳定性</th>
+<th>建议的 <code>px4_ros_com</code> 版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>main</code> (默认)</strong></td>
+<td><strong>最新开发版</strong></td>
+<td><strong>不稳定</strong></td>
+<td><strong><code>main</code></strong></td>
+</tr>
+<tr>
+<td><code>release/1.15</code></td>
+<td>1.15 稳定版系列</td>
+<td>较稳定</td>
+<td><code>release/1.15</code></td>
+</tr>
+<tr>
+<td><code>v1.14.0</code> (标签)</td>
+<td>1.14.0 稳定发行版</td>
+<td><strong>非常稳定</strong></td>
+<td><code>v1.14.0</code></td>
+</tr>
+</tbody>
+</table>
+<p>因此，直接拉取的代码版本是<strong>最新的、不稳定的 <code>main</code> 分支开发版</strong>。</p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-1" href="#ros2-humble-xrce-dds-px4-仿真" data-astro-cid-7natcuz3>ROS2 Humble xrce-dds px4 仿真</a><a class="depth-2" href="#构建消息包" data-astro-cid-7natcuz3>构建消息包</a><a class="depth-2" href="#附录-名词解释" data-astro-cid-7natcuz3>附录 名词解释</a><a class="depth-3" href="#工作流程总结" data-astro-cid-7natcuz3>工作流程总结</a><a class="depth-2" href="#直接从px4-autopilot拉的代码sitl版本是多少4" data-astro-cid-7natcuz3>直接从px4-autopilot拉的代码sitl版本是多少4</a><a class="depth-3" href="#main-分支意味着什么" data-astro-cid-7natcuz3>main 分支意味着什么？</a><a class="depth-3" href="#sitl-的版本是多少" data-astro-cid-7natcuz3>SITL 的版本是多少？</a><a class="depth-3" href="#如何查看您当前代码的精确版本" data-astro-cid-7natcuz3>如何查看您当前代码的精确“版本”？</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>
