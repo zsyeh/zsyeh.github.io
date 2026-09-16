@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="你说得完全对，我们现在来搞清楚为什么栈是“先进后出”（LIFO），即使它是从高地址往低地址生长的。   ✅ 结论先说： “先进后出”描述的是“逻辑顺序”， “从高地址往低地址生长”描述的是“物理实现”。 这两者没有矛盾！ 我们来一步步看：   1. 栈逻辑上是个桶（LIFO）： 你压入的数据是按顺序"><link rel="canonical" href="https://blog.ehzsy.site/posts/1b290219-1dc5-41e0-b72d-a692abb3a028/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="push stack · eH Blog"><meta property="og:description" content="你说得完全对，我们现在来搞清楚为什么栈是“先进后出”（LIFO），即使它是从高地址往低地址生长的。   ✅ 结论先说： “先进后出”描述的是“逻辑顺序”， “从高地址往低地址生长”描述的是“物理实现”。 这两者没有矛盾！ 我们来一步步看：   1. 栈逻辑上是个桶（LIFO）： 你压入的数据是按顺序"><meta property="og:type" content="article"><meta property="og:image" content="https://cdn.programiz.com/sites/tutorial2program/files/stack.png"><title>push stack · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T16:51:23.623Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>1 MIN READ</span></div><h1 data-astro-cid-7natcuz3>push stack</h1><p data-astro-cid-7natcuz3>你说得完全对，我们现在来搞清楚为什么栈是“先进后出”（LIFO），即使它是从高地址往低地址生长的。   ✅ 结论先说： “先进后出”描述的是“逻辑顺序”， “从高地址往低地址生长”描述的是“物理实现”。 这两者没有矛盾！ 我们来一步步看：   1. 栈逻辑上是个桶（LIFO）： 你压入的数据是按顺序</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/kernel/" data-astro-cid-7natcuz3>kernel</a></div></header><div class="article-grid no-toc" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><p>你说得<strong>完全对</strong>，我们现在来搞清楚为什么栈是“先进后出”（LIFO），即使它是从<strong>高地址往低地址生长的</strong>。</p>
+<hr>
+<p>  <strong>✅ 结论先说：</strong>
+  <strong>“先进后出”描述的是“逻辑顺序”，</strong>
+  <strong>“从高地址往低地址生长”描述的是“物理实现”。</strong>
+  这两者没有矛盾！</p>
+<hr>
+<p>我们来一步步看：</p>
+<p>  <strong>1. 栈逻辑上是个桶（LIFO）：</strong>
+  你压入的数据是按顺序“堆叠”起来的，<strong>最后压进去的数据在最上面，最先弹出来</strong>，这就是“先进后出”。</p>
+<p>  举个例子：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>push 1</span></span>
+<span class="line"><span>push 2</span></span>
+<span class="line"><span>push 3</span></span></code></pre>
+<p>  此时栈从栈底到栈顶是：<code>1 -&gt; 2 -&gt; 3</code>，最上面是 3。</p>
+<p>  如果你现在 <code>pop</code> 三次，你会得到：3, 2, 1，<strong>先进（1）后出，后进（3）先出</strong>，这就是 LIFO。</p>
+<hr>
+<p>  <strong>2. 栈在内存里从高地址往低地址生长：</strong>
+  这是 CPU 架构决定的（如 x86），所以：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="asm"><code><span class="line"><span style="color:#79B8FF">sp</span><span style="color:#E1E4E8"> = </span><span style="color:#79B8FF">0x7c00</span></span>
+<span class="line"><span style="color:#F97583">push</span><span style="color:#79B8FF"> ax</span><span style="color:#6A737D">  ; 例：ax = 0x1234</span></span></code></pre>
+<p>  CPU 会先让 <code>sp -= 2</code>，变成 <code>0x7bfe</code>，然后把 <code>0x1234</code> 写入 <code>[0x7bfe]</code>。</p>
+<p>  这样，<strong>越新的数据越放在低地址</strong>，但这并不改变“谁先压栈、谁后出栈”的<strong>逻辑顺序</strong>。</p>
+<hr>
+<p>  <strong>3. 举个图示帮助你理解：</strong></p>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x7bfe</td>
+<td><code>0x1234</code> (最后压入)</td>
+</tr>
+<tr>
+<td>0x7c00</td>
+<td><code>0x5678</code> (更早压入)</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<p>  现在 <code>sp</code> 指向 <code>0x7bfe</code>，如果 <code>pop</code>，先弹出 <code>0x1234</code>，再 <code>pop</code> 才是 <code>0x5678</code>。</p>
+<p>  所以：
+  - <strong>逻辑顺序是“先进后出”</strong>
+  - <strong>地址增长方向是“高地址 → 低地址”</strong></p>
+<hr>
+</div></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

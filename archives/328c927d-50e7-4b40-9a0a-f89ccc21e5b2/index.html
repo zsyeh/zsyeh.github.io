@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="PCB的绘制开发人员不能定义 Bank，他们只能决定给这些已经定义好的 Bank 提供什么电压 芯片定义 (Chip Definition) Zynq-7000 (XC7Z020) 芯片在制造时，其内部的 I/O 引脚就已经被物理地划分成一组一组的，这些组就叫 &quot;Bank&quot; 。 关键点： 同一个 B"><link rel="canonical" href="https://blog.ehzsy.site/archives/328c927d-50e7-4b40-9a0a-f89ccc21e5b2/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="zynq手册-bank电压 · eH Blog"><meta property="og:description" content="PCB的绘制开发人员不能定义 Bank，他们只能决定给这些已经定义好的 Bank 提供什么电压 芯片定义 (Chip Definition) Zynq-7000 (XC7Z020) 芯片在制造时，其内部的 I/O 引脚就已经被物理地划分成一组一组的，这些组就叫 &quot;Bank&quot; 。 关键点： 同一个 B"><meta property="og:type" content="article"><meta property="og:image" content="https://github.com/user-attachments/assets/e5b88285-bd5b-4f7f-b73d-85fed1495359"><title>zynq手册-bank电压 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T16:59:44.657Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>2 MIN READ</span></div><h1 data-astro-cid-7natcuz3>zynq手册-bank电压</h1><p data-astro-cid-7natcuz3>PCB的绘制开发人员不能定义 Bank，他们只能决定给这些已经定义好的 Bank 提供什么电压 芯片定义 (Chip Definition) Zynq-7000 (XC7Z020) 芯片在制造时，其内部的 I/O 引脚就已经被物理地划分成一组一组的，这些组就叫 &quot;Bank&quot; 。 关键点： 同一个 B</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/FPGA/" data-astro-cid-7natcuz3>FPGA</a><a class="tag" href="/tags/zynq/" data-astro-cid-7natcuz3>#zynq</a><a class="tag" href="/tags/bank/" data-astro-cid-7natcuz3>#bank</a></div></header><div class="article-grid no-toc" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><img width="660" height="394" alt="image" src="https://github.com/user-attachments/assets/e5b88285-bd5b-4f7f-b73d-85fed1495359" />
+<hr>
+<p>PCB的绘制开发人员不能定义 Bank，他们只能决定给这些已经定义好的 Bank 提供什么电压
+芯片定义 (Chip Definition)</p>
+<p>Zynq-7000 (XC7Z020) 芯片在制造时，其内部的 I/O 引脚就已经被物理地划分成一组一组的，这些组就叫 “Bank” 。
+关键点： 同一个 Bank 内的所有 I/O 引脚共享一个或多个共同的 I/O 电源引脚（称为 VCCIO）。</p>
+<p>VADJ (可调电压轨)： 这就是 PCB 开发人员的一种高级设计——他们没有把 Bank 33/34/35 焊死在一个 2.5V 电源上，而是连接到了一个可调节的电源芯片 (U19) ，允许用户（比如您）根据需要去更改这个 Bank 的物理供电电压
+Bank 的划分： 芯片设计时就固定了。
+Bank 的电压： PCB 开发人员在设计电路板时决定的。</p>
+<blockquote>
+<p>[!IMPORTANT]
+这是一个非常关键的问题。简而言之，它们是物理电源和逻辑配置之间的**“必须匹配”**关系 VADJ 是物理上供给 Zynq 芯片特定 I/O Bank 的电源电压。 XDC 约束 (IOSTANDARD) 是您在逻辑上告知 Vivado 工具，该 Bank 将会使用哪种电平标准。
+这个逻辑配置必须与物理供电电压相匹配，否则轻则信号异常，重则烧毁芯片</p>
+</blockquote>
+<blockquote>
+<p>[!TIP]
+如果自行给一个核心板设计底板 是否需要自己提供电压基准
+如果您是在为一块“核心板”（比如一个包含了 Zynq 芯片、DDR 内存和 Flash 的最小系统板）设计一块“底板”，那么底板的一个核心任务就是提供所有的“电压基准”（即各种电源轨）。</p>
+</blockquote>
+<ol>
+<li>核心板的期望
+核心板通常会通过引脚（例如高密度连接器）暴露出两类需要供电的引脚：</li>
+</ol>
+<p>主电源输入 (VCC_IN)： 核心板本身需要一个（或多个）主电源输入（例如 5V 或 3.3V）。核心板上自带的电源管理芯片 (PMIC) 会利用这个输入，再自行生成芯片内核 (VCCINT 1.0V)、辅助电源 (VCCAUX 1.8V)、DDR 内存 (1.5V) 等“内部”电压。</p>
+<p>I/O 电源输入 (VCCIO)： 核心板会把 Zynq 芯片上所有 I/O Bank（例如 PL Bank 33, 34, 35）的 VCCIO 电源引脚都引出来。</p>
+<ol start="2">
+<li>底板的责任
+您的底板必须负责生成并提供上述所有电压：</li>
+</ol>
+<p>产生主电源： 您的底板需要一个主电源输入（例如一个 12V 的 DC 电源插座），然后通过板上的稳压器（Regulators）将其转换为核心板所需的 5V 或 3.3V 主电源。</p>
+<p>产生 I/O 电源： 这是最关键的一步。您必须根据底板上的外设来决定为每个 I/O Bank 提供什么电压。</p>
+<p>例如： 如果您的底板上有一个 HDMI 接口，它需要 2.5V 的 I/O 电平，您就需要将 Zynq 核心板上连接 HDMI 的那个 Bank（比如 Bank 34）的 VCCIO 引脚，连接到您底板上产生的一个 2.5V 电源轨。</p>
+<p>又例如： 如果您的底板上有一个需要 1.8V 电平的 FMC 接口，您就需要将连接 FMC 的那个 Bank（比如 Bank 33）的 VCCIO 引脚，连接到您底板上产生的一个 1.8V 电源轨。</p>
+</div></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>
