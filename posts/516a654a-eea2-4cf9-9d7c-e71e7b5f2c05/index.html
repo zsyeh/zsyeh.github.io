@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="在 8086 和 x86 汇编中，有很多“默认规则”（隐含操作寄存器），这些都是 CPU 设计时固定好的，程序员无法改变。以下是你应该掌握的一些典型例子：   🔸 一、乘法和除法指令（默认寄存器） 指令 操作数 默认被乘数/被除数 结果 备注 mul r8 8位寄存器，如 bl AL × r8 A"><link rel="canonical" href="https://blog.ehzsy.site/posts/516a654a-eea2-4cf9-9d7c-e71e7b5f2c05/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="8086默认寄存器 · eH Blog"><meta property="og:description" content="在 8086 和 x86 汇编中，有很多“默认规则”（隐含操作寄存器），这些都是 CPU 设计时固定好的，程序员无法改变。以下是你应该掌握的一些典型例子：   🔸 一、乘法和除法指令（默认寄存器） 指令 操作数 默认被乘数/被除数 结果 备注 mul r8 8位寄存器，如 bl AL × r8 A"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/v2-32510d6cbade23c3452679fc0fb2968a_720w.png"><title>8086默认寄存器 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T16:51:15.528Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>3 MIN READ</span></div><h1 data-astro-cid-7natcuz3>8086默认寄存器</h1><p data-astro-cid-7natcuz3>在 8086 和 x86 汇编中，有很多“默认规则”（隐含操作寄存器），这些都是 CPU 设计时固定好的，程序员无法改变。以下是你应该掌握的一些典型例子：   🔸 一、乘法和除法指令（默认寄存器） 指令 操作数 默认被乘数/被除数 结果 备注 mul r8 8位寄存器，如 bl AL × r8 A</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/kernel/" data-astro-cid-7natcuz3>kernel</a></div></header><div class="article-grid no-toc" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><p>在 8086 和 x86 汇编中，<strong>有很多“默认规则”（隐含操作寄存器）</strong>，这些都是 CPU 设计时固定好的，程序员无法改变。以下是你应该掌握的一些典型例子：</p>
+<hr>
+<p>  🔸 <strong>一、乘法和除法指令（默认寄存器）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>操作数</th>
+<th>默认被乘数/被除数</th>
+<th>结果</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mul r8</code></td>
+<td>8位寄存器，如 <code>bl</code></td>
+<td><code>AL</code> × <code>r8</code></td>
+<td><code>AX</code></td>
+<td>无符号乘法</td>
+</tr>
+<tr>
+<td><code>mul r16</code></td>
+<td>16位寄存器，如 <code>bx</code></td>
+<td><code>AX</code> × <code>r16</code></td>
+<td><code>DX:AX</code></td>
+<td>无符号乘法</td>
+</tr>
+<tr>
+<td><code>imul r16</code></td>
+<td>同上</td>
+<td>同上</td>
+<td>同上</td>
+<td>有符号乘法</td>
+</tr>
+<tr>
+<td><code>div r8</code></td>
+<td>除数是 <code>r8</code>，被除数是 <code>AX</code></td>
+<td><code>AX ÷ r8</code></td>
+<td>商 → <code>AL</code>，余数 → <code>AH</code></td>
+<td>无符号除法</td>
+</tr>
+<tr>
+<td><code>div r16</code></td>
+<td>除数是 <code>r16</code>，被除数是 <code>DX:AX</code></td>
+<td><code>DX:AX ÷ r16</code></td>
+<td>商 → <code>AX</code>，余数 → <code>DX</code></td>
+<td>无符号除法</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>  🔸 <strong>二、字符串处理指令（默认用 SI、DI、CX）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>默认寄存器</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>movsb</code></td>
+<td><code>SI</code>→源，<code>DI</code>→目标</td>
+<td>复制字符串（字节）</td>
+</tr>
+<tr>
+<td><code>stosb</code></td>
+<td><code>DI</code>→目标，<code>AL</code>→源</td>
+<td>把 AL 写入目标</td>
+</tr>
+<tr>
+<td><code>lodsb</code></td>
+<td><code>SI</code>→源，读取到 <code>AL</code></td>
+<td>从内存读取一个字节到 AL</td>
+</tr>
+<tr>
+<td><code>scasb</code></td>
+<td><code>AL</code> 与 <code>DI</code> 指向的内容比较</td>
+<td>字符串比较</td>
+</tr>
+<tr>
+<td><code>rep movsb</code></td>
+<td><code>CX</code> 控制复制次数</td>
+<td>复制 <code>CX</code> 个字节</td>
+</tr>
+</tbody>
+</table>
+<p>这些操作都是围绕 <code>DS:SI</code> 和 <code>ES:DI</code> 展开的。</p>
+<hr>
+<p>  🔸 <strong>三、栈操作（默认寄存器）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>默认行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>push r16</code></td>
+<td><code>SP = SP - 2</code>，将 <code>r16</code> 入栈</td>
+</tr>
+<tr>
+<td><code>pop r16</code></td>
+<td>从栈顶读 2 字节给 <code>r16</code>，<code>SP = SP + 2</code></td>
+</tr>
+<tr>
+<td><code>call</code></td>
+<td>自动将返回地址 <code>IP</code> 入栈</td>
+</tr>
+<tr>
+<td><code>ret</code></td>
+<td>从栈中弹出返回地址</td>
+</tr>
+</tbody>
+</table>
+<p>这些都使用 <code>SS:SP</code> 作为栈指针。</p>
+<hr>
+<p>  🔸 <strong>四、输入输出指令（默认寄存器）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>默认端口寄存器</th>
+<th>数据寄存器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>in al, dx</code></td>
+<td><code>DX</code> 指定 I/O 端口地址</td>
+<td>数据读入 <code>AL</code></td>
+</tr>
+<tr>
+<td><code>out dx, al</code></td>
+<td><code>DX</code> 指定 I/O 端口地址</td>
+<td>数据从 <code>AL</code> 写出</td>
+</tr>
+</tbody>
+</table>
+<p>也就是说，端口地址是放在 <code>DX</code> 里的，数据寄存器是 <code>AL</code>（或 <code>AX</code>）。</p>
+<hr>
+<p>  🔸 <strong>五、段寄存器默认配对规则（隐式段寄存器）</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>默认段寄存器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mov ax, [bx]</code></td>
+<td><code>DS:[BX]</code></td>
+</tr>
+<tr>
+<td><code>mov [si], ax</code></td>
+<td><code>DS:[SI]</code></td>
+</tr>
+<tr>
+<td><code>mov ax, [bp]</code></td>
+<td><code>SS:[BP]</code> ⚠️ 特例！</td>
+</tr>
+<tr>
+<td><code>stosb</code>、<code>movsb</code></td>
+<td>源：<code>DS:SI</code>，目标：<code>ES:DI</code></td>
+</tr>
+</tbody>
+</table>
+<p>如果你不手动指定段寄存器，比如 <code>mov ax, ds:[bx]</code>，CPU就会用默认规则。</p>
+<hr>
+<p>1</p>
+</div></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>
