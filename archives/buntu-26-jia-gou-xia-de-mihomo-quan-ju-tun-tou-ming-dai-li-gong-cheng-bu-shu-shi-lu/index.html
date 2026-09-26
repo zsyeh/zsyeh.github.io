@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="在现代 Linux 系统（如基于 Wayland 显示服务器和 nftables 的 Ubuntu 26）中，实现网络请求的全局无感接管，最优解是弃用传统的环境变量（http_proxy），转而在内核层面建立 TUN 虚拟接口。 本文记录了跳过图形界面前端，直接基于 Mihomo (Clash Me"><link rel="canonical" href="https://blog.ehzsy.site/archives/buntu-26-jia-gou-xia-de-mihomo-quan-ju-tun-tou-ming-dai-li-gong-cheng-bu-shu-shi-lu/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="ubuntu 26 架构下的 Mihomo 全局 TUN 透明代理工程部署实录 · eH Blog"><meta property="og:description" content="在现代 Linux 系统（如基于 Wayland 显示服务器和 nftables 的 Ubuntu 26）中，实现网络请求的全局无感接管，最优解是弃用传统的环境变量（http_proxy），转而在内核层面建立 TUN 虚拟接口。 本文记录了跳过图形界面前端，直接基于 Mihomo (Clash Me"><meta property="og:type" content="article"><title>ubuntu 26 架构下的 Mihomo 全局 TUN 透明代理工程部署实录 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2026-04-26T07:02:19.482Z" data-astro-cid-7natcuz3>26 April 2026</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>4 MIN READ</span></div><h1 data-astro-cid-7natcuz3>ubuntu 26 架构下的 Mihomo 全局 TUN 透明代理工程部署实录</h1><p data-astro-cid-7natcuz3>在现代 Linux 系统（如基于 Wayland 显示服务器和 nftables 的 Ubuntu 26）中，实现网络请求的全局无感接管，最优解是弃用传统的环境变量（http_proxy），转而在内核层面建立 TUN 虚拟接口。 本文记录了跳过图形界面前端，直接基于 Mihomo (Clash Me</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E9%A3%9E%E6%8E%A7%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" data-astro-cid-7natcuz3>飞控入门教程</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><p>在现代 Linux 系统（如基于 Wayland 显示服务器和 <code>nftables</code> 的 Ubuntu 26）中，实现网络请求的全局无感接管，最优解是弃用传统的环境变量（<code>http_proxy</code>），转而在内核层面建立 TUN 虚拟接口。</p>
+<p>本文记录了跳过图形界面前端，直接基于 Mihomo (Clash Meta) 核心二进制文件，从零构建系统级透明代理的完整工程流程及底层排障逻辑。</p>
+<hr>
+<h3 id="一-架构选型与底层逻辑抽象">一、 架构选型与底层逻辑抽象</h3>
+<p>在部署初期，面临代理协议栈的选型：Sing-box、Mihomo 还是 Proxychains-ng。</p>
+<ul>
+<li><strong>配置协议壁垒：</strong> Sing-box 的核心路由逻辑基于严格的 JSON Schema 进行反序列化，而服务商提供的多为基于 YAML 的 Clash 订阅链接。若强行使用 Sing-box，必须引入外部的 Subconverter API 进行数据流转换。</li>
+<li><strong>拦截机制局限：</strong> Proxychains-ng 依赖 <code>LD_PRELOAD</code> 动态库注入拦截系统调用，无法接管静态编译程序（如 Go 语言程序）的流量。</li>
+<li><strong>最终决断：</strong> 直接采用 <strong>Mihomo 内核</strong>。其原生内置了对 Clash YAML 拓扑树的支持，且具备高性能的 TUN 驱动模块，可实现零数据损耗的规则集映射。</li>
+</ul>
+<hr>
+<h3 id="二-初始配置获取与数据层自举悖论">二、 初始配置获取与数据层“自举悖论”</h3>
+<p>第一阶段是将云端的代理节点数据同步至本地。</p>
+<p><strong>1. 报文拉取</strong>
+创建默认目录并利用 <code>curl</code> 直接拉取订阅：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">mkdir</span><span style="color:#79B8FF"> -p</span><span style="color:#9ECBFF"> ~/.config/mihomo/</span></span>
+<span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -L</span><span style="color:#79B8FF"> -o</span><span style="color:#9ECBFF"> ~/.config/mihomo/config.yaml</span><span style="color:#9ECBFF"> "您的Clash订阅链接"</span></span></code></pre>
+<p><strong>2. 触发 MMDB 下载阻塞</strong>
+当以普通用户身份在前台执行 <code>mihomo</code> 进行首次测试时，引擎会在日志中抛出挂起状态：<code>Can't find MMDB, start download</code>。</p>
+<ul>
+<li><strong>技术机制：</strong> 配置文件中的 <code>GEOIP</code> 规则依赖 <code>Country.mmdb</code> 数据库将目标 IP 反解析为地理位置。</li>
+<li><strong>自举悖论：</strong> 启动代理需要该数据库，而下载数据库往往又需要代理环境。若网络连通性极差导致内核下载超时，需中止进程，手动通过物理注入绕过下载链路：</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -L</span><span style="color:#79B8FF"> -o</span><span style="color:#9ECBFF"> ~/.config/mihomo/Country.mmdb</span><span style="color:#9ECBFF"> https://fastly.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb</span></span></code></pre>
+<hr>
+<h3 id="三-内核权限分离与-systemd-托管架构">三、 内核权限分离与 Systemd 托管架构</h3>
+<p>前台运行缺乏内核级网络管理权限（<code>CAP_NET_ADMIN</code>），必须将其迁移为系统级守护进程。</p>
+<p><strong>1. 物理目录迁移</strong>
+将所有配置文件移交至 <code>/etc/</code> 目录：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> mkdir</span><span style="color:#79B8FF"> -p</span><span style="color:#9ECBFF"> /etc/mihomo</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> cp</span><span style="color:#79B8FF"> -r</span><span style="color:#9ECBFF"> ~/.config/mihomo/</span><span style="color:#79B8FF">*</span><span style="color:#9ECBFF"> /etc/mihomo/</span></span></code></pre>
+<p><strong>2. Systemd 状态机注册与 <code>203/EXEC</code> 排障</strong>
+创建服务描述单元文件：<code>sudo vim /etc/systemd/system/mihomo.service</code></p>
+<p><strong>注意绝对路径陷阱：</strong> 在编写 <code>ExecStart</code> 时，若错误地将二进制文件路径写为 <code>/usr/local/bin/mihomo</code>，而实际通过包管理器安装的路径为 <code>/usr/bin/mihomo</code>，Systemd 会因无法在指定路径寻址到执行文件而抛出致命错误 <code>(code=exited, status=203/EXEC)</code>。
+正确的服务文件应严格核对物理路径（通过 <code>which mihomo</code> 获取），并应用最小特权原则：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#B392F0">[Unit]</span></span>
+<span class="line"><span style="color:#F97583">Description</span><span style="color:#E1E4E8">=Mihomo Proxy Daemon</span></span>
+<span class="line"><span style="color:#F97583">After</span><span style="color:#E1E4E8">=network.target</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">[Service]</span></span>
+<span class="line"><span style="color:#F97583">Type</span><span style="color:#E1E4E8">=simple</span></span>
+<span class="line"><span style="color:#F97583">ExecStart</span><span style="color:#E1E4E8">=/usr/bin/mihomo -d /etc/mihomo</span></span>
+<span class="line"><span style="color:#F97583">Restart</span><span style="color:#E1E4E8">=on-failure</span></span>
+<span class="line"><span style="color:#F97583">RestartSec</span><span style="color:#E1E4E8">=5s</span></span>
+<span class="line"><span style="color:#F97583">LimitNPROC</span><span style="color:#E1E4E8">=500</span></span>
+<span class="line"><span style="color:#F97583">LimitNOFILE</span><span style="color:#E1E4E8">=1048576</span></span>
+<span class="line"><span style="color:#F97583">CapabilityBoundingSet</span><span style="color:#E1E4E8">=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE</span></span>
+<span class="line"><span style="color:#F97583">AmbientCapabilities</span><span style="color:#E1E4E8">=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">[Install]</span></span>
+<span class="line"><span style="color:#F97583">WantedBy</span><span style="color:#E1E4E8">=multi-user.target</span></span></code></pre>
+<hr>
+<h3 id="四-tun-接口注入与-dns-逻辑死锁的解除">四、 TUN 接口注入与 DNS 逻辑死锁的解除</h3>
+<p>仅仅通过 Systemd 提权是不够的，必须在 <code>config.yaml</code> 中向内核注入 OSI 第三层的网络参数。这是部署中最易出错的一环。</p>
+<p><strong>致命错误还原：</strong> 初期仅在配置中加入了 <code>tun: enable: true</code> 和 <code>dns-hijack: any:53</code>，重启服务后发现底层网卡并未建立。
+<strong>科学论证：</strong> 这是典型的逻辑死锁。TUN 模块拦截了 DNS 请求，但由于核心未配置内置的 Fake-IP DNS 引擎，数据包被丢弃。为防止系统产生全局 DNS 黑洞，Mihomo 主动放弃了网卡初始化。</p>
+<p><strong>最终修复方案：</strong> 必须在 <code>/etc/mihomo/config.yaml</code> 顶层同步注入完整的 TUN 栈和 Fake-IP 映射池：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">tun</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  stack</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">system</span><span style="color:#E1E4E8">           </span></span>
+<span class="line"><span style="color:#85E89D">  auto-route</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#85E89D">  auto-detect-interface</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#85E89D">  dns-hijack</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">any:53</span><span style="color:#E1E4E8">              </span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">dns</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  listen</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">0.0.0.0:1053</span><span style="color:#E1E4E8">          </span></span>
+<span class="line"><span style="color:#85E89D">  ipv6</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span><span style="color:#E1E4E8">                   </span></span>
+<span class="line"><span style="color:#85E89D">  enhanced-mode</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">fake-ip</span><span style="color:#6A737D">        # TUN 模式的核心依赖</span></span>
+<span class="line"><span style="color:#85E89D">  fake-ip-range</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">198.18.0.1/16</span><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#85E89D">  nameserver</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#79B8FF">223.5.5.5</span><span style="color:#E1E4E8">                 </span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#79B8FF">114.114.114.114</span></span>
+<span class="line"><span style="color:#85E89D">  fallback</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#79B8FF">8.8.8.8</span><span style="color:#E1E4E8">                   </span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#79B8FF">1.1.1.1</span></span>
+<span class="line"><span style="color:#85E89D">  fallback-filter</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    geoip</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">    geoip-code</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">CN</span></span></code></pre>
+<hr>
+<h3 id="五-物理层验证与引导持久化">五、 物理层验证与引导持久化</h3>
+<p>应用新配置后，执行重载命令使之生效：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> systemctl</span><span style="color:#9ECBFF"> daemon-reload</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> systemctl</span><span style="color:#9ECBFF"> restart</span><span style="color:#9ECBFF"> mihomo</span></span></code></pre>
+<p><strong>1. 认知偏差与表征验证</strong>
+传统的验证习惯是输入 <code>ip a | grep tun</code>。然而这会产生没有输出的假象。现代版本的 Mihomo 在向内核调用 <code>ioctl</code> 建立接口时，默认命名为 <code>mihomo</code> 或 <code>Meta</code>。
+<strong>科学的验证指令：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 验证网卡表征</span></span>
+<span class="line"><span style="color:#B392F0">ip</span><span style="color:#9ECBFF"> a</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> grep</span><span style="color:#79B8FF"> -iE</span><span style="color:#9ECBFF"> 'mihomo|meta'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 验证内核路由表是否将 0.0.0.0/0 指向了虚拟网卡</span></span>
+<span class="line"><span style="color:#B392F0">ip</span><span style="color:#9ECBFF"> route</span><span style="color:#9ECBFF"> show</span><span style="color:#9ECBFF"> table</span><span style="color:#9ECBFF"> all</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> grep</span><span style="color:#9ECBFF"> default</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 应用层盲测（跳过终端缓存）</span></span>
+<span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -I</span><span style="color:#9ECBFF"> https://www.google.com</span></span></code></pre>
+<p>当 <code>curl</code> 瞬间返回 <code>HTTP/2 200</code> 时，系统级全局透明代理即构建完毕。</p>
+<p><strong>2. 开机自启机制</strong>
+由于已经执行过 <code>sudo systemctl enable --now mihomo</code>，Systemd 已在 <code>/etc/systemd/system/multi-user.target.wants/</code> 下生成了持久化符号链接。此架构已深植于内核引导序列，支持发生网络波动时的自动容灾重启，实现了真正的静默无感运行。</p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-3" href="#一-架构选型与底层逻辑抽象" data-astro-cid-7natcuz3>一、 架构选型与底层逻辑抽象</a><a class="depth-3" href="#二-初始配置获取与数据层自举悖论" data-astro-cid-7natcuz3>二、 初始配置获取与数据层“自举悖论”</a><a class="depth-3" href="#三-内核权限分离与-systemd-托管架构" data-astro-cid-7natcuz3>三、 内核权限分离与 Systemd 托管架构</a><a class="depth-3" href="#四-tun-接口注入与-dns-逻辑死锁的解除" data-astro-cid-7natcuz3>四、 TUN 接口注入与 DNS 逻辑死锁的解除</a><a class="depth-3" href="#五-物理层验证与引导持久化" data-astro-cid-7natcuz3>五、 物理层验证与引导持久化</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="汇编补课 一、汇编语言的底层原理 汇编语言直接与计算机硬件打交道，理解它就要理解计算机内部的工作原理。这些原理包括 CPU 的指令集、内存、寄存器、堆栈、I/O 操作等。 1. CPU 工作原理 CPU（中央处理器）是计算机的大脑，它从内存中获取指令（执行指令集），并对寄存器中的数据进行操作。每条汇"><link rel="canonical" href="https://blog.ehzsy.site/posts/a63cfde5-a903-413a-8bf7-9093c24b8409/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="汇编补课 · eH Blog"><meta property="og:description" content="汇编补课 一、汇编语言的底层原理 汇编语言直接与计算机硬件打交道，理解它就要理解计算机内部的工作原理。这些原理包括 CPU 的指令集、内存、寄存器、堆栈、I/O 操作等。 1. CPU 工作原理 CPU（中央处理器）是计算机的大脑，它从内存中获取指令（执行指令集），并对寄存器中的数据进行操作。每条汇"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/v2-32510d6cbade23c3452679fc0fb2968a_720w.png"><title>汇编补课 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T16:51:12.801Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>6 MIN READ</span></div><h1 data-astro-cid-7natcuz3>汇编补课</h1><p data-astro-cid-7natcuz3>汇编补课 一、汇编语言的底层原理 汇编语言直接与计算机硬件打交道，理解它就要理解计算机内部的工作原理。这些原理包括 CPU 的指令集、内存、寄存器、堆栈、I/O 操作等。 1. CPU 工作原理 CPU（中央处理器）是计算机的大脑，它从内存中获取指令（执行指令集），并对寄存器中的数据进行操作。每条汇</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/kernel/" data-astro-cid-7natcuz3>kernel</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h1 id="汇编补课">汇编补课</h1>
+<h3 id="一汇编语言的底层原理">一、汇编语言的底层原理</h3>
+<p>汇编语言直接与计算机硬件打交道，理解它就要理解计算机内部的工作原理。这些原理包括 CPU 的指令集、内存、寄存器、堆栈、I/O 操作等。</p>
+<h4 id="1-cpu-工作原理">1. <strong>CPU 工作原理</strong></h4>
+<ul>
+<li><strong>CPU</strong>（中央处理器）是计算机的大脑，它从内存中获取指令（执行指令集），并对寄存器中的数据进行操作。每条汇编指令都对应着一个机器码操作（操作码）。</li>
+<li>CPU 执行指令时，利用 <strong>寄存器</strong> 来存储数据。寄存器是 CPU 内部的高速缓存，速度远快于内存。</li>
+</ul>
+<h4 id="2-寄存器的作用">2. <strong>寄存器的作用</strong></h4>
+<p>寄存器是 CPU 内部用于临时存储数据的位置。常见的寄存器有：</p>
+<ul>
+<li><strong>数据寄存器</strong>（例如 <code>AX</code>, <code>BX</code>, <code>CX</code>, <code>DX</code>）</li>
+<li><strong>指令指针</strong>（<code>IP</code>，指向当前执行的指令地址）</li>
+<li><strong>栈指针</strong>（<code>SP</code>，指向当前栈顶）</li>
+<li><strong>基指针</strong>（<code>BP</code>，通常用于栈帧管理）</li>
+</ul>
+<h3 id="二汇编语言指令和操作">二、汇编语言指令和操作</h3>
+<p>汇编语言的指令与机器语言指令之间一一对应。常见的汇编指令包括 <strong>MOV</strong>、<strong>ADD</strong>、<strong>SUB</strong>、<strong>JMP</strong>、<strong>CMP</strong> 等。</p>
+<h4 id="1-数据传送指令mov">1. <strong>数据传送指令（MOV）</strong></h4>
+<p><code>MOV</code> 用于将数据从一个位置传送到另一个位置。在大多数情况下，它用于将数据从内存、寄存器或常数传送到寄存器中。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>MOV AX, 10        ; 将值 10 存入 AX 寄存器</span></span>
+<span class="line"><span>MOV BX, AX        ; 将 AX 的值复制到 BX 寄存器</span></span>
+<span class="line"><span>MOV [1000h], AX   ; 将 AX 寄存器的值存入内存地址 1000h</span></span></code></pre>
+<h4 id="2-算术运算指令addsub">2. <strong>算术运算指令（ADD、SUB）</strong></h4>
+<p>这些指令用于对寄存器中的数据进行加法或减法操作。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>ADD AX, BX        ; AX = AX + BX</span></span>
+<span class="line"><span>SUB AX, 5         ; AX = AX - 5</span></span></code></pre>
+<h4 id="3-逻辑运算指令andorxor">3. <strong>逻辑运算指令（AND、OR、XOR）</strong></h4>
+<p>这些指令执行逻辑运算，例如与（AND）、或（OR）、异或（XOR）。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>AND AX, BX        ; AX = AX &amp; BX（按位与）</span></span>
+<span class="line"><span>OR AX, 1          ; AX = AX | 1  （按位或）</span></span>
+<span class="line"><span>XOR AX, BX        ; AX = AX ^ BX （按位异或）</span></span></code></pre>
+<h4 id="4-比较与跳转指令cmpjmpjejne">4. <strong>比较与跳转指令（CMP、JMP、JE、JNE）</strong></h4>
+<p><code>CMP</code> 比较两个值并设置 CPU 标志寄存器。<code>JMP</code> 是跳转指令，基于标志寄存器的状态可以进行条件跳转（<code>JE</code>：如果相等，跳转；<code>JNE</code>：如果不等，跳转）。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>CMP AX, BX        ; 比较 AX 和 BX</span></span>
+<span class="line"><span>JE equal_label    ; 如果 AX == BX，跳转到 equal_label</span></span>
+<span class="line"><span>JMP loop_start    ; 无条件跳转到 loop_start</span></span></code></pre>
+<h4 id="5-栈操作指令pushpop">5. <strong>栈操作指令（PUSH、POP）</strong></h4>
+<p>栈是用于存储函数调用时的局部变量和返回地址的内存区域。<code>PUSH</code> 将数据压入栈中，<code>POP</code> 将栈顶数据弹出。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>PUSH AX           ; 将 AX 的值压入栈中</span></span>
+<span class="line"><span>POP BX            ; 将栈顶的数据弹出并存入 BX</span></span></code></pre>
+<h3 id="三汇编与-mbr-编程">三、汇编与 MBR 编程</h3>
+<h4 id="1-mbr主引导记录">1. <strong>MBR（主引导记录）</strong></h4>
+<p>MBR 是硬盘的第一个扇区，大小为 512 字节。MBR 存储了操作系统启动所需的引导程序。引导程序通常用汇编语言编写，它负责加载操作系统内核。</p>
+<ul>
+<li><strong>MBR 的结构</strong>：
+<ol>
+<li><strong>引导代码</strong>：通常位于前 446 字节，执行启动操作。</li>
+<li><strong>分区表</strong>：接下来的 64 字节，定义了硬盘的分区信息。</li>
+<li><strong>引导扇区标识符</strong>：最后 2 字节为 <code>0x55AA</code>，用于标识该扇区为有效的引导扇区。</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-mbr-汇编代码示例">2. <strong>MBR 汇编代码示例</strong></h4>
+<p>以下是一个简单的 MBR 引导程序，它将显示一条消息并跳转到操作系统的内核。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>; MBR 程序</span></span>
+<span class="line"><span>; 假设该 MBR 文件的大小为 512 字节</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>; 打印 "Booting..." 消息</span></span>
+<span class="line"><span>MOV AH, 0x0E      ; 设置为字符输出模式</span></span>
+<span class="line"><span>MOV AL, 'B'       ; 输出字符 'B'</span></span>
+<span class="line"><span>INT 0x10          ; BIOS 中断，输出字符</span></span>
+<span class="line"><span>MOV AL, 'o'       ; 输出字符 'o'</span></span>
+<span class="line"><span>INT 0x10</span></span>
+<span class="line"><span>MOV AL, 'o'       ; 输出字符 'o'</span></span>
+<span class="line"><span>INT 0x10</span></span>
+<span class="line"><span>MOV AL, 't'       ; 输出字符 't'</span></span>
+<span class="line"><span>INT 0x10</span></span>
+<span class="line"><span>MOV AL, 'i'       ; 输出字符 'i'</span></span>
+<span class="line"><span>INT 0x10</span></span>
+<span class="line"><span>MOV AL, 'n'       ; 输出字符 'n'</span></span>
+<span class="line"><span>INT 0x10</span></span>
+<span class="line"><span>MOV AL, 'g'       ; 输出字符 'g'</span></span>
+<span class="line"><span>INT 0x10</span></span>
+<span class="line"><span>MOV AL, '.'       ; 输出字符 '.'</span></span>
+<span class="line"><span>INT 0x10</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>; 跳转到操作系统内核</span></span>
+<span class="line"><span>JMP 0x1000        ; 跳转到内核代码的起始位置</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>; MBR 结束，必须确保最后两个字节为 0x55AA，表示有效的引导扇区</span></span>
+<span class="line"><span>TIMES 510-($-$$) DB 0  ; 填充到 510 字节</span></span>
+<span class="line"><span>DW 0xAA55              ; 引导扇区标识符</span></span></code></pre>
+<h4 id="3-mbr-的工作过程">3. <strong>MBR 的工作过程</strong></h4>
+<ul>
+<li>当计算机启动时，BIOS 将从硬盘的第一个扇区加载 MBR。</li>
+<li>MBR 中的引导代码开始执行，显示启动信息（如 “Booting…”）。</li>
+<li>然后，MBR 将控制权转移到操作系统的引导加载程序。通常，操作系统内核会被加载到内存中并启动。</li>
+</ul>
+<h1 id="补充对照表">补充对照表</h1>
+<p>明白了！你需要一个更加详细的汇编语言知识补充，包括寄存器、位运算、指令符号的使用，以及类似于 C 语言结构体的符号用法。我将从基础开始，逐步扩展这些知识，确保你能够理解和使用它们。</p>
+<p>在汇编语言中，寄存器是 CPU 内部用于存储数据的高速存储位置。不同的寄存器在不同的处理器架构中有不同的作用。</p>
+<h4 id="1-通用寄存器general-purpose-registers">1. <strong>通用寄存器（General-purpose Registers）</strong></h4>
+<table>
+<thead>
+<tr>
+<th>寄存器名称</th>
+<th>英文名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AX</code></td>
+<td>Accumulator</td>
+<td>累加器，通常用于算术运算</td>
+</tr>
+<tr>
+<td><code>BX</code></td>
+<td>Base Register</td>
+<td>基址寄存器，常用于数据存储的基地址</td>
+</tr>
+<tr>
+<td><code>CX</code></td>
+<td>Count Register</td>
+<td>计数寄存器，通常用于循环计数和字符串操作</td>
+</tr>
+<tr>
+<td><code>DX</code></td>
+<td>Data Register</td>
+<td>数据寄存器，通常用于 I/O 操作</td>
+</tr>
+<tr>
+<td><code>SI</code></td>
+<td>Source Index</td>
+<td>源索引寄存器，通常用于字符串操作</td>
+</tr>
+<tr>
+<td><code>DI</code></td>
+<td>Destination Index</td>
+<td>目标索引寄存器，通常用于字符串操作</td>
+</tr>
+<tr>
+<td><code>SP</code></td>
+<td>Stack Pointer</td>
+<td>栈指针寄存器，指向栈顶</td>
+</tr>
+<tr>
+<td><code>BP</code></td>
+<td>Base Pointer</td>
+<td>基指针寄存器，通常用于栈帧</td>
+</tr>
+<tr>
+<td><code>SI</code></td>
+<td>Source Index</td>
+<td>源地址寄存器，用于字符串或数组的操作</td>
+</tr>
+<tr>
+<td><code>DI</code></td>
+<td>Destination Index</td>
+<td>目标地址寄存器，用于字符串或数组的操作</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-段寄存器segment-registers">2. <strong>段寄存器（Segment Registers）</strong></h4>
+<p>段寄存器用于管理内存分段，它们在段式内存管理中起着至关重要的作用。</p>
+<table>
+<thead>
+<tr>
+<th>寄存器名称</th>
+<th>英文名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CS</code></td>
+<td>Code Segment</td>
+<td>代码段寄存器，指向当前执行的代码段</td>
+</tr>
+<tr>
+<td><code>DS</code></td>
+<td>Data Segment</td>
+<td>数据段寄存器，指向数据存储区域</td>
+</tr>
+<tr>
+<td><code>SS</code></td>
+<td>Stack Segment</td>
+<td>栈段寄存器，指向栈区域</td>
+</tr>
+<tr>
+<td><code>ES</code></td>
+<td>Extra Segment</td>
+<td>扩展段寄存器，通常用于额外的数据存储</td>
+</tr>
+<tr>
+<td><code>FS</code></td>
+<td>FS Segment</td>
+<td>用于某些特定的内存操作（如线程栈）</td>
+</tr>
+<tr>
+<td><code>GS</code></td>
+<td>GS Segment</td>
+<td>用于某些特定的内存操作（如线程栈）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-标志寄存器flags-register">3. <strong>标志寄存器（Flags Register）</strong></h4>
+<p>标志寄存器包含一些表示运算结果状态的标志位，常见的标志有：</p>
+<table>
+<thead>
+<tr>
+<th>标志位</th>
+<th>英文名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ZF</code></td>
+<td>Zero Flag</td>
+<td>如果操作结果为零，则设置此标志</td>
+</tr>
+<tr>
+<td><code>CF</code></td>
+<td>Carry Flag</td>
+<td>如果运算有进位或借位，则设置此标志</td>
+</tr>
+<tr>
+<td><code>SF</code></td>
+<td>Sign Flag</td>
+<td>如果结果为负，则设置此标志</td>
+</tr>
+<tr>
+<td><code>OF</code></td>
+<td>Overflow Flag</td>
+<td>如果算术运算溢出，则设置此标志</td>
+</tr>
+<tr>
+<td><code>PF</code></td>
+<td>Parity Flag</td>
+<td>如果结果的低 8 位包含偶数个 1，则设置此标志</td>
+</tr>
+<tr>
+<td><code>DF</code></td>
+<td>Direction Flag</td>
+<td>用于控制字符串操作的方向（递增或递减）</td>
+</tr>
+<tr>
+<td><code>AF</code></td>
+<td>Auxiliary Flag</td>
+<td>辅助进位标志，常用于 BCD 算术操作</td>
+</tr>
+</tbody>
+</table>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-1" href="#汇编补课" data-astro-cid-7natcuz3>汇编补课</a><a class="depth-3" href="#一汇编语言的底层原理" data-astro-cid-7natcuz3>一、汇编语言的底层原理</a><a class="depth-3" href="#二汇编语言指令和操作" data-astro-cid-7natcuz3>二、汇编语言指令和操作</a><a class="depth-3" href="#三汇编与-mbr-编程" data-astro-cid-7natcuz3>三、汇编与 MBR 编程</a><a class="depth-1" href="#补充对照表" data-astro-cid-7natcuz3>补充对照表</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>
