@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="目标是让 Codex 运行在性能更强的 PC 上，但实际操作、编译和运行发生在 ARM 嵌入式 Linux 设备中。 整体结构： PC 上的 Codex
+-> 通过 SSH 向 ARM 发送命令
+-> ARM 执行编译、测试和程序运行
+-> stdout、stderr、退出码返回 PC
+-> Cod"><link rel="canonical" href="https://blog.ehzsy.site/posts/yong-pc-shang-de-codex-yuan-cheng-kai-fa-arm-qian-ru-shi-linux/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="用 PC 上的 Codex 远程开发 ARM 嵌入式 Linux · eH Blog"><meta property="og:description" content="目标是让 Codex 运行在性能更强的 PC 上，但实际操作、编译和运行发生在 ARM 嵌入式 Linux 设备中。 整体结构： PC 上的 Codex
+-> 通过 SSH 向 ARM 发送命令
+-> ARM 执行编译、测试和程序运行
+-> stdout、stderr、退出码返回 PC
+-> Cod"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/IMG_5894.jpeg"><title>用 PC 上的 Codex 远程开发 ARM 嵌入式 Linux · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2026-07-19T06:57:49.235Z" data-astro-cid-7natcuz3>19 July 2026</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>6 MIN READ</span></div><h1 data-astro-cid-7natcuz3>用 PC 上的 Codex 远程开发 ARM 嵌入式 Linux</h1><p data-astro-cid-7natcuz3>目标是让 Codex 运行在性能更强的 PC 上，但实际操作、编译和运行发生在 ARM 嵌入式 Linux 设备中。 整体结构： PC 上的 Codex
+-&gt; 通过 SSH 向 ARM 发送命令
+-&gt; ARM 执行编译、测试和程序运行
+-&gt; stdout、stderr、退出码返回 PC
+-&gt; Cod</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E8%BF%90%E7%BB%B4/" data-astro-cid-7natcuz3>运维</a><a class="tag" href="/tags/%E7%8E%AF%E5%A2%83/" data-astro-cid-7natcuz3>#环境</a><a class="tag" href="/tags/%E6%95%99%E7%A8%8B/" data-astro-cid-7natcuz3>#教程</a><a class="tag" href="/tags/%E5%AE%9E%E7%94%A8/" data-astro-cid-7natcuz3>#实用</a><a class="tag" href="/tags/wsl/" data-astro-cid-7natcuz3>#wsl</a><a class="tag" href="/tags/Linux/" data-astro-cid-7natcuz3>#Linux</a><a class="tag" href="/tags/%E6%9C%BA%E8%BD%BD%E7%94%B5%E8%84%91/" data-astro-cid-7natcuz3>#机载电脑</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><p>目标是让 Codex 运行在性能更强的 PC 上，但实际操作、编译和运行发生在 ARM 嵌入式 Linux 设备中。</p>
+<p>整体结构：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>PC 上的 Codex</span></span>
+<span class="line"><span>-&gt; 通过 SSH 向 ARM 发送命令</span></span>
+<span class="line"><span>-&gt; ARM 执行编译、测试和程序运行</span></span>
+<span class="line"><span>-&gt; stdout、stderr、退出码返回 PC</span></span>
+<span class="line"><span>-&gt; Codex 根据结果继续修改代码</span></span></code></pre>
+<p>Codex 不需要真正安装在 ARM 设备上。只要 PC 能通过 SSH 控制 ARM，就可以完成大部分远程开发任务。</p>
+<h2 id="1-arm-设备安装-ssh">1. ARM 设备安装 SSH</h2>
+<p>在 ARM Linux 上执行：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> apt</span><span style="color:#9ECBFF"> update</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> apt</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> openssh-server</span><span style="color:#9ECBFF"> rsync</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> systemctl</span><span style="color:#9ECBFF"> enable</span><span style="color:#79B8FF"> --now</span><span style="color:#9ECBFF"> ssh</span></span></code></pre>
+<p>查看 ARM 的 IP 地址：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">hostname</span><span style="color:#79B8FF"> -I</span></span></code></pre>
+<p>假设 ARM 设备信息为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>IP：192.168.1.50</span></span>
+<span class="line"><span>用户名：user</span></span></code></pre>
+<p>在 PC 上测试连接：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> user@192.168.1.50</span></span></code></pre>
+<h2 id="2-配置免密登录">2. 配置免密登录</h2>
+<p>在 PC 上生成 SSH 密钥：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh-keygen</span><span style="color:#79B8FF"> -t</span><span style="color:#9ECBFF"> ed25519</span></span></code></pre>
+<p>把公钥复制到 ARM：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh-copy-id</span><span style="color:#9ECBFF"> user@192.168.1.50</span></span></code></pre>
+<p>之后再次连接：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> user@192.168.1.50</span></span></code></pre>
+<p>如果不再要求输入密码，说明配置成功。</p>
+<p>可以在 PC 的 <code>~/.ssh/config</code> 中添加别名：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Host arm-dev</span></span>
+<span class="line"><span>    HostName 192.168.1.50</span></span>
+<span class="line"><span>    User user</span></span>
+<span class="line"><span>    IdentityFile ~/.ssh/id_ed25519</span></span>
+<span class="line"><span>    ServerAliveInterval 30</span></span></code></pre>
+<p>之后直接使用：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span></span></code></pre>
+<h2 id="3-理解-ssh-命令和管道">3. 理解 SSH 命令和管道</h2>
+<p>下面这条命令中，管道在 ARM 上执行：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'dmesg | grep -i error'</span></span></code></pre>
+<p>下面这条命令中，<code>dmesg</code> 在 ARM 上执行，<code>grep</code> 在 PC 上执行：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'dmesg'</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> grep</span><span style="color:#79B8FF"> -i</span><span style="color:#9ECBFF"> error</span></span></code></pre>
+<p>因此可以自由决定数据在哪一端处理。</p>
+<p>SSH 会把远端程序的标准输出、错误输出和退出码返回 PC：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'ls /not_exist'</span></span>
+<span class="line"><span style="color:#79B8FF">echo</span><span style="color:#79B8FF"> $?</span></span></code></pre>
+<p>如果远程命令失败，SSH 通常也会返回非零退出码，Codex 可以据此判断任务是否成功。</p>
+<h2 id="4-创建远程执行脚本">4. 创建远程执行脚本</h2>
+<p>推荐不要让 Codex 每次拼接复杂 SSH 命令，而是在项目中准备固定脚本。</p>
+<p>项目结构：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>my_project/</span></span>
+<span class="line"><span>├── src/</span></span>
+<span class="line"><span>├── CMakeLists.txt</span></span>
+<span class="line"><span>├── scripts/</span></span>
+<span class="line"><span>│   ├── sync.sh</span></span>
+<span class="line"><span>│   ├── build.sh</span></span>
+<span class="line"><span>│   ├── run.sh</span></span>
+<span class="line"><span>│   └── test.sh</span></span>
+<span class="line"><span>└── AGENTS.md</span></span></code></pre>
+<h3 id="同步代码">同步代码</h3>
+<p>创建 <code>scripts/sync.sh</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color:#79B8FF">set</span><span style="color:#79B8FF"> -euo</span><span style="color:#9ECBFF"> pipefail</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">REMOTE_HOST</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"arm-dev"</span></span>
+<span class="line"><span style="color:#E1E4E8">REMOTE_DIR</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"/home/user/projects/my_project"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> "</span><span style="color:#E1E4E8">$REMOTE_HOST</span><span style="color:#9ECBFF">"</span><span style="color:#9ECBFF"> "mkdir -p '</span><span style="color:#E1E4E8">$REMOTE_DIR</span><span style="color:#9ECBFF">'"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">rsync</span><span style="color:#79B8FF"> -az</span><span style="color:#79B8FF"> --delete</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#79B8FF">    --exclude</span><span style="color:#9ECBFF"> ".git/"</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#79B8FF">    --exclude</span><span style="color:#9ECBFF"> "build/"</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#9ECBFF">    ./</span><span style="color:#9ECBFF"> "</span><span style="color:#E1E4E8">$REMOTE_HOST</span><span style="color:#9ECBFF">:</span><span style="color:#E1E4E8">$REMOTE_DIR</span><span style="color:#9ECBFF">/"</span></span></code></pre>
+<h3 id="远程编译">远程编译</h3>
+<p>创建 <code>scripts/build.sh</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color:#79B8FF">set</span><span style="color:#79B8FF"> -euo</span><span style="color:#9ECBFF"> pipefail</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">REMOTE_HOST</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"arm-dev"</span></span>
+<span class="line"><span style="color:#E1E4E8">REMOTE_DIR</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"/home/user/projects/my_project"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">"$(dirname </span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">$0</span><span style="color:#9ECBFF">"</span><span style="color:#B392F0">)/sync.sh"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> "</span><span style="color:#E1E4E8">$REMOTE_HOST</span><span style="color:#9ECBFF">"</span><span style="color:#9ECBFF"> "</span></span>
+<span class="line"><span style="color:#9ECBFF">    set -e</span></span>
+<span class="line"><span style="color:#9ECBFF">    cd '</span><span style="color:#E1E4E8">$REMOTE_DIR</span><span style="color:#9ECBFF">'</span></span>
+<span class="line"><span style="color:#9ECBFF">    cmake -S . -B build</span></span>
+<span class="line"><span style="color:#9ECBFF">    cmake --build build -j</span><span style="color:#79B8FF">\$</span><span style="color:#9ECBFF">(nproc)</span></span>
+<span class="line"><span style="color:#9ECBFF">"</span></span></code></pre>
+<h3 id="远程运行">远程运行</h3>
+<p>创建 <code>scripts/run.sh</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color:#79B8FF">set</span><span style="color:#79B8FF"> -euo</span><span style="color:#9ECBFF"> pipefail</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">REMOTE_HOST</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"arm-dev"</span></span>
+<span class="line"><span style="color:#E1E4E8">REMOTE_DIR</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"/home/user/projects/my_project"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">ssh</span><span style="color:#79B8FF"> -t</span><span style="color:#9ECBFF"> "</span><span style="color:#E1E4E8">$REMOTE_HOST</span><span style="color:#9ECBFF">"</span><span style="color:#9ECBFF"> "</span></span>
+<span class="line"><span style="color:#9ECBFF">    cd '</span><span style="color:#E1E4E8">$REMOTE_DIR</span><span style="color:#9ECBFF">'</span></span>
+<span class="line"><span style="color:#9ECBFF">    ./build/my_program</span></span>
+<span class="line"><span style="color:#9ECBFF">"</span></span></code></pre>
+<h3 id="远程测试">远程测试</h3>
+<p>创建 <code>scripts/test.sh</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color:#79B8FF">set</span><span style="color:#79B8FF"> -euo</span><span style="color:#9ECBFF"> pipefail</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">REMOTE_HOST</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"arm-dev"</span></span>
+<span class="line"><span style="color:#E1E4E8">REMOTE_DIR</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"/home/user/projects/my_project"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">"$(dirname </span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">$0</span><span style="color:#9ECBFF">"</span><span style="color:#B392F0">)/build.sh"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> "</span><span style="color:#E1E4E8">$REMOTE_HOST</span><span style="color:#9ECBFF">"</span><span style="color:#9ECBFF"> "</span></span>
+<span class="line"><span style="color:#9ECBFF">    cd '</span><span style="color:#E1E4E8">$REMOTE_DIR</span><span style="color:#9ECBFF">'</span></span>
+<span class="line"><span style="color:#9ECBFF">    ctest --test-dir build --output-on-failure</span></span>
+<span class="line"><span style="color:#9ECBFF">"</span></span></code></pre>
+<p>添加执行权限：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">chmod</span><span style="color:#9ECBFF"> +x</span><span style="color:#9ECBFF"> scripts/</span><span style="color:#79B8FF">*</span><span style="color:#9ECBFF">.sh</span></span></code></pre>
+<h2 id="5-配置-codex-的项目规则">5. 配置 Codex 的项目规则</h2>
+<p>在项目根目录创建 <code>AGENTS.md</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#79B8FF;font-weight:bold"># ARM remote development rules</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">This project targets an ARM64 embedded Linux device.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Remote environment</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> SSH host: arm-dev</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Remote directory: /home/user/projects/my_project</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> The PC is only used for editing and orchestration.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Final compilation and execution must happen on the ARM device.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Required workflow</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8"> Modify source code locally.</span></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8"> Run </span><span style="color:#79B8FF">`./scripts/sync.sh`</span><span style="color:#E1E4E8">.</span></span>
+<span class="line"><span style="color:#FFAB70">3.</span><span style="color:#E1E4E8"> Run </span><span style="color:#79B8FF">`./scripts/build.sh`</span><span style="color:#E1E4E8">.</span></span>
+<span class="line"><span style="color:#FFAB70">4.</span><span style="color:#E1E4E8"> Run </span><span style="color:#79B8FF">`./scripts/test.sh`</span><span style="color:#E1E4E8">.</span></span>
+<span class="line"><span style="color:#FFAB70">5.</span><span style="color:#E1E4E8"> Analyze the complete stdout, stderr and exit code.</span></span>
+<span class="line"><span style="color:#FFAB70">6.</span><span style="color:#E1E4E8"> Continue fixing the project until tests pass.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Safety restrictions</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Do not run destructive commands.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Do not modify files outside the remote project directory.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Do not use sudo unless explicitly authorized.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Do not reboot or power off the ARM device.</span></span></code></pre>
+<p>然后在 PC 项目目录中启动 Codex：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> my_project</span></span>
+<span class="line"><span style="color:#B392F0">codex</span></span></code></pre>
+<p>可以直接给 Codex 下达任务：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>检查并修复这个项目。所有编译和测试必须在 ARM 设备上完成。</span></span>
+<span class="line"><span>使用 ./scripts/build.sh 编译，使用 ./scripts/test.sh 测试。</span></span>
+<span class="line"><span>根据远程返回的完整错误输出持续修改，直到测试通过。</span></span></code></pre>
+<h2 id="6-查看远程日志">6. 查看远程日志</h2>
+<p>查看最近的系统日志：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'journalctl -n 100 --no-pager'</span></span></code></pre>
+<p>持续查看某个服务：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'journalctl -fu my-service'</span></span></code></pre>
+<p>查看内核日志：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'dmesg | tail -n 100'</span></span></code></pre>
+<p>将远程日志保存到 PC：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'journalctl -u my-service --no-pager'</span><span style="color:#F97583"> &gt;</span><span style="color:#9ECBFF"> service.log</span></span></code></pre>
+<h2 id="7-传输二进制文件">7. 传输二进制文件</h2>
+<p>SSH 不只能传输文本，也可以传输二进制数据。</p>
+<p>从 ARM 获取文件：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'cat /tmp/frame.raw'</span><span style="color:#F97583"> &gt;</span><span style="color:#9ECBFF"> frame.raw</span></span></code></pre>
+<p>把本地固件传到 ARM：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">cat</span><span style="color:#9ECBFF"> firmware.bin</span><span style="color:#F97583"> |</span><span style="color:#B392F0"> ssh</span><span style="color:#9ECBFF"> arm-dev</span><span style="color:#9ECBFF"> 'cat &gt; /tmp/firmware.bin'</span></span></code></pre>
+<p>实际项目中，普通文件传输更推荐使用：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">scp</span><span style="color:#9ECBFF"> firmware.bin</span><span style="color:#9ECBFF"> arm-dev:/tmp/</span></span></code></pre>
+<p>或者：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">rsync</span><span style="color:#79B8FF"> -av</span><span style="color:#9ECBFF"> firmware.bin</span><span style="color:#9ECBFF"> arm-dev:/tmp/</span></span></code></pre>
+<h2 id="8-什么时候需要自己写服务">8. 什么时候需要自己写服务</h2>
+<p>多数情况下，SSH 加固定脚本已经足够。</p>
+<p>只有出现以下需求时，才有必要在 ARM 上编写额外服务：</p>
+<ul>
+<li>任务需要断开 SSH 后继续运行</li>
+<li>需要任务队列和任务编号</li>
+<li>需要结构化 JSON 返回</li>
+<li>需要管理多台 ARM 设备</li>
+<li>需要限制 Codex 只能执行白名单操作</li>
+<li>需要保存历史日志</li>
+<li>需要远程烧录、重启服务或控制硬件</li>
+</ul>
+<p>可以设计类似接口：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>POST /build</span></span>
+<span class="line"><span>POST /run</span></span>
+<span class="line"><span>POST /test</span></span>
+<span class="line"><span>GET /status</span></span>
+<span class="line"><span>GET /logs</span></span></code></pre>
+<p>但第一阶段不建议直接写服务。先使用：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>SSH直接执行</span></span>
+<span class="line"><span>-&gt; SSH调用固定脚本</span></span>
+<span class="line"><span>-&gt; 有明确需求后再开发远程Agent服务</span></span></code></pre>
+<h2 id="结论">结论</h2>
+<p>最实用的方案是：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>PC 保存源码并运行 Codex</span></span>
+<span class="line"><span>-&gt; rsync 同步代码</span></span>
+<span class="line"><span>-&gt; SSH 在 ARM 上编译和运行</span></span>
+<span class="line"><span>-&gt; 输出和退出码返回 PC</span></span>
+<span class="line"><span>-&gt; Codex继续分析和修改</span></span></code></pre>
+<p>从 Codex 的角度看，ARM 设备相当于一个远程命令执行后端。只要命令、文件、标准输入输出和退出码能够稳定传输，就没有必要强行在 ARM 上安装 Codex。</p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#1-arm-设备安装-ssh" data-astro-cid-7natcuz3>1. ARM 设备安装 SSH</a><a class="depth-2" href="#2-配置免密登录" data-astro-cid-7natcuz3>2. 配置免密登录</a><a class="depth-2" href="#3-理解-ssh-命令和管道" data-astro-cid-7natcuz3>3. 理解 SSH 命令和管道</a><a class="depth-2" href="#4-创建远程执行脚本" data-astro-cid-7natcuz3>4. 创建远程执行脚本</a><a class="depth-3" href="#同步代码" data-astro-cid-7natcuz3>同步代码</a><a class="depth-3" href="#远程编译" data-astro-cid-7natcuz3>远程编译</a><a class="depth-3" href="#远程运行" data-astro-cid-7natcuz3>远程运行</a><a class="depth-3" href="#远程测试" data-astro-cid-7natcuz3>远程测试</a><a class="depth-2" href="#5-配置-codex-的项目规则" data-astro-cid-7natcuz3>5. 配置 Codex 的项目规则</a><a class="depth-2" href="#6-查看远程日志" data-astro-cid-7natcuz3>6. 查看远程日志</a><a class="depth-2" href="#7-传输二进制文件" data-astro-cid-7natcuz3>7. 传输二进制文件</a><a class="depth-2" href="#8-什么时候需要自己写服务" data-astro-cid-7natcuz3>8. 什么时候需要自己写服务</a><a class="depth-2" href="#结论" data-astro-cid-7natcuz3>结论</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

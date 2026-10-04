@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="记录在 SmartZynq SL XC7Z020CLG484-1 上完成 HackCPU、AXI4-Lite、UART、LED、HDMI HUD 与 BOOT.BIN 命令行构建的全过程，以及裁剪版 Vitis、JTAG 和视频输出中的真实问题。"><link rel="canonical" href="https://blog.ehzsy.site/archives/smartzynq-zynq020-pl-hackcpu-build-record/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="SmartZynq XC7Z020 实战记录：在 PL 中实现 HackCPU，并从 TF 卡启动 · eH Blog"><meta property="og:description" content="记录在 SmartZynq SL XC7Z020CLG484-1 上完成 HackCPU、AXI4-Lite、UART、LED、HDMI HUD 与 BOOT.BIN 命令行构建的全过程，以及裁剪版 Vitis、JTAG 和视频输出中的真实问题。"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.space/article-assets/smartzynq-hackcpu-fpga-cover.png"><title>SmartZynq XC7Z020 实战记录：在 PL 中实现 HackCPU，并从 TF 卡启动 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2026-07-22T08:17:31.131Z" data-astro-cid-7natcuz3>22 July 2026</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON GITHUB</span><span data-astro-cid-7natcuz3>6 MIN READ</span></div><h1 data-astro-cid-7natcuz3>SmartZynq XC7Z020 实战记录：在 PL 中实现 HackCPU，并从 TF 卡启动</h1><p data-astro-cid-7natcuz3>记录在 SmartZynq SL XC7Z020CLG484-1 上完成 HackCPU、AXI4-Lite、UART、LED、HDMI HUD 与 BOOT.BIN 命令行构建的全过程，以及裁剪版 Vitis、JTAG 和视频输出中的真实问题。</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/FPGA/" data-astro-cid-7natcuz3>FPGA</a><a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-astro-cid-7natcuz3>嵌入式</a><a class="tag" href="/tags/%E6%95%99%E7%A8%8B/" data-astro-cid-7natcuz3>#教程</a><a class="tag" href="/tags/mmcm/" data-astro-cid-7natcuz3>#mmcm</a><a class="tag" href="/tags/axi/" data-astro-cid-7natcuz3>#axi</a><a class="tag" href="/tags/zynq/" data-astro-cid-7natcuz3>#zynq</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><p>这是一份完整的工程记录：目标不是在 Zynq 的 ARM 核上模拟一颗 CPU，而是在 <strong>XC7Z020 的 PL 中真正实现 HackCPU</strong>；PS 只承担程序装载、串口输出和辅助控制。最终产物包含 bitstream、XSA、裸机程序、FSBL 和可直接放入 TF 卡的 <code>BOOT.BIN</code>。</p>
+<p>项目目录：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>/home/eh/Xilinx/hackcpu_zynq</span></span></code></pre>
+<p>目标板卡为 SmartZynq SL，器件型号：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>XC7Z020CLG484-1</span></span></code></pre>
+<h2 id="一最终架构">一、最终架构</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>              Zynq Processing System</span></span>
+<span class="line"><span>              ┌─────────────────────┐</span></span>
+<span class="line"><span>TF / SDIO ───▶│ FSBL + bare-metal   │</span></span>
+<span class="line"><span>              │ demo application    │</span></span>
+<span class="line"><span>              └─────────┬───────────┘</span></span>
+<span class="line"><span>                        │ M_AXI_GP0</span></span>
+<span class="line"><span>                        ▼</span></span>
+<span class="line"><span>                 AXI SmartConnect</span></span>
+<span class="line"><span>                   ┌────┴─────┐</span></span>
+<span class="line"><span>                   ▼          ▼</span></span>
+<span class="line"><span>             AXI UARTLite   HackCPU AXI IP</span></span>
+<span class="line"><span>                   │          │</span></span>
+<span class="line"><span>                 CH340     Hack CPU Core</span></span>
+<span class="line"><span>                              │</span></span>
+<span class="line"><span>                  ┌───────────┼───────────┐</span></span>
+<span class="line"><span>                  ▼           ▼           ▼</span></span>
+<span class="line"><span>               2 × LED      debug bus    HDMI HUD</span></span></code></pre>
+<p>设计边界很明确：</p>
+<ul>
+<li>Hack 指令执行、A/D/PC 寄存器、ROM、RAM 和 ALU 全在 PL；</li>
+<li>PS 通过 AXI4-Lite 写入程序、复位、单步或启动 CPU；</li>
+<li>UARTLite 通过板载 CH340 输出测试结果；</li>
+<li>PL 直接读取调试总线，在 HDMI 上显示 A、D、PC、IR 和 RAM[0]；</li>
+<li>SD 启动负责按顺序装载 FSBL、bitstream 和应用程序。</li>
+</ul>
+<h2 id="二工具链调查vivado-在但-vitis-并不完整">二、工具链调查：Vivado 在，但 Vitis 并不完整</h2>
+<p>机器上安装了 Vivado 2024.1 和 Vitis HLS 2024.1。最初看起来 <code>bootgen</code>、<code>xsdb</code>、<code>hsi</code> 都存在，似乎具备完整软件流；实际验证后发现新版 <code>platform/domain/app</code> 路径依赖的 <code>scw</code> 本地库没有正确进入运行环境。</p>
+<p>即使手动加入：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Vivado/2024.1/xsct-trim/lib/lnx64.o/libxv_scw.so</span></span></code></pre>
+<p><code>xsdb</code> 仍会遇到 protobuf 冲突。这说明“随 Vivado 附带的 Vitis 组件”能提供部分命令，却不适合作为可靠交付链。</p>
+<p>最终采用更可控的组合：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Vivado TCL</span></span>
+<span class="line"><span>  + HSI 旧式软件生成接口</span></span>
+<span class="line"><span>  + arm-none-eabi-gcc</span></span>
+<span class="line"><span>  + bootgen</span></span></code></pre>
+<p>另外，Vivado 在当前 Linux 上缺少 <code>libtinfo.so.5</code>。兼容库处理完成后，批处理 TCL 才能正常启动。这个问题属于宿主运行环境，不是 RTL 或工程配置错误。</p>
+<h2 id="三hackcpu-的-pl-实现">三、HackCPU 的 PL 实现</h2>
+<p>核心采用经典 16 位 Hack 指令模型。A 指令直接装载 A 寄存器；C 指令控制 ALU、目标寄存器和跳转。</p>
+<p>ALU 的数据通路可概括为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="verilog"><code><span class="line"><span style="color:#F97583">wire</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">15</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">] </span><span style="color:#79B8FF">x1</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> zx</span><span style="color:#E1E4E8"> ? </span><span style="color:#79B8FF">16'h0000</span><span style="color:#E1E4E8"> : </span><span style="color:#79B8FF">x</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">wire</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">15</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">] x2 </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> nx ? </span><span style="color:#F97583">~</span><span style="color:#79B8FF">x1</span><span style="color:#E1E4E8"> : </span><span style="color:#79B8FF">x1</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">wire</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">15</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">] y1 </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> zy ? </span><span style="color:#79B8FF">16'h0000</span><span style="color:#E1E4E8"> : y;</span></span>
+<span class="line"><span style="color:#F97583">wire</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">15</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">] y2 </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> ny ? </span><span style="color:#F97583">~</span><span style="color:#E1E4E8">y1 : y1;</span></span>
+<span class="line"><span style="color:#F97583">wire</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">15</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">] f1 </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> f ? (x2 </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> y2) : (x2 </span><span style="color:#F97583">&amp;</span><span style="color:#E1E4E8"> y2);</span></span>
+<span class="line"><span style="color:#F97583">wire</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">15</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">] f2 </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> no ? </span><span style="color:#F97583">~</span><span style="color:#E1E4E8">f1 : f1;</span></span></code></pre>
+<p>CPU 内部使用 256 × 16 bit ROM 和 256 × 16 bit RAM 作为演示存储空间，同时导出：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>dbg_a</span></span>
+<span class="line"><span>dbg_d</span></span>
+<span class="line"><span>dbg_pc</span></span>
+<span class="line"><span>dbg_ir</span></span>
+<span class="line"><span>dbg_ram0</span></span></code></pre>
+<p>这些信号既可以从 AXI 读取，也直接送入 HDMI 显示模块，因此观察调试状态不需要 PS 参与每一帧刷新。</p>
+<h2 id="四axi4-lite-寄存器设计">四、AXI4-Lite 寄存器设计</h2>
+<p>HackCPU 被封装成一个 AXI4-Lite 从设备。寄存器表如下：</p>
+<table>
+<thead>
+<tr>
+<th>偏移</th>
+<th>方向</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0x00</code></td>
+<td>R/W</td>
+<td>run、reset、step 控制</td>
+</tr>
+<tr>
+<td><code>0x04</code></td>
+<td>R/W</td>
+<td>ROM 写地址</td>
+</tr>
+<tr>
+<td><code>0x08</code></td>
+<td>R/W</td>
+<td>ROM 写数据并触发写入</td>
+</tr>
+<tr>
+<td><code>0x0C</code></td>
+<td>R/W</td>
+<td>RAM 地址</td>
+</tr>
+<tr>
+<td><code>0x10</code></td>
+<td>R/W</td>
+<td>RAM 数据</td>
+</tr>
+<tr>
+<td><code>0x14</code></td>
+<td>R</td>
+<td>A 寄存器</td>
+</tr>
+<tr>
+<td><code>0x18</code></td>
+<td>R</td>
+<td>D 寄存器</td>
+</tr>
+<tr>
+<td><code>0x1C</code></td>
+<td>R</td>
+<td>PC</td>
+</tr>
+<tr>
+<td><code>0x20</code></td>
+<td>R</td>
+<td>当前指令 IR</td>
+</tr>
+<tr>
+<td><code>0x24</code></td>
+<td>R</td>
+<td>RAM[0]</td>
+</tr>
+<tr>
+<td><code>0x28</code></td>
+<td>R</td>
+<td>LED 状态</td>
+</tr>
+</tbody>
+</table>
+<p>PS 端应用程序写入下面的 Hack 程序：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>@2</span></span>
+<span class="line"><span>D=A</span></span>
+<span class="line"><span>@3</span></span>
+<span class="line"><span>D=D+A</span></span>
+<span class="line"><span>@0</span></span>
+<span class="line"><span>M=D</span></span>
+<span class="line"><span>(END)</span></span>
+<span class="line"><span>@END</span></span>
+<span class="line"><span>0;JMP</span></span></code></pre>
+<p>预期最终结果为 <code>RAM[0] = 5</code>。LED 使用 <code>RAM[0][1:0]</code>，因此不依赖额外控制寄存器就能直观看到执行结果。</p>
+<h2 id="五block-design-与板级连接">五、Block Design 与板级连接</h2>
+<p>Block Design 包含：</p>
+<ul>
+<li><code>processing_system7</code>；</li>
+<li><code>proc_sys_reset</code>；</li>
+<li><code>SmartConnect</code>，两个主输出；</li>
+<li><code>AXI UARTLite</code>，115200 baud；</li>
+<li>自定义 <code>hackcpu_axi</code> IP；</li>
+<li>直接作为 module reference 加入的 <code>hdmi_hud</code>。</li>
+</ul>
+<p>PS 的 <code>FCLK_CLK0</code> 设为 50 MHz，同时驱动 AXI、HackCPU 和 HDMI 模块的输入时钟。SD0 使用 MIO 40–45，CD 使用 MIO 46。目标是 TF 卡启动，因此构建期间移除了会造成互斥配置问题的 QSPI 设置。</p>
+<p>一次典型错误是只连接外设 AXI 时钟，却忘记：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>M_AXI_GP0_ACLK</span></span>
+<span class="line"><span>S_AXI_GP0_ACLK</span></span></code></pre>
+<p>Vivado 会在 BD 校验阶段阻止继续生成 wrapper。两者接入同一个 <code>FCLK_CLK0</code> 后，地址分配与 wrapper 生成才能完成。</p>
+<h2 id="六pl-侧-hdmi-hud">六、PL 侧 HDMI HUD</h2>
+<p>显示目标是一个低分辨率工程监视器，而不是桌面级 GUI：</p>
+<ul>
+<li>640 × 480 时序；</li>
+<li>动态几何背景；</li>
+<li>五行十六进制调试值；</li>
+<li>A、D、PC、IR、RAM[0]；</li>
+<li>LED 状态条。</li>
+</ul>
+<p>50 MHz 输入经 MMCM 产生像素时钟与 5 倍串行时钟，RGB 进入 TMDS encoder，再由 OSERDESE2 串行化。字符部分没有使用字体 ROM，而是用七段式几何笔画绘制十六进制数字，节省了初始化资源，也便于直接综合。</p>
+<p>这里保留一个真实边界：板厂参考约束只约束 HDMI 的 P 侧端口，属于简化的 DVI/电阻网络方案，兼容性不如标准差分 PHY。bitstream 已经成功生成，但部分显示器可能无法锁定信号。</p>
+<p>最终写 bitstream 时仍有 6 条 <code>OSERDESE2 TRISTATE_WIDTH</code> 警告和一条 SmartConnect 无负载网络警告；DRC 为 0 Error。它们没有阻止本次构建，但后续若要长期维护，应继续清理原语三态参数。</p>
+<h2 id="七从-xsa-到-bootbin">七、从 XSA 到 BOOT.BIN</h2>
+<p>硬件构建入口：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">vivado</span><span style="color:#79B8FF"> -mode</span><span style="color:#9ECBFF"> batch</span><span style="color:#79B8FF"> -source</span><span style="color:#9ECBFF"> tcl/create_project.tcl</span></span></code></pre>
+<p>脚本完成自定义 IP 打包、BD 生成、wrapper、综合、实现、bitstream 与 XSA 导出。</p>
+<p>软件侧使用 HSI 生成 FSBL 和空应用模板：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="tcl"><code><span class="line"><span style="color:#E1E4E8">hsi::open_hw_design </span><span style="color:#79B8FF">$xsa_path</span></span>
+<span class="line"><span style="color:#E1E4E8">hsi::create_sw_design fsbl_sw -proc ps7_cortexa9_</span><span style="color:#79B8FF">0</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#E1E4E8">  -app zynq_fsbl -os standalone</span></span>
+<span class="line"><span style="color:#E1E4E8">hsi::generate_app -dir </span><span style="color:#79B8FF">$fsbl_dir</span><span style="color:#E1E4E8"> -sw fsbl_sw -app zynq_fsbl</span></span></code></pre>
+<p>随后用 <code>arm-none-eabi-gcc</code> 编译 BSP、FSBL 和 demo。Boot Image Format 为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>the_ROM_image:</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  [bootloader]fsbl.elf</span></span>
+<span class="line"><span>  hackcpu_zynq.bit</span></span>
+<span class="line"><span>  hackcpu_demo.elf</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>最后执行：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">bootgen</span><span style="color:#79B8FF"> -arch</span><span style="color:#9ECBFF"> zynq</span><span style="color:#79B8FF"> -image</span><span style="color:#9ECBFF"> boot.bif</span><span style="color:#79B8FF"> -o</span><span style="color:#9ECBFF"> BOOT.BIN</span><span style="color:#79B8FF"> -w</span></span></code></pre>
+<p>成功产物：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>BOOT.BIN          约 4.0 MiB</span></span>
+<span class="line"><span>hackcpu_zynq.bit  约 3.9 MiB</span></span>
+<span class="line"><span>hackcpu_zynq.xsa  约 687 KiB</span></span></code></pre>
+<p>实现后的 setup WNS 为 <code>2.767 ns</code>，hold WHS 为 <code>0.029 ns</code>，满足时序。</p>
+<h2 id="八tf-卡与启动验证">八、TF 卡与启动验证</h2>
+<p>TF 卡被重建为单分区 FAT32，卷标：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>ZYNQBOOT</span></span></code></pre>
+<p>只需把 <code>BOOT.BIN</code> 放到根目录，将板卡拨码切换到 SD boot 后上电。预期 UART 输出：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>SmartZynq SL hackcpu demo</span></span>
+<span class="line"><span>hackcpu base: 0x40000000</span></span>
+<span class="line"><span>RAM[0]=5</span></span>
+<span class="line"><span>A=6 D=5 PC=6 IR=0xEA87 RAM0=5 LED=1</span></span>
+<span class="line"><span>PASS: 2 + 3 = 5</span></span></code></pre>
+<p>实际联调时，主机看到了 FT232H/Digilent 相关 USB 设备，但 <code>hw_server</code> 和 <code>xsdb</code> 无法枚举 JTAG TAP。排查过 udev 规则和 <code>ftdi_sio</code> 抢占后，仍不能把它当作标准 Xilinx 下载线使用。因此最终交付以 SD boot 为主，而不是把可重复构建建立在特定 JTAG 线缆上。</p>
+<h2 id="九这次工程最重要的经验">九、这次工程最重要的经验</h2>
+<ol>
+<li><strong>先验证工具能力，不要根据安装目录判断 Vitis 是否完整。</strong> 命令存在不代表整条 platform 流可用。</li>
+<li><strong>PL 与 PS 的职责要在架构阶段锁死。</strong> 本项目始终坚持 HackCPU 在 PL，PS 只辅助。</li>
+<li><strong>先跑通最小 PS + AXI + IP，再加 HDMI。</strong> 否则很难区分板级配置、AXI、RTL 和视频链路问题。</li>
+<li><strong>把 GUI 操作变成 TCL 和 shell。</strong> 可重复生成的 XSA、bitstream 与 BOOT.BIN 比“某次 GUI 点成功”更有价值。</li>
+<li><strong>记录未关闭的问题。</strong> HDMI 电气兼容和 OSERDES 警告仍是后续任务，不应因为成功生成文件就被隐藏。</li>
+</ol>
+<p>这次记录的真正成果不是一个 2 + 3 的演示，而是一条在不完整 Vitis 环境中仍可复现的 Zynq 裸机交付链：RTL、AXI、板级约束、软件生成、GNU 编译和 SD 启动全部能够通过脚本重新构建。</p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#一最终架构" data-astro-cid-7natcuz3>一、最终架构</a><a class="depth-2" href="#二工具链调查vivado-在但-vitis-并不完整" data-astro-cid-7natcuz3>二、工具链调查：Vivado 在，但 Vitis 并不完整</a><a class="depth-2" href="#三hackcpu-的-pl-实现" data-astro-cid-7natcuz3>三、HackCPU 的 PL 实现</a><a class="depth-2" href="#四axi4-lite-寄存器设计" data-astro-cid-7natcuz3>四、AXI4-Lite 寄存器设计</a><a class="depth-2" href="#五block-design-与板级连接" data-astro-cid-7natcuz3>五、Block Design 与板级连接</a><a class="depth-2" href="#六pl-侧-hdmi-hud" data-astro-cid-7natcuz3>六、PL 侧 HDMI HUD</a><a class="depth-2" href="#七从-xsa-到-bootbin" data-astro-cid-7natcuz3>七、从 XSA 到 BOOT.BIN</a><a class="depth-2" href="#八tf-卡与启动验证" data-astro-cid-7natcuz3>八、TF 卡与启动验证</a><a class="depth-2" href="#九这次工程最重要的经验" data-astro-cid-7natcuz3>九、这次工程最重要的经验</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

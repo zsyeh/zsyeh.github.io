@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="实模式下的内存布局 开始 结束 大小 用途 FFFF0 FFFFF 16B BIOS入口，顶部640KB字节，只是为了强调入口地址才单独列出来 0 9FFFF 640kb DRAM BIOS建"><link rel="canonical" href="https://blog.ehzsy.site/posts/754c5185-8b6c-4b9d-90ff-d6d9d697211f/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="MBR · eH Blog"><meta property="og:description" content="实模式下的内存布局 开始 结束 大小 用途 FFFF0 FFFFF 16B BIOS入口，顶部640KB字节，只是为了强调入口地址才单独列出来 0 9FFFF 640kb DRAM BIOS建"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/v2-32510d6cbade23c3452679fc0fb2968a_720w.png"><title>MBR · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T16:51:16.502Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>3 MIN READ</span></div><h1 data-astro-cid-7natcuz3>MBR</h1><p data-astro-cid-7natcuz3>实模式下的内存布局 开始 结束 大小 用途 FFFF0 FFFFF 16B BIOS入口，顶部640KB字节，只是为了强调入口地址才单独列出来 0 9FFFF 640kb DRAM BIOS建</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/kernel/" data-astro-cid-7natcuz3>kernel</a></div></header><div class="article-grid no-toc" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><ul>
+<li>
+<p>实模式下的内存布局</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">开始</th>
+<th style="text-align: center">结束</th>
+<th style="text-align: center">大小</th>
+<th style="text-align: center">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">FFFF0</td>
+<td style="text-align: center">FFFFF</td>
+<td style="text-align: center">16B</td>
+<td style="text-align: center">BIOS入口，顶部640KB字节，只是为了强调入口地址才单独列出来</td>
+</tr>
+<tr>
+<td style="text-align: center">0</td>
+<td style="text-align: center">9FFFF</td>
+<td style="text-align: center">640kb</td>
+<td style="text-align: center">DRAM</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>BIOS建立了中断向量表，，这样就可以通过int中断信号来实现相关硬件的调用</p>
+<p><em>BIOS实现这些功能都是对硬件IO的操作 所以名字也叫做 basic input output sys</em></p>
+<ul>
+<li>16位机器的地址总线为20位</li>
+<li>32位机器地址总线为32位 其地址范围为4GB</li>
+</ul>
+<p>值得注意的是，地址线所寻的地址并非全是物理内存</p>
+<blockquote>
+<p>也就是说物理内存多大是没有用的，对于32位地址线的设备来说，内存超过了4GB就没有用了，因为剩下的一部分还需要用来访问外设的内存，所以计算机早期插入4G的内存只能够显示3.8G</p>
+</blockquote>
+<p>总之，表示地址的那串数字是地址总线的输入，相当于其参数，和内存条无关，CPU能够访问这些地址，本质上是地址线的映射，CPU给地址总线提交一个地址</p>
+<ul>
+<li>bios上的ROM也是块内存， 被地址线映射在低端1MB内存的顶部，0xF0000–0xFFFFF</li>
+<li>bios也是一个程序，程序的入口地址<strong>0xFFFF0</strong></li>
+<li>在上电的一瞬间。CPU的cs:ip 被强制初始化0xF000：0xFFF0</li>
+<li>执行开始的位置到1MB结束只有16字节所以真正的执行程序不在这个位置，跳转<code>jmp far f000:e05b</code></li>
+<li>CHS&amp;LBA</li>
+<li>magic number 0x7c00</li>
+</ul>
+<p>挂起</p>
+<ul>
+<li>
+<p>$ 就是标签地址</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>code_start:</span></span>
+<span class="line"><span>	mov ax,0</span></span>
+<span class="line"><span>	jump $;这个美元符号就是code_start:的地址</span></span></code></pre>
+</li>
+<li>
+<p><code>$$</code> 本section的起始地址</p>
+<p>如果该section使用vstart=xxxx修饰，<code>$$</code>的值就是xxxx 。$就是此起始地址的顺延</p>
+<p>如果使用vstart关键字，想要获取本section在文件中真实地址</p>
+<p>section.节名.start</p>
+<p>如果没有定义section,nasm默认全部代码属于一个section 起始地址0</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>section data</span></span>
+<span class="line"><span>	var dd 0</span></span>
+<span class="line"><span>section code</span></span>
+<span class="line"><span>	jump start</span></span></code></pre>
+<p><em><strong>值得注意的是，section是伪指令，CPU不关注</strong></em></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>SECTION MBR vstart=0x7c00</span></span>
+<span class="line"><span>	mov ax,cs    ;这个时候cs是0,使用通用寄存器ax进行中转，对于ds es ss fs这类sreg，cpu不可以直接赋值</span></span>
+<span class="line"><span>	             ;所以需要中转,没有立即数到段寄存器的物理电路实现</span></span>
+<span class="line"><span>	             </span></span>
+<span class="line"><span>	mov ds,ax</span></span>
+<span class="line"><span>	mov es,ax</span></span>
+<span class="line"><span>	mov ss,ax</span></span>
+<span class="line"><span>	mov fs,ax</span></span>
+<span class="line"><span>	mov sp,0x7c00   ;这是初始化stack pointer mbr也是程序,只要是程序就要用到stack,目前0x7c00后面暂时是安全</span></span>
+<span class="line"><span>	                ;区域,所以都当作栈来使用</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	mov ax,0x600</span></span>
+<span class="line"><span>	mov bx,0x700</span></span>
+<span class="line"><span>	mov cx,0        ;left top corner(0,0)</span></span>
+<span class="line"><span>	mov dx,0x184f   ;right down corner(80,25)</span></span>
+<span class="line"><span>					;index start at 0 so:0x18=24 0x4f=79</span></span>
+<span class="line"><span>                    ; in VGA mode a line contains 80 chars,25 lines in total</span></span>
+<span class="line"><span>	mov ah,0x06</span></span>
+<span class="line"><span>	int 0x10        ; interupt : clear       func num:0x06	</span></span>
+<span class="line"><span>	                ;因为前面可能有一些硬件自检的信息,所以需要先提前清楚掉</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	;;;;get the cursur position </span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	mov ah,3       ;func num#3 :get_the_cursur_position()   0x10 是一个强大的中断，把功能号送到ah寄存器</span></span>
+<span class="line"><span>	mov bh,0       ;告诉寄存器是第零页</span></span>
+<span class="line"><span>	                ;显示器有很多模式 图形模式 文本模式</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	int 0x10</span></span>
+<span class="line"><span>	;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	mov ax,message</span></span>
+<span class="line"><span>	mov bp,ax</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	mov cx,5</span></span>
+<span class="line"><span>	mov ax,0x1301 ;13号对应ah寄存器,01对应al寄存器</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	mov bx,0x2</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	int 0x10</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	jmp $</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	message db "1 MBR"</span></span>
+<span class="line"><span>	times 510-($-$$) db 0 ;将空余部分填满,确保魔数在510-511  Define Byte 伪指令 填充字符</span></span>
+<span class="line"><span>	db 0x55,0xaa</span></span>
+<span class="line"><span>	</span></span></code></pre>
+</li>
+</ul>
+</div></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>
