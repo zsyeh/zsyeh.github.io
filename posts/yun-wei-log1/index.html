@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="Linux 运维笔记：为何 nohup 后台进程在 SSH 断开后仍然退出？ 在远程服务器部署 Node.js 应用（如 pnpm run serve）时，常见操作是结合 nohup 和 &amp; 将服务挂起。但经常出现一种情况：SSH 会话窗口一旦关闭，服务也随之停止。 本文分析该现象的底层原因，并提供"><link rel="canonical" href="https://blog.ehzsy.site/posts/yun-wei-log1/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="运维log1 · eH Blog"><meta property="og:description" content="Linux 运维笔记：为何 nohup 后台进程在 SSH 断开后仍然退出？ 在远程服务器部署 Node.js 应用（如 pnpm run serve）时，常见操作是结合 nohup 和 &amp; 将服务挂起。但经常出现一种情况：SSH 会话窗口一旦关闭，服务也随之停止。 本文分析该现象的底层原因，并提供"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/IMG_0194.jpeg"><title>运维log1 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-25T06:16:05.193Z" data-astro-cid-7natcuz3>25 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>5 MIN READ</span></div><h1 data-astro-cid-7natcuz3>运维log1</h1><p data-astro-cid-7natcuz3>Linux 运维笔记：为何 nohup 后台进程在 SSH 断开后仍然退出？ 在远程服务器部署 Node.js 应用（如 pnpm run serve）时，常见操作是结合 nohup 和 &amp; 将服务挂起。但经常出现一种情况：SSH 会话窗口一旦关闭，服务也随之停止。 本文分析该现象的底层原因，并提供</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E8%BF%90%E7%BB%B4/" data-astro-cid-7natcuz3>运维</a><a class="tag" href="/tags/nohup/" data-astro-cid-7natcuz3>#nohup</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h1 id="linux-运维笔记为何-nohup-后台进程在-ssh-断开后仍然退出">Linux 运维笔记：为何 <code>nohup</code> 后台进程在 SSH 断开后仍然退出？</h1>
+<p>在远程服务器部署 Node.js 应用（如 <code>pnpm run serve</code>）时，常见操作是结合 <code>nohup</code> 和 <code>&amp;</code> 将服务挂起。但经常出现一种情况：SSH 会话窗口一旦关闭，服务也随之停止。</p>
+<p>本文分析该现象的底层原因，并提供标准的解决方案。</p>
+<h2 id="1-核心原因分析">1. 核心原因分析</h2>
+<p>即便使用了 <code>nohup</code>，进程依然退出的原因主要有以下两点：</p>
+<h3 id="11-标准输出错误输出io阻塞">1.1 标准输出/错误输出（I/O）阻塞</h3>
+<p><code>nohup</code> 的核心作用是让进程忽略 <code>SIGHUP</code>（挂断）信号。
+然而，如果仅仅执行 <code>nohup pnpm run serve &amp;</code> 而未指定输出重定向：</p>
+<ul>
+<li>默认情况下，<code>nohup</code> 会尝试将输出写入当前目录的 <code>nohup.out</code>。</li>
+<li>如果在某些环境（或 <code>pnpm</code> 内部机制）下，进程仍试图向 <strong>标准输出（stdout）</strong> 或 <strong>标准错误（stderr）</strong> 写入数据，而此时 SSH 会话已关闭（TTY 消失），进程写入操作会因为“管道破裂”（Broken Pipe）或 I/O 错误而导致崩溃。</li>
+<li><strong>现代前端工具链的特殊性</strong>：<code>pnpm</code>/<code>vite</code>/<code>webpack</code> 等工具经常包含交互式输出（颜色、进度条），这增加了 I/O 异常导致进程退出的概率。</li>
+</ul>
+<h3 id="12-shell-的作业管理机制">1.2 Shell 的作业管理机制</h3>
+<p>Linux 的不同 Shell（Bash, Zsh）对后台作业的处理逻辑存在差异。</p>
+<ul>
+<li>当你直接关闭终端窗口（非 <code>exit</code> 退出）时，Shell 可能会向其作业列表（Job List）中的所有子进程发送 <code>SIGTERM</code> 或 <code>SIGHUP</code>。</li>
+<li>虽然 <code>nohup</code> 拦截了 <code>SIGHUP</code>，但如果 Shell 发送的是强杀信号，或者进程处于某些特定状态，仍会被终止。</li>
+</ul>
+<hr>
+<h2 id="2-解决方案">2. 解决方案</h2>
+<h3 id="方案一完善的-io-重定向推荐">方案一：完善的 I/O 重定向（推荐）</h3>
+<p>这是最标准的 Linux 后台运行写法。通过将标准输出和错误输出显式重定向，切断进程与当前终端 TTY 的所有联系。</p>
+<p><strong>命令格式：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">nohup</span><span style="color:#9ECBFF"> pnpm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> serve</span><span style="color:#F97583"> &gt;</span><span style="color:#9ECBFF"> output.log</span><span style="color:#F97583"> 2&gt;&amp;1</span><span style="color:#E1E4E8"> &amp;</span></span></code></pre>
+<p><strong>参数解析：</strong></p>
+<ul>
+<li><code>&gt; output.log</code>：将标准输出（stdout）写入日志文件，不再依赖终端。</li>
+<li><code>2&gt;&amp;1</code>：将标准错误（stderr）重定向到标准输出。这非常关键，防止错误日志卡住进程。</li>
+<li><code>&amp;</code>：将命令放入后台运行。</li>
+</ul>
+<p><strong>静默模式（不保留日志）：</strong>
+如果不关心日志，直接丢弃：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">nohup</span><span style="color:#9ECBFF"> pnpm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> serve</span><span style="color:#F97583"> &gt;</span><span style="color:#9ECBFF">/dev/null</span><span style="color:#F97583"> 2&gt;&amp;1</span><span style="color:#E1E4E8"> &amp;</span></span></code></pre>
+<h3 id="方案二使用-disown-移除作业">方案二：使用 <code>disown</code> 移除作业</h3>
+<p>如果习惯只写 <code>nohup ... &amp;</code>，可以在命令执行后，立即执行 <code>disown</code>。
+该命令的作用是告诉当前 Shell：将最近的一个后台任务从“作业列表”中移除。这样当 Shell 退出时，它不会对该进程进行任何处理（如发送信号）。</p>
+<p><strong>操作步骤：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">nohup</span><span style="color:#9ECBFF"> pnpm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> serve</span><span style="color:#E1E4E8"> &amp;</span></span>
+<span class="line"><span style="color:#79B8FF">disown</span></span></code></pre>
+<h3 id="方案三使用进程管理工具-pm2生产环境标准">方案三：使用进程管理工具 PM2（生产环境标准）</h3>
+<p>对于 Node.js 生态，使用 <code>nohup</code> 属于临时方案。生产环境建议使用 PM2，它能处理自动重启、日志切割和开机自启。</p>
+<p><strong>操作步骤：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 安装</span></span>
+<span class="line"><span style="color:#B392F0">pnpm</span><span style="color:#9ECBFF"> add</span><span style="color:#79B8FF"> -g</span><span style="color:#9ECBFF"> pm2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 启动</span></span>
+<span class="line"><span style="color:#B392F0">pm2</span><span style="color:#9ECBFF"> start</span><span style="color:#9ECBFF"> "pnpm run serve"</span><span style="color:#79B8FF"> --name</span><span style="color:#9ECBFF"> web-service</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 保存当前进程列表（用于开机自启）</span></span>
+<span class="line"><span style="color:#B392F0">pm2</span><span style="color:#9ECBFF"> save</span></span></code></pre>
+<hr>
+<h2 id="3-操作建议关于退出-ssh">3. 操作建议：关于退出 SSH</h2>
+<p>除了命令本身的修正，退出 SSH 的方式也会影响进程的存活率。</p>
+<ul>
+<li><strong>错误做法</strong>：直接点击终端软件的“关闭”按钮（X）。这会强制切断连接，系统可能无法正确完成后台进程的父进程移交（re-parenting to init/systemd）。</li>
+<li><strong>正确做法</strong>：在终端输入 <code>exit</code> 并回车。这允许 Shell 正常执行退出流程，确保后台作业被正确剥离。</li>
+</ul>
+<hr>
+<h3 id="下一步">下一步</h3>
+<p>如果你需要在服务器重启后该服务依然自动运行，可以为你提供 <strong>Systemd Service 配置模板</strong> 或 <strong>PM2 开机自启指令</strong>。这是一篇按照技术博客风格整理的笔记，去除了情绪化用语，专注于技术原理与解决方案。</p>
+<hr>
+<h1 id="linux-运维笔记为何-nohup-后台进程在-ssh-断开后仍然退出-1">Linux 运维笔记：为何 <code>nohup</code> 后台进程在 SSH 断开后仍然退出？</h1>
+<p>在远程服务器部署 Node.js 应用（如 <code>pnpm run serve</code>）时，常见操作是结合 <code>nohup</code> 和 <code>&amp;</code> 将服务挂起。但经常出现一种情况：SSH 会话窗口一旦关闭，服务也随之停止。</p>
+<p>本文分析该现象的底层原因，并提供标准的解决方案。</p>
+<h2 id="1-核心原因分析-1">1. 核心原因分析</h2>
+<p>即便使用了 <code>nohup</code>，进程依然退出的原因主要有以下两点：</p>
+<h3 id="11-标准输出错误输出io阻塞-1">1.1 标准输出/错误输出（I/O）阻塞</h3>
+<p><code>nohup</code> 的核心作用是让进程忽略 <code>SIGHUP</code>（挂断）信号。
+然而，如果仅仅执行 <code>nohup pnpm run serve &amp;</code> 而未指定输出重定向：</p>
+<ul>
+<li>默认情况下，<code>nohup</code> 会尝试将输出写入当前目录的 <code>nohup.out</code>。</li>
+<li>如果在某些环境（或 <code>pnpm</code> 内部机制）下，进程仍试图向 <strong>标准输出（stdout）</strong> 或 <strong>标准错误（stderr）</strong> 写入数据，而此时 SSH 会话已关闭（TTY 消失），进程写入操作会因为“管道破裂”（Broken Pipe）或 I/O 错误而导致崩溃。</li>
+<li><strong>现代前端工具链的特殊性</strong>：<code>pnpm</code>/<code>vite</code>/<code>webpack</code> 等工具经常包含交互式输出（颜色、进度条），这增加了 I/O 异常导致进程退出的概率。</li>
+</ul>
+<h3 id="12-shell-的作业管理机制-1">1.2 Shell 的作业管理机制</h3>
+<p>Linux 的不同 Shell（Bash, Zsh）对后台作业的处理逻辑存在差异。</p>
+<ul>
+<li>当你直接关闭终端窗口（非 <code>exit</code> 退出）时，Shell 可能会向其作业列表（Job List）中的所有子进程发送 <code>SIGTERM</code> 或 <code>SIGHUP</code>。</li>
+<li>虽然 <code>nohup</code> 拦截了 <code>SIGHUP</code>，但如果 Shell 发送的是强杀信号，或者进程处于某些特定状态，仍会被终止。</li>
+</ul>
+<hr>
+<h2 id="2-解决方案-1">2. 解决方案</h2>
+<h3 id="方案一完善的-io-重定向推荐-1">方案一：完善的 I/O 重定向（推荐）</h3>
+<p>这是最标准的 Linux 后台运行写法。通过将标准输出和错误输出显式重定向，切断进程与当前终端 TTY 的所有联系。</p>
+<p><strong>命令格式：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">nohup</span><span style="color:#9ECBFF"> pnpm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> serve</span><span style="color:#F97583"> &gt;</span><span style="color:#9ECBFF"> output.log</span><span style="color:#F97583"> 2&gt;&amp;1</span><span style="color:#E1E4E8"> &amp;</span></span></code></pre>
+<p><strong>参数解析：</strong></p>
+<ul>
+<li><code>&gt; output.log</code>：将标准输出（stdout）写入日志文件，不再依赖终端。</li>
+<li><code>2&gt;&amp;1</code>：将标准错误（stderr）重定向到标准输出。这非常关键，防止错误日志卡住进程。</li>
+<li><code>&amp;</code>：将命令放入后台运行。</li>
+</ul>
+<p><strong>静默模式（不保留日志）：</strong>
+如果不关心日志，直接丢弃：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">nohup</span><span style="color:#9ECBFF"> pnpm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> serve</span><span style="color:#F97583"> &gt;</span><span style="color:#9ECBFF">/dev/null</span><span style="color:#F97583"> 2&gt;&amp;1</span><span style="color:#E1E4E8"> &amp;</span></span></code></pre>
+<h3 id="方案二使用-disown-移除作业-1">方案二：使用 <code>disown</code> 移除作业</h3>
+<p>如果习惯只写 <code>nohup ... &amp;</code>，可以在命令执行后，立即执行 <code>disown</code>。
+该命令的作用是告诉当前 Shell：将最近的一个后台任务从“作业列表”中移除。这样当 Shell 退出时，它不会对该进程进行任何处理（如发送信号）。</p>
+<p><strong>操作步骤：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">nohup</span><span style="color:#9ECBFF"> pnpm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> serve</span><span style="color:#E1E4E8"> &amp;</span></span>
+<span class="line"><span style="color:#79B8FF">disown</span></span></code></pre>
+<h3 id="方案三使用进程管理工具-pm2生产环境标准-1">方案三：使用进程管理工具 PM2（生产环境标准）</h3>
+<p>对于 Node.js 生态，使用 <code>nohup</code> 属于临时方案。生产环境建议使用 PM2，它能处理自动重启、日志切割和开机自启。</p>
+<p><strong>操作步骤：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 安装</span></span>
+<span class="line"><span style="color:#B392F0">pnpm</span><span style="color:#9ECBFF"> add</span><span style="color:#79B8FF"> -g</span><span style="color:#9ECBFF"> pm2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 启动</span></span>
+<span class="line"><span style="color:#B392F0">pm2</span><span style="color:#9ECBFF"> start</span><span style="color:#9ECBFF"> "pnpm run serve"</span><span style="color:#79B8FF"> --name</span><span style="color:#9ECBFF"> web-service</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 保存当前进程列表（用于开机自启）</span></span>
+<span class="line"><span style="color:#B392F0">pm2</span><span style="color:#9ECBFF"> save</span></span></code></pre>
+<hr>
+<h2 id="3-操作建议关于退出-ssh-1">3. 操作建议：关于退出 SSH</h2>
+<p>除了命令本身的修正，退出 SSH 的方式也会影响进程的存活率。</p>
+<ul>
+<li><strong>错误做法</strong>：直接点击终端软件的“关闭”按钮（X）。这会强制切断连接，系统可能无法正确完成后台进程的父进程移交（re-parenting to init/systemd）。</li>
+<li><strong>正确做法</strong>：在终端输入 <code>exit</code> 并回车。这允许 Shell 正常执行退出流程，确保后台作业被正确剥离。</li>
+</ul>
+<hr>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-1" href="#linux-运维笔记为何-nohup-后台进程在-ssh-断开后仍然退出" data-astro-cid-7natcuz3>Linux 运维笔记：为何 nohup 后台进程在 SSH 断开后仍然退出？</a><a class="depth-2" href="#1-核心原因分析" data-astro-cid-7natcuz3>1. 核心原因分析</a><a class="depth-3" href="#11-标准输出错误输出io阻塞" data-astro-cid-7natcuz3>1.1 标准输出/错误输出（I/O）阻塞</a><a class="depth-3" href="#12-shell-的作业管理机制" data-astro-cid-7natcuz3>1.2 Shell 的作业管理机制</a><a class="depth-2" href="#2-解决方案" data-astro-cid-7natcuz3>2. 解决方案</a><a class="depth-3" href="#方案一完善的-io-重定向推荐" data-astro-cid-7natcuz3>方案一：完善的 I/O 重定向（推荐）</a><a class="depth-3" href="#方案二使用-disown-移除作业" data-astro-cid-7natcuz3>方案二：使用 disown 移除作业</a><a class="depth-3" href="#方案三使用进程管理工具-pm2生产环境标准" data-astro-cid-7natcuz3>方案三：使用进程管理工具 PM2（生产环境标准）</a><a class="depth-2" href="#3-操作建议关于退出-ssh" data-astro-cid-7natcuz3>3. 操作建议：关于退出 SSH</a><a class="depth-3" href="#下一步" data-astro-cid-7natcuz3>下一步</a><a class="depth-1" href="#linux-运维笔记为何-nohup-后台进程在-ssh-断开后仍然退出-1" data-astro-cid-7natcuz3>Linux 运维笔记：为何 nohup 后台进程在 SSH 断开后仍然退出？</a><a class="depth-2" href="#1-核心原因分析-1" data-astro-cid-7natcuz3>1. 核心原因分析</a><a class="depth-3" href="#11-标准输出错误输出io阻塞-1" data-astro-cid-7natcuz3>1.1 标准输出/错误输出（I/O）阻塞</a><a class="depth-3" href="#12-shell-的作业管理机制-1" data-astro-cid-7natcuz3>1.2 Shell 的作业管理机制</a><a class="depth-2" href="#2-解决方案-1" data-astro-cid-7natcuz3>2. 解决方案</a><a class="depth-3" href="#方案一完善的-io-重定向推荐-1" data-astro-cid-7natcuz3>方案一：完善的 I/O 重定向（推荐）</a><a class="depth-3" href="#方案二使用-disown-移除作业-1" data-astro-cid-7natcuz3>方案二：使用 disown 移除作业</a><a class="depth-3" href="#方案三使用进程管理工具-pm2生产环境标准-1" data-astro-cid-7natcuz3>方案三：使用进程管理工具 PM2（生产环境标准）</a><a class="depth-2" href="#3-操作建议关于退出-ssh-1" data-astro-cid-7natcuz3>3. 操作建议：关于退出 SSH</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>
