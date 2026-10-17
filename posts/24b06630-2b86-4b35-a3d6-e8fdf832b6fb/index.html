@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="Bochs 配置问题与解决方案 Bochs 是一个功能强大的开源 x86 仿真器，广泛用于虚拟化和操作系统开发的学习与测试。尽管 Bochs 提供了很强的硬件仿真支持，但在使用过程中，尤其是在配置文件编写时，往往会遇到一些问题。本文将总结常见的 Bochs 配置问题，并提供解决方案，以帮助大家顺利配"><link rel="canonical" href="https://blog.ehzsy.site/posts/24b06630-2b86-4b35-a3d6-e8fdf832b6fb/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="Bochs 配置问题与解决方案 · eH Blog"><meta property="og:description" content="Bochs 配置问题与解决方案 Bochs 是一个功能强大的开源 x86 仿真器，广泛用于虚拟化和操作系统开发的学习与测试。尽管 Bochs 提供了很强的硬件仿真支持，但在使用过程中，尤其是在配置文件编写时，往往会遇到一些问题。本文将总结常见的 Bochs 配置问题，并提供解决方案，以帮助大家顺利配"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/lgban.png"><title>Bochs 配置问题与解决方案 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T16:51:22.110Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>8 MIN READ</span></div><h1 data-astro-cid-7natcuz3>Bochs 配置问题与解决方案</h1><p data-astro-cid-7natcuz3>Bochs 配置问题与解决方案 Bochs 是一个功能强大的开源 x86 仿真器，广泛用于虚拟化和操作系统开发的学习与测试。尽管 Bochs 提供了很强的硬件仿真支持，但在使用过程中，尤其是在配置文件编写时，往往会遇到一些问题。本文将总结常见的 Bochs 配置问题，并提供解决方案，以帮助大家顺利配</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/kernel/" data-astro-cid-7natcuz3>kernel</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h2 id="bochs-配置问题与解决方案">Bochs 配置问题与解决方案</h2>
+<p>Bochs 是一个功能强大的开源 x86 仿真器，广泛用于虚拟化和操作系统开发的学习与测试。尽管 Bochs 提供了很强的硬件仿真支持，但在使用过程中，尤其是在配置文件编写时，往往会遇到一些问题。本文将总结常见的 Bochs 配置问题，并提供解决方案，以帮助大家顺利配置 Bochs。</p>
+<h3 id="一bochs-配置文件结构">一、Bochs 配置文件结构</h3>
+<p>Bochs 配置文件通常以 <code>.disk</code> 或 <code>.bochsrc</code> 为后缀，是一个纯文本文件，用于定义 Bochs 的硬件模拟、内存设置、BIOS 配置、磁盘和启动顺序等。配置文件包括但不限于以下几个主要部分：</p>
+<ul>
+<li><strong>内存配置</strong>：定义虚拟机使用的内存大小。</li>
+<li><strong>BIOS 配置</strong>：指定系统启动时加载的 BIOS 文件。</li>
+<li><strong>显示设置</strong>：设置图形界面或禁用 GUI。</li>
+<li><strong>硬件设备设置</strong>：包括 CPU 模拟、硬盘、软盘、串口、网络适配器等配置。</li>
+<li><strong>启动顺序</strong>：配置启动时从哪个设备加载系统。</li>
+</ul>
+<h3 id="二常见配置问题及解决方案">二、常见配置问题及解决方案</h3>
+<h4 id="1-bios-和-vga-bios-配置不正确">1. <strong>BIOS 和 VGA BIOS 配置不正确</strong></h4>
+<p><strong>问题</strong>：在 Bochs 启动时，可能会遇到无法找到 <code>BIOS</code> 或 <code>VGA BIOS</code> 的问题，这通常是由于配置文件中的路径错误或文件不存在导致的。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>
+<p>确保你在 <code>bochsrc.disk</code> 配置文件中指定了正确的 <code>romimage</code> 和 <code>vgaromimage</code> 路径。比如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">romimage:</span><span style="color:#9ECBFF"> file=/usr/share/bochs/BIOS-bochs-latest</span></span>
+<span class="line"><span style="color:#B392F0">vgaromimage:</span><span style="color:#9ECBFF"> file=/usr/share/vgabios/vgabios.bin</span></span></code></pre>
+<p>如果 Bochs 提示找不到这些文件，首先检查文件路径是否正确，并确保文件已安装到系统中。如果没有安装，可以手动下载或通过包管理器安装。</p>
+</li>
+</ul>
+<h4 id="2-内存配置不足">2. <strong>内存配置不足</strong></h4>
+<p><strong>问题</strong>：配置文件中的内存设置不足，导致启动时操作系统无法加载或运行不稳定。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>
+<p>根据你要模拟的操作系统需求调整内存大小。Bochs 默认的内存大小可能只有 32MB，对于现代操作系统或需要更多内存的实验，建议将其设置为更大的值，如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">megs:</span><span style="color:#9ECBFF"> 256MB</span></span></code></pre>
+</li>
+</ul>
+<h4 id="3-启动设备配置不当">3. <strong>启动设备配置不当</strong></h4>
+<p><strong>问题</strong>：启动顺序配置错误，导致 Bochs 启动时无法从指定设备加载操作系统。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>
+<p>在 <code>bochsrc.disk</code> 配置文件中，你可以指定多个启动设备，例如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">boot:</span><span style="color:#9ECBFF"> disk</span></span></code></pre>
+<p>或者，如果你希望从软盘启动：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">boot:</span><span style="color:#9ECBFF"> floppy</span></span></code></pre>
+<p>请根据实际使用的启动介质（硬盘或软盘）选择正确的设备类型，并确保硬盘或软盘镜像路径配置正确。</p>
+</li>
+</ul>
+<h4 id="4-缺少或配置错误的软盘镜像">4. <strong>缺少或配置错误的软盘镜像</strong></h4>
+<p><strong>问题</strong>：没有正确配置软盘镜像，导致 Bochs 无法加载软盘启动文件。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>
+<p>配置软盘镜像路径时，确保提供了正确的文件路径：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">floppya:</span><span style="color:#9ECBFF"> 1_44=/path/to/your/boot.img,</span><span style="color:#9ECBFF"> status=inserted</span></span></code></pre>
+<p>如果你没有软盘镜像文件，可以使用工具（如 <code>bximage</code>）创建一个启动软盘镜像。</p>
+</li>
+</ul>
+<h4 id="5-日志输出配置缺失">5. <strong>日志输出配置缺失</strong></h4>
+<p><strong>问题</strong>：在调试或排查问题时，没有设置日志输出，导致无法查看 Bochs 启动过程中的错误信息。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>
+<p>启用日志输出并指定日志文件路径：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">log:</span><span style="color:#9ECBFF"> bochsout.txt</span></span></code></pre>
+<p>这样可以将 Bochs 的调试信息写入日志文件，帮助你诊断启动过程中遇到的问题。</p>
+</li>
+</ul>
+<h3 id="三bochs-配置文件示例">三、Bochs 配置文件示例</h3>
+<p>以下是一个经过修改并可正常启动的 Bochs 配置文件示例：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D">###############################################</span></span>
+<span class="line"><span style="color:#6A737D"># Configuration file for Bochs</span></span>
+<span class="line"><span style="color:#6A737D">###############################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Memory settings</span></span>
+<span class="line"><span style="color:#B392F0">megs:</span><span style="color:#9ECBFF"> 256MB</span><span style="color:#6A737D">  # Increase memory to 256MB</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># BIOS and VGA BIOS setup</span></span>
+<span class="line"><span style="color:#B392F0">romimage:</span><span style="color:#9ECBFF"> file=/usr/share/bochs/BIOS-bochs-latest</span></span>
+<span class="line"><span style="color:#B392F0">vgaromimage:</span><span style="color:#9ECBFF"> file=/usr/share/vgabios/vgabios.bin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Disk and boot settings</span></span>
+<span class="line"><span style="color:#B392F0">floppya:</span><span style="color:#9ECBFF"> 1_44=/path/to/your/boot.img,</span><span style="color:#9ECBFF"> status=inserted</span><span style="color:#6A737D">  # Adjust with the correct path to your bootable floppy image</span></span>
+<span class="line"><span style="color:#B392F0">boot:</span><span style="color:#9ECBFF"> floppy</span><span style="color:#6A737D">  # Change to disk if booting from hard drive</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Log output</span></span>
+<span class="line"><span style="color:#B392F0">log:</span><span style="color:#9ECBFF"> bochsout.txt</span><span style="color:#6A737D">  # Log file for debugging</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Mouse and Keyboard settings</span></span>
+<span class="line"><span style="color:#B392F0">mouse:</span><span style="color:#9ECBFF"> enabled=</span><span style="color:#79B8FF">0</span><span style="color:#6A737D">  # Disable mouse for now</span></span>
+<span class="line"><span style="color:#B392F0">keyboard:</span><span style="color:#9ECBFF"> type=mf,</span><span style="color:#9ECBFF"> serial_delay=</span><span style="color:#79B8FF">200</span><span style="color:#6A737D">  # Default keyboard settings</span></span></code></pre>
+<h2 id="fq">F&amp;Q</h2>
+<blockquote>
+<p>堆栈/缓冲区溢出（buffer overflow）错误本质上是 Bochs 在内部试图写入或读取一块内存时超出了它分配给缓冲区（buffer）的边界，从而触发了标准库的保护机制，抛出 “*** buffer overflow detected ***” 并终止程序。对于 Bochs 而言，最常见的几种原因有：</p>
+<ol>
+<li>
+<p><strong>BIOS/VGA BIOS 文件不匹配或损坏</strong>
+Bochs 启动时会加载你在配置文件里指定的 <code>romimage</code>（主 BIOS）和 <code>vgaromimage</code>（VGA BIOS）映像。如果你指定的文件路径不对、文件不完整或与 Bochs 版本不兼容，就可能让 Bochs 在尝试读取 BIOS 数据时越界访问。例如，用于 Bochs 的 <code>BIOS-bochs-latest</code> 和 <code>VGABIOS</code> 通常都有特定的格式及大小，若你指向了一个意外的二进制文件（或者该文件体积、校验不符），Bochs 内部在解析这些映像时就可能把某个字段当作合法数据去写入缓冲区，从而导致写溢出。</p>
+</li>
+<li>
+<p><strong>配置文件语法或选项不合法</strong>
+Bochs 的配置文件（<code>.bochsrc</code> / <code>bochsrc.disk</code>）对每一项的格式都有严格要求，例如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>romimage: file=/usr/share/bochs/BIOS-bochs-latest</span></span>
+<span class="line"><span>vgaromimage: file=/usr/share/vgabios/vgabios.bin</span></span></code></pre>
+<p>如果漏掉了关键字段、写错了 <code>file=</code> 后面的引号或路径拼写，再或者将某个本应为数字的选项写成了字符串，Bochs 在解析时就可能把意图当纯文本看待，尝试把那段“纯文本”当二进制数据加载到固定大小的缓冲区里，进而出现越界写操作。常见的误写包括：</p>
+<ul>
+<li><code>megs: 32</code>（少写了“MB”）或写成 <code>megs=32MB</code>（等号→冒号错误）。</li>
+<li><code>floppya: 1_44=bootimg.img status=inserted</code>（漏写逗号）。</li>
+<li>把路径写成 <code>file= /usr/...</code>（多了空格）或错把斜杠方向写成 Windows 风格 <code>"C:\whatever"</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>内存、设备配置不合理</strong>
+Bochs 会把配置文件里指定的物理内存大小分配给一个缓冲区，比如 <code>megs: 32MB</code>。如果当时宿主机内存不足、或者 Bochs 编译时不支持动态分配，就可能在初始化时就越界。有些老版本的 Bochs 对大于 64MB 的内存支持不好，如果你写了 <code>megs: 512MB</code> 而该可执行文件是旧版本、编译时没有打开大内存分块支持，就会在内部分配缓冲区时发生越界。</p>
+</li>
+<li>
+<p><strong>硬件插件或扩展冲突</strong>
+Bochs 支持多种可选插件（如 <code>pci:</code>, <code>serial:</code>, <code>sound:</code> 等）。如果你在配置中启用了某个插件（比如 <code>sound: driver=sd</code>，而系统里没有相应的库），Bochs 在加载时就会在内部创建一个虚拟设备上下文，调用对应驱动的初始化函数。如果插件代码里对某个数组、环形缓冲区写入越界，Bochs 就会报 buffer overflow。另外，如果你同时启用了多个冲突的插件，比如既把 <code>pci: enabled=1, chipset=i440fx</code> 又把 <code>pcipnic</code> 插件设置为默认插槽，Bochs 在分配 PCI 设备时内部数据结构越界，也会触发溢出检测。</p>
+</li>
+</ol>
+<hr>
+<h2 id="如何避免或修复这类溢出">如何避免或修复这类溢出</h2>
+<ol>
+<li>
+<p><strong>确认 BIOS/VGA BIOS 映像有效</strong></p>
+<ul>
+<li>
+<p>下载或安装官方发行版自带的 BIOS。一般 Fedora 安装 <code>dnf install bochs</code> 时会把 <code>BIOS-bochs-latest</code> 放在 <code>/usr/share/bochs/</code>，GRUB VBE 等文件放在 <code>/usr/share/vgabios/</code>。</p>
+</li>
+<li>
+<p>如果你自己编译 Bochs，确保 <code>./configure</code> 时输出里出现了 <code>--with-x --with-sdl</code> 等选项，并在编译完成后检查 <code>$BXSHARE/BIOS-bochs-latest</code>、<code>$BXSHARE/VGABIOS-lgpl-latest.bin</code> 文件是否可读、大小正常（通常 BIOS 大小在 128 KB 左右，VGA BIOS 大小也是几十 KB）。</p>
+</li>
+<li>
+<p>在配置文件里使用绝对路径，例如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>romimage: file="/usr/share/bochs/BIOS-bochs-latest"</span></span>
+<span class="line"><span>vgaromimage: file="/usr/share/vgabios/VGABIOS-lgpl-latest.bin"</span></span></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>严格遵循配置语法</strong></p>
+<ul>
+<li>
+<p>整个文件每行 <code>选项: 键=值, 键=值</code> 之间用冒号、逗号分隔，键和值之间不能留空格（或者要用双引号包裹）。</p>
+</li>
+<li>
+<p>数字后面要带单位，例如 <code>megs: 256MB</code>、<code>block_size=512</code>。</p>
+</li>
+<li>
+<p>路径写双引号最好，避免空格、特殊字符误解析：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>floppya: 1_44="/home/username/bochs/boot.img", status=inserted</span></span>
+<span class="line"><span>ata0-master: type=disk, mode=flat, path="/home/username/bochs/disk.img", cylinders=154, heads=4, spt=17</span></span></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>简化初版配置，逐步添加功能</strong></p>
+<ul>
+<li>
+<p>一开始只保留最基本的三项：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">megs:</span><span style="color:#9ECBFF"> 64MB</span></span>
+<span class="line"><span style="color:#B392F0">romimage:</span><span style="color:#9ECBFF"> file="/usr/share/bochs/BIOS-bochs-latest"</span></span>
+<span class="line"><span style="color:#B392F0">boot:</span><span style="color:#9ECBFF"> disk</span></span></code></pre>
+<p>然后仅加上一个简单的硬盘：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ata0-master:</span><span style="color:#9ECBFF"> type=disk,</span><span style="color:#9ECBFF"> mode=flat,</span><span style="color:#9ECBFF"> path="bootable.img",</span><span style="color:#9ECBFF"> cylinders=XXX,</span><span style="color:#9ECBFF"> heads=YYY,</span><span style="color:#9ECBFF"> spt=ZZZ</span></span></code></pre>
+<p>确认能正常进入 BIOS 菜单后，再逐行加上 VGA、软盘、插件、日志等选项，跑一遍看看哪一行加了之后秒崩。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>查看日志和调试信息</strong></p>
+<ul>
+<li>
+<p>在配置中打开调试输出，或者把日志级别设置为 <code>debug</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">panic:</span><span style="color:#9ECBFF"> action=ask</span></span>
+<span class="line"><span style="color:#B392F0">error:</span><span style="color:#9ECBFF"> action=report</span></span>
+<span class="line"><span style="color:#B392F0">info:</span><span style="color:#9ECBFF"> action=report</span></span>
+<span class="line"><span style="color:#B392F0">debug:</span><span style="color:#9ECBFF"> action=report</span></span>
+<span class="line"><span style="color:#B392F0">debugger_log:</span><span style="color:#9ECBFF"> "debug_out.txt"</span></span>
+<span class="line"><span style="color:#B392F0">log:</span><span style="color:#9ECBFF"> bochs.log</span></span></code></pre>
+</li>
+<li>
+<p>启动 Bochs 后检查 <code>bochs.log</code>，通常能看到是哪一行配置解析出错（例如 “unexpected token”, “bios image read error”）导致后面内存分配出问题。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>版本兼容性</strong></p>
+<ul>
+<li>新版 Bochs 有时会更改配置语法或删除某些选项。参考当前安装的 Bochs 源码中的 <code>docs/bochsrc.txt</code>，和你系统里的 Bochs 版本（<code>bochs --version</code>）保持一致。</li>
+<li>如果书里给出的配置是 Bochs 2.x/Bochs 3.x，对应到 Bochs 4.x/Bochs 5.x 时，有些选项的名字或行为会变化。务必以本地 <code>bochsrc.txt</code> 文档为准。</li>
+</ul>
+</li>
+</ol>
+<p>Bochs 抛出 “*** buffer overflow detected ***” 的常见原因，就是加载了不符合预期的 BIOS/VGA ROM 文件，或者配置文件里出现语法/路径错误，使得 Bochs 在内部缓冲区读写时越界了。通过以下几步可以避免：</p>
+<ol>
+<li>确保 <code>romimage</code>、<code>vgaromimage</code>、硬盘/软盘镜像路径都指向合法、完整的二进制文件。</li>
+<li>严格按照 Bochs 文档中的语法编写配置文件，带单位、用双引号包裹有空格的路径、逗号分隔选项。</li>
+<li>简化配置，逐步启用各项功能，并通过日志定位抛错点。</li>
+<li>使用与书中版本对应的 Bochs，或对照本地 <code>bochsrc.txt</code> 文档，及时调整旧配置中已废弃/修改的写法。</li>
+</ol>
+<p>只要按照以上思路排查并修正，通常就能避免 buffer 溢出错误，让 Bochs 顺利启动。</p>
+</blockquote>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#bochs-配置问题与解决方案" data-astro-cid-7natcuz3>Bochs 配置问题与解决方案</a><a class="depth-3" href="#一bochs-配置文件结构" data-astro-cid-7natcuz3>一、Bochs 配置文件结构</a><a class="depth-3" href="#二常见配置问题及解决方案" data-astro-cid-7natcuz3>二、常见配置问题及解决方案</a><a class="depth-3" href="#三bochs-配置文件示例" data-astro-cid-7natcuz3>三、Bochs 配置文件示例</a><a class="depth-2" href="#fq" data-astro-cid-7natcuz3>F&amp;Q</a><a class="depth-2" href="#如何避免或修复这类溢出" data-astro-cid-7natcuz3>如何避免或修复这类溢出</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>
