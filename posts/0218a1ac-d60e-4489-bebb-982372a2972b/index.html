@@ -1,0 +1,566 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="集群调试log 雷达倾斜安装 因为是/Odometry -----/vins_to_mavros----> /mavros/vision_pose/pose单线转换,实现了传感器数据与机器人位姿（Pose）的分离。 这里cloud registered是倾斜的 在节点话题图中是看不到** /mavr"><link rel="canonical" href="https://blog.ehzsy.site/posts/0218a1ac-d60e-4489-bebb-982372a2972b/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="px4<->ros整理大全和集群调试log · eH Blog"><meta property="og:description" content="集群调试log 雷达倾斜安装 因为是/Odometry -----/vins_to_mavros----> /mavros/vision_pose/pose单线转换,实现了传感器数据与机器人位姿（Pose）的分离。 这里cloud registered是倾斜的 在节点话题图中是看不到** /mavr"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20251118013312_25_3.jpg"><title>px4&lt;-&gt;ros整理大全和集群调试log · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T16:56:03.563Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>20 MIN READ</span></div><h1 data-astro-cid-7natcuz3>px4&lt;-&gt;ros整理大全和集群调试log</h1><p data-astro-cid-7natcuz3>集群调试log 雷达倾斜安装 因为是/Odometry -----/vins_to_mavros----&gt; /mavros/vision_pose/pose单线转换,实现了传感器数据与机器人位姿（Pose）的分离。 这里cloud registered是倾斜的 在节点话题图中是看不到** /mavr</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E6%81%B0%E9%A5%AD/" data-astro-cid-7natcuz3>恰饭</a><a href="/categories/%E9%A3%9E%E6%8E%A7/" data-astro-cid-7natcuz3>飞控</a><a class="tag" href="/tags/%E9%A3%9E%E6%8E%A7/" data-astro-cid-7natcuz3>#飞控</a><a class="tag" href="/tags/swarm/" data-astro-cid-7natcuz3>#swarm</a><a class="tag" href="/tags/uav/" data-astro-cid-7natcuz3>#uav</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h1 id="集群调试log">集群调试log</h1>
+<h2 id="雷达倾斜安装">雷达倾斜安装</h2>
+<p>因为是/Odometry —–/vins_to_mavros––&gt; /mavros/vision_pose/pose单线转换,实现了<strong>传感器数据与机器人位姿（Pose）的分离</strong>。</p>
+<ul>
+<li>
+<p>这里cloud registered是倾斜的</p>
+</li>
+<li>
+<p>在节点话题图中是看不到** /mavros/vision_pose/pose<strong>和</strong>/mavros/local_position/odom</p>
+<p>/mavros/local_position/pos**的关系的</p>
+<p>是因为:<code>/mavros/vision_pose/pose</code> 是<strong>喂给</strong>飞控的数据（<strong>输入</strong>），而 <code>/mavros/local_position/odom</code> 和 <code>/mavros/local_position/pose</code> 则是飞控经过内部融合计算后，**反馈给您*的结果（<strong>输出</strong>）。</p>
+<p>这些任务是在单片机上运行的</p>
+<blockquote>
+<p>补充,/mavros话题之间的关系,以及/mavros/vision_pose/pose何去何从,以及飞控板中的内部消息处理逻辑,以及各个mavros话题</p>
+<p>之间的关系还有处理逻辑</p>
+</blockquote>
+<blockquote>
+<p><em><strong>回答</strong></em>见下方正文</p>
+</blockquote>
+<h2 id="mavros逻辑梳理">mavros逻辑梳理</h2>
+<p>好的，这是一个非常深入的问题。要理解您列出的这一百多个 MAVROS 话题，最好的方法不是逐一解释，而是将它们按<strong>功能和数据流向</strong>分成几大类。</p>
+<p>MAVROS 本质上是运行在机载电脑（如树莓派、NVIDIA Jetson）上的 <strong>ROS 系统</strong> 和无人机<strong>飞控板</strong>（如 Pixhawk, a running PX4 or ArduPilot firmware）之间的一座<strong>双向大桥</strong>。它通过 <strong>MAVLink 协议</strong> 来回传递消息。</p>
+<h3 id="核心数据流逻辑"><strong>核心数据流逻辑</strong></h3>
+<p>我们可以把整个系统的数据流向简化为下图：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>+---------------------------------+          +-----------------------------+</span></span>
+<span class="line"><span>|    机载电脑 (Companion Computer)    |          |      飞控板 (Flight Controller) |</span></span>
+<span class="line"><span>|            (ROS)                |          |      (e.g., PX4 with EKF2)  |</span></span>
+<span class="line"><span>+---------------------------------+          +-----------------------------+</span></span>
+<span class="line"><span>              ^   |                                      ^   |</span></span>
+<span class="line"><span>              |   |                                      |   |</span></span>
+<span class="line"><span>  [指令/外部数据]  |   V  [状态/传感器数据]                [指令]   |   V  [内部传感器数据]</span></span>
+<span class="line"><span>              |   |                                      |   |</span></span>
+<span class="line"><span>              |   |        MAVLink 协议通信        |   |</span></span>
+<span class="line"><span>+---------------------------------+ &lt;=================&gt; +-----------------------------+</span></span>
+<span class="line"><span>|             MAVROS              |          |      MAVLink Endpoint         |</span></span>
+<span class="line"><span>+---------------------------------+          +-----------------------------+</span></span></code></pre>
+<h3 id="第一类感知与定位-飞控---ros"><strong>第一类：感知与定位 (飞控 -&gt; ROS)</strong></h3>
+<p>数据流向主要是从<strong>飞控到机载电脑</strong>。</p>
+<ul>
+<li><strong>原始传感器数据</strong>:
+<ul>
+<li><code>/mavros/imu/data_raw</code>: 飞控原始的IMU数据（加速度计、陀螺仪）。</li>
+<li><code>/mavros/global_position/raw/fix</code>: 原始的GPS定位信息。</li>
+<li><code>/mavros/altitude</code>: 融合了气压计等信息的高度。</li>
+</ul>
+</li>
+<li><strong>融合后的状态估计 (最常用)</strong>:
+<ul>
+<li><strong><code>/mavros/local_position/pose</code></strong>: 飞控内部EKF（扩展卡尔曼滤波器）融合所有传感器（包括您提供的视觉位姿）后，得出的在<strong>本地坐标系（odom或map）下的位置和姿态</strong>。</li>
+<li><strong><code>/mavros/local_position/odom</code></strong>: 比上面的 <code>pose</code> 更完整，除了位姿，还包含了<strong>速度信息</strong>。<strong>这通常是上层应用（如运动规划）最应该使用的位姿来源</strong>。</li>
+</ul>
+</li>
+<li><strong>系统状态</strong>:
+<ul>
+<li><code>/mavros/state</code>: 飞控的当前状态（例如，<code>ARMED</code>, <code>OFFBOARD</code>, <code>MANUAL</code>）。</li>
+<li><code>/mavros/battery</code>: 电池电压和电量信息。</li>
+<li><code>/mavros/estimator_status</code>: 内部状态估计器（EKF）的健康状况。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="第二类外部数据注入-ros---飞控"><strong>第二类：外部数据注入 (ROS -&gt; 飞控)</strong></h3>
+<p>。数据流向主要是从<strong>机载电脑到飞控</strong>。</p>
+<ul>
+<li><strong>视觉/雷达定位数据</strong>:
+<ul>
+<li><strong><code>/mavros/vision_pose/pose</code></strong>: 您通过VIO或Lidar SLAM计算出的无人机位姿，发送给飞控，用于<strong>修正和融合</strong>。</li>
+<li><code>/mavros/odometry/in</code>: 另一个可以发送完整里程计信息（包含速度）的接口。通常 <code>vision_pose</code> 和 <code>odometry/in</code> 只使用其中一个。</li>
+</ul>
+</li>
+<li><strong>动捕系统数据</strong>:
+<ul>
+<li><code>/mavros/mocap/pose</code>: 用于从外部运动捕捉系统（如Vicon, OptiTrack）注入更高精度的位姿。</li>
+</ul>
+</li>
+<li><strong>外部GPS数据</strong>:
+<ul>
+<li><code>/mavros/gps_input/gps_input</code>: 可以绕过飞控自己的GPS驱动，直接从ROS注入GPS数据。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="第三类指令与控制-ros---飞控mavrossetpoint_"><strong>第三类：指令与控制 (ROS -&gt; 飞控)</strong>“/mavros/setpoint_”</h3>
+<p><strong>这是实现自主飞行的核心。</strong></p>
+<ul>
+<li>**高级指令 **:
+<ul>
+<li><code>/mavros/setpoint_position/local</code>: 发送在<strong>本地坐标系</strong>下的期望位置目标点。</li>
+<li><code>/mavros/setpoint_velocity/cmd_vel_unstamped</code>: 发送期望的速度指令。</li>
+</ul>
+</li>
+<li><strong>低级指令 (需要自己做控制器)</strong>:
+<ul>
+<li><code>/mavros/setpoint_raw/attitude</code>: 直接发送期望的姿态和油门大小。</li>
+<li><code>/mavros/setpoint_accel/accel</code>: 发送期望的加速度指令。</li>
+</ul>
+</li>
+<li><strong>轨迹指令</strong>:
+<ul>
+<li><code>/mavros/trajectory/desired</code>: 发送一个包含位置、速度、加速度的完整轨迹点。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="mavros-话题功能详尽分类表"><strong>MAVROS 话题功能详尽分类表</strong></h3>
+<table>
+<thead>
+<tr>
+<th>类别 (Category)</th>
+<th>主要话题 (Key Topic)</th>
+<th>数据流向 (Data Flow)</th>
+<th>功能简介 (Brief Description)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 感知、定位与状态</strong>   <em>(Sensing, State &amp; Localization)</em></td>
+<td><code>/mavros/state</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>✅ <strong>核心状态</strong>: 飞行模式、是否解锁、系统ID等。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/local_position/odom</code></td>
+<td>飞控 -&gt; ROS</td>
+<td><strong>本地里程计</strong>: EKF融合后的高精度位姿+速度，<strong>上层应用首选</strong>。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/local_position/pose</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>本地坐标系下的位姿（位置+姿态）。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/local_position/velocity_body</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>机体坐标系下的速度。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/global_position/global</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>全球GPS位置（经纬高）。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/global_position/raw/fix</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>原始、未融合的GPS定位数据。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/global_position/compass_hdg</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>磁罗盘航向角。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/global_position/rel_alt</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>相对于起飞点的高度。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/imu/data</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>经过校准和融合的IMU数据（姿态、角速度、加速度）。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/imu/data_raw</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>原始IMU传感器读数。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/altitude</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>融合后的高度信息（气压计等）。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/battery</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>电池电压、电流与电量。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/estimator_status</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>内部状态估计器（EKF）的健康状况。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/extended_state</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>扩展的飞控状态（如着陆状态）。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/radio_status</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>遥控接收机或数传电台的信号强度(RSSI)。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/time_reference</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>飞控与ROS之间的时间参考，用于同步。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/vfr_hud</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>用于平视显示器（HUD）的常用数据（空速、地速、高度、油门等）。</td>
+</tr>
+<tr>
+<td><strong>2. 外部数据注入</strong>   <em>(External Data Injection)</em></td>
+<td><code>/mavros/vision_pose/pose</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>💉 <strong>注入视觉位姿</strong>: 从VIO/SLAM向飞控EKF提供位姿修正。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/odometry/in</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>💉 <strong>注入里程计</strong>: <code>vision_pose</code>的更完整版本，包含速度信息。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/mocap/pose</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>💉 <strong>注入动捕位姿</strong>: 从运动捕捉系统（如Vicon）提供高精度位姿。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/gps_input/gps_input</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>💉 <strong>注入GPS</strong>: 从ROS向飞控发送GPS数据，可替代飞控自带的GPS。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/landing_target/pose_in</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>🎯 <strong>注入着陆目标</strong>: 发送一个精确的着陆目标位姿（如视觉二维码）。</td>
+</tr>
+<tr>
+<td><strong>3. 目标设定点与指令</strong>   <em>(Setpoints &amp; Commands)</em></td>
+<td><code>/mavros/setpoint_position/local</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>📍 <strong>位置控制</strong>: 发送期望的本地位置目标点。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/setpoint_velocity/cmd_vel_unstamped</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>💨 <strong>速度控制</strong>: 发送期望的线速度和角速度。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/setpoint_raw/attitude</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>🔄 <strong>姿态控制</strong>: 直接发送期望的姿态和油门，用于底层控制。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/setpoint_accel/accel</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>🚀 <strong>加速度控制</strong>: 发送期望的加速度指令。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/setpoint_trajectory/local</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>✈️ <strong>轨迹控制</strong>: 发送包含位置、速度、加速度的完整轨迹点。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/rc/override</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>🕹️ <strong>覆盖遥控器</strong>: 用程序模拟遥控器输入，实现完全控制。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/manual_control/send</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>发送手动控制指令。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/play_tune</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>🎵 控制飞控蜂鸣器播放提示音。</td>
+</tr>
+<tr>
+<td><strong>4. 任务、执行器与反馈</strong>   <em>(Missions &amp; Actuators)</em></td>
+<td><code>/mavros/mission/waypoints</code></td>
+<td>ROS &lt;-&gt; 飞控</td>
+<td>🗺️ <strong>航点任务</strong>: 上传、下载和监控自主飞行航点列表。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/mission/reached</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>✅ <strong>到达航点</strong>: 飞控发出的到达任务航点的通知。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/home_position/home</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>🏠 获取当前设置的“家”的位置。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/rc/in</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>📡 <strong>遥控器输入</strong>: 读取人类飞行员的遥控器通道值。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/actuator_control</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>⚙️ <strong>电机指令</strong>: 查看飞控发送给电机/舵机的最终控制指令。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/esc_status</code> &amp; <code>/esc_telemetry</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>⚡ <strong>电调状态</strong>: 读取数字电调的转速、温度、电压等遥测数据。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/mount_control/command</code></td>
+<td>ROS -&gt; 飞控</td>
+<td>控制相机云台的指令。</td>
+</tr>
+<tr>
+<td><strong>5. 通用、调试与底层</strong>   <em>(Utilities &amp; Low-Level)</em></td>
+<td><code>/mavlink/from</code> &amp; <code>/mavlink/to</code></td>
+<td>MAVROS &lt;-&gt; 串口</td>
+<td>🛠️ <strong>底层数据包</strong>: 用于深度调试，直接查看原始的MAVLink通信数据。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/param/param_value</code></td>
+<td>ROS &lt;-&gt; 飞控</td>
+<td>🔧 <strong>参数服务</strong>: 用于读取和设置飞控的所有内部参数（<strong>注意：这是服务，非话题</strong>）。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/log_transfer/...</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>💾 <strong>飞行日志</strong>: 用于下载飞控的“黑匣子”数据。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/statustext/recv</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>💬 <strong>状态文本</strong>: 接收来自飞控的文本消息（如 “Preflight checks passed”）。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/debug_value/...</code></td>
+<td>ROS &lt;-&gt; 飞控</td>
+<td>🐞 <strong>调试值</strong>: 一组通用的调试接口，用于在飞控和ROS间传递命名的变量。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/hil/...</code></td>
+<td>ROS &lt;-&gt; 飞控</td>
+<td>💻 <strong>硬件在环仿真 (HIL)</strong>: 一整套用于HIL仿真的话题，如模拟GPS、IMU等。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/px4flow/...</code></td>
+<td>飞控 -&gt; ROS</td>
+<td>👁️ <strong>光流传感器</strong>: 用于PX4Flow光流传感器的数据。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/adsb/...</code></td>
+<td>ROS &lt;-&gt; 飞控</td>
+<td>✈️ <strong>ADS-B</strong>: 用于广播式自动相关监视（ADS-B）的数据，避免与其他飞行器相撞。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/mavros/tunnel/in</code> &amp; <code>/out</code></td>
+<td>ROS &lt;-&gt; 飞控</td>
+<td>🚇 <strong>自定义通道</strong>: 用于在ROS和飞控固件之间传输自定义的MAVLink消息。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="关键点"><strong>关键点</strong>:</h3>
+<h4 id="1-mavrosvision_posepose-何去何从"><strong>1. <code>/mavros/vision_pose/pose</code> 何去何从？</strong></h4>
+<ul>
+<li><strong>从哪来 (Source)</strong>: 它来自于您的外部定位系统。它由 <code>vins_to_mavros</code> 节点在对原始VIO/LIO数据进行<strong>坐标校正</strong>后发布出来。</li>
+<li><strong>到哪去 (Destination)</strong>:
+<ol>
+<li>MAVROS节点订阅这个ROS话题。</li>
+<li>MAVROS将收到的 <code>PoseStamped</code> 消息<strong>打包</strong>成 MAVLink 协议格式的消息（通常是 <code>VISION_POSITION_ESTIMATE</code> 或 <code>ODOMETRY</code> 消息）。</li>
+<li>MAVROS通过串口或网络将这个MAVLink消息发送给<strong>飞控板</strong>。</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-飞控板中的内部消息处理逻辑"><strong>2. 飞控板中的内部消息处理逻辑</strong></h4>
+<ol>
+<li>飞控板接收到由 <code>/vision_pose/pose</code> 转化而来的 MAVLink 消息。</li>
+<li>飞控内部的核心——<strong>EKF (扩展卡尔曼滤波器)</strong>——获取这个外部位姿数据。</li>
+<li>EKF开始进行<strong>数据融合</strong>：
+<ul>
+<li><strong>预测步 (Prediction)</strong>: EKF根据内部高频的IMU数据（加速度和角速度）来<strong>预测</strong>无人机下一刻的位姿。这个预测会因为IMU的漂移而逐渐不准。</li>
+<li><strong>更新/修正步 (Update/Correction)</strong>: 当EKF收到一个外部的、更准确的位姿测量值时（比如您从 <code>vision_pose</code> 发送过来的数据，或者GPS数据），它会用这个“外部真值”来<strong>修正</strong>自己的预测。它会计算预测值和测量值之间的差异，并根据传感器的可信度（噪声大小）来调整自己的状态，使其更接近测量值。</li>
+</ul>
+</li>
+<li>融合后的最佳估计结果，就变成了飞控的“官方”位姿。这个结果随后被MAVROS读取，并发布到 <code>/mavros/local_position/odom</code> 等话题上，供ROS系统的其他部分使用。</li>
+</ol>
+</li>
+</ul>
+<ol start="3">
+<li>fastlio 的 <code>/cloud_registered</code> 话题</li>
+</ol>
+<p>这个话题是<strong>实时发布，不缓存</strong>的。</p>
+<p>让我们详细解释一下：</p>
+<ul>
+<li><strong>实时发布 (Real-time Publishing):</strong> <code>fastlio</code> 在处理完每一帧（或一个小的集合）的LiDAR数据后，就会立即发布一次 <code>/cloud_registered</code> 话题。这个话题的内容是<strong>当前帧</strong>的点云，经过运动畸变校正，并且被配准（变换）到**世界坐标系（world frame）**下的结果。</li>
+<li><strong>不缓存 (Not Cached):</strong> 这个话题本身并不会累积之前的点云。每一次发布的消息都是一个独立的 <code>sensor_msgs/PointCloud2</code>，只包含最新处理过的那一帧点云数据。如果你用 <code>rostopic echo</code> 去查看这个话题，你会看到消息流持续不断地输出，但每一条消息的大小基本是固定的（取决于LiDAR的扫描线数和点数），并不会随着时间的推移而变大。</li>
+</ul>
+<p><strong>那为什么在 RViz 里看起来是“一直在增长的”呢？</strong></p>
+<p>这是因为可视化工具（如 RViz）的特性。当你把 <code>/cloud_registered</code> 话题在 RViz 中显示时，通常会进行如下设置：</p>
+<ol>
+<li><strong>Fixed Frame (固定坐标系):</strong> 你会将 RViz 的全局固定坐标系设置为 <code>world</code> 或者 <code>map</code>。</li>
+<li><strong>Decay Time (衰减时间):</strong> 在 PointCloud2 的显示设置里，有一个 “Decay Time” 参数。如果你把它设置为 0 或者一个很大的值，RViz 就会把接收到的<strong>每一帧</strong>点云都保留在画面上，不会清除旧的。</li>
+</ol>
+<hr>
+<h3 id="节点分析">节点分析</h3>
+<h4 id="1-offset_odom_pub">1. /offset_odom_pub</h4>
+<p>简单来说，<code>/offset_odom_pub</code> 节点的作用是<strong>校正里程计 (odometry) 的初始位置</strong>，并将校正后的结果发布到 <code>/odom2</code> 话题上。</p>
+<h5 id="offset_odom_pub-节点的作用"><code>/offset_odom_pub</code> 节点的作用</h5>
+<p>这个节点通常是一个辅助性的工具，它的核心功能是给一个已经存在的里程计数据流<strong>添加一个固定的偏移量（offset）</strong>。</p>
+<p><strong>工作流程通常是这样的：</strong></p>
+<ol>
+<li><strong>订阅原始里程计：</strong> 这个节点会订阅一个原始的里程计话题，比如来自 VIO (视觉惯性里程计) 或 LIO (激光雷达惯性里程计) 算法输出的话题（例如 <code>/vins_fusion/odometry</code> 或 <code>/fast_lio/odometry</code>）。</li>
+<li><strong>计算偏移量：</strong> 当它收到<strong>第一帧</strong>里程计数据时，它会记下这个初始的位姿（Position 和 Orientation）。这个初始位姿就是原始算法的“世界坐标系”原点。</li>
+<li><strong>应用偏移：</strong> 对于后续接收到的每一帧里程计数据，它都会应用一个变换，这个变换的作用是把第一帧的初始位姿“挪”回到真正的世界原点 (0, 0, 0)。</li>
+<li><strong>发布新里程计：</strong> 最后，它会将这个经过“原点重置”的、新的里程计数据发布出去。</li>
+</ol>
+<p>你可以把它想象成一个“<strong>归零校准器</strong>”。无论你的无人机或机器人在哪里启动SLAM算法，这个节点都能确保最终输出的轨迹图的起点始终在 (0, 0, 0) 位置。</p>
+<h5 id="odom2-话题"><code>/odom2</code> 话题</h5>
+<p>这个话题就是 <code>/offset_odom_pub</code> 节点<strong>发布校正后里程计数据的地方</strong>。</p>
+<p>它的名字 <code>/odom2</code> 只是一个约定俗成的名称，意思是“第二个”或者“处理过的”里程计数据。它与原始的 <code>/odom</code> 话题相比，具有相同的消息类型 (<code>nav_msgs/Odometry</code>)，但其数据经过了原点对齐。</p>
+<hr>
+<h4 id="2-drone2_ego_planner_node">2. /drone2_ego_planner_node</h4>
+<p><code>/drone2_ego_planner_node</code> 是 <strong>EGO-Planner</strong> 框架中，负责<strong>无人机2号（drone2）*<em>进行*</em>自主路径规划</strong>的ROS节点。</p>
+<p>简单来说，它就是无人机2号在未知复杂环境中，能实时、快速、安全地规划自己飞行轨迹的“<strong>动态导航大脑</strong>”。</p>
+<h5 id="主要功能">主要功能</h5>
+<p>这个节点的核心是实现一个高效的运动规划器，其特点可以概括为 “EGO”，即 <strong>E</strong>xploration <strong>G</strong>uided <strong>O</strong>ptimization (探索引导的优化)。</p>
+<ol>
+<li><strong>🚀 轨迹生成与优化 (Trajectory Generation &amp; Optimization):</strong>
+<ul>
+<li>该节点不只是简单地找一条能走的路，而是生成一条<strong>平滑</strong>且<strong>动态可行</strong>的飞行轨迹。</li>
+<li>它会综合考虑无人机的速度、加速度等限制，确保生成的轨迹是无人机在物理上能够执行的。</li>
+<li>优化目标通常是找到时间最短、最平滑、最安全的路径。</li>
+</ul>
+</li>
+<li><strong>🌲 实时避障 (Real-time Obstacle Avoidance):</strong>
+<ul>
+<li>它会接收来自传感器（如深度相机、激光雷达）的环境感知数据，构建一个局部地图。</li>
+<li>当规划路径时，它能主动避开地图中的障碍物，保证飞行安全。</li>
+</ul>
+</li>
+<li><strong>🐝 支持无人机集群 (Swarm Support):</strong>
+<ul>
+<li>EGO-Planner 框架是为<strong>无人机集群</strong>设计的。<code>/drone2_ego_planner_node</code> 中的 <code>drone2</code> 这个命名空间（namespace）明确表示，它是在一个多无人机系统中，专门服务于2号无人机的规划节点。</li>
+<li>在集群中，它不仅要躲避静态障碍物，还要通过节点间的通信，与其他无人机（如 <code>/drone1_ego_planner_node</code>）协同，避免相互碰撞。这是一个<strong>去中心化</strong>的系统，意味着每架无人机都独立运行自己的规划器，然后相互协调。</li>
+</ul>
+</li>
+<li><strong>异步与去中心化 (Asynchronous &amp; Decentralized):</strong>
+<ul>
+<li>每架无人机的规划节点都是独立工作的，不需要一个中央服务器来统一指挥。这大大提高了系统的鲁棒性，即使一架无人机出现故障，也不会影响其他无人机的正常运行。</li>
+</ul>
+</li>
+</ol>
+<h5 id="工作流程简述">工作流程简述</h5>
+<ol>
+<li><strong>接收目标点:</strong> 节点从外部（如地面站或更高层的任务规划器）接收一个目标点。</li>
+<li><strong>感知环境:</strong> 节点订阅来自 <code>/drone2</code> 的传感器数据（如点云或深度图），了解周围环境。</li>
+<li><strong>全局路径搜索:</strong> 使用A*等算法快速搜索一条到达目标点的粗略路径。</li>
+<li><strong>轨迹优化:</strong> 将粗略路径作为输入，通过优化算法（如 MINCO）生成一条光滑、安全的轨迹。</li>
+<li><strong>发布指令:</strong> 将最终生成的轨迹点作为指令，发布给无人机的底层控制器去执行。</li>
+</ol>
+<h4 id="3-ego-swarm">3. ego swarm</h4>
+<h5 id="1-核心规划模块">1. 核心规划模块</h5>
+<p>这是整个流程的大脑。</p>
+<ul>
+<li><strong><code>/drone2_ego_planner_node</code></strong>:
+<ul>
+<li><strong>角色</strong>: 这是 <strong>EGO-Planner 的核心规划节点</strong>，专门负责 <code>drone2</code>。它接收目标点和传感器数据（图中未画出，但必然存在），然后实时计算出一条从当前位置到目标点的、光滑且无碰撞的飞行轨迹。</li>
+<li><strong>输入</strong>:
+<ul>
+<li>它会订阅一个里程计话题（从左侧未完全显示的 <code>/offset_odom_pub</code> 节点传来），用于了解自身的实时位置。</li>
+<li>它订阅 <code>/broadcast_bspline</code> 话题，这是用于<strong>无人机集群协同避障</strong>的。它通过这个话题接收来自<strong>其他无人机</strong>的规划轨迹，从而在规划自己路径时能主动避开队友。</li>
+</ul>
+</li>
+<li><strong>输出</strong>:
+<ul>
+<li><strong><code>/drone2_planning/bspline</code></strong>: 这是最重要的输出。它将计算出的最优轨迹以 <strong>B样条曲线 (B-spline)</strong> 的形式发布到这个话题上。B样条是一种数学表示，可以紧凑地描述一条平滑的曲线。</li>
+<li><strong><code>/drone2_ego_planner_node/...</code> (框内的话题)</strong>: 这些是用于<strong>可视化和调试</strong>的话题。在RViz等工具中订阅它们，就可以实时看到：
+<ul>
+<li><code>/grid_map</code> 和 <code>/grid_map/occupancy</code>: 规划器内部用于避障的局部<strong>栅格地图</strong>。</li>
+<li><code>/optimal_list</code>: 规划出的最优路径点。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-轨迹执行模块">2. 轨迹执行模块</h5>
+<p>这部分负责将规划好的“蓝图”变成实际的飞行动作。</p>
+<ul>
+<li><strong><code>/drone2_traj_server</code></strong>:
+<ul>
+<li><strong>角色</strong>: 这是一个<strong>轨迹服务器 (Trajectory Server)</strong> 或轨迹跟随者。它的任务是接收来自规划器的完整轨迹（那条B样条曲线）。</li>
+<li><strong>工作方式</strong>: 它不会一次性把整个轨迹都发给飞控。而是根据当前时间，从B样条曲线上<strong>高频采样</strong>出一个个具体的目标点（包含位置、速度、加速度等信息）。</li>
+</ul>
+</li>
+<li><strong><code>/position_cmd</code></strong>:
+<ul>
+<li><strong>角色</strong>: 这是<strong>最终的控制指令话题</strong>。</li>
+<li><strong>数据流</strong>: <code>/drone2_traj_server</code> 将实时采样出的指令点发布到这个话题。无人机的底层飞控（例如通过 MAVROS）会订阅这个话题，并精确地控制电机，让无人机严格按照这些指令点飞行。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="3-通信与监控模块">3. 通信与监控模块</h5>
+<p>这部分负责与地面站（GCS）通信，并可能融合其他数据。</p>
+<ul>
+<li><strong><code>/gcs_bridge_node</code></strong>:
+<ul>
+<li><strong>角色</strong>: 一个<strong>桥接节点</strong>，用于在无人机上的 ROS 系统和<strong>地面控制站 (Ground Control Station)</strong> 之间建立通信。</li>
+<li><strong>工作方式</strong>:
+<ul>
+<li>它<strong>订阅</strong> <code>/drone2_ego_planner_node</code> 的规划结果和 <code>/odom_new</code>（可能是最新的里程计信息）。</li>
+<li>然后将这些信息打包，通过网络（如UDP或MAVLink）发送给地面站的软件，这样操作员就能在电脑上实时看到无人机的飞行轨迹、规划路径和当前位置。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>/odom_new</code></strong>:
+<ul>
+<li><strong>角色</strong>: 一个里程计话题。从图中看，它被 <code>/gcs_bridge_node</code> 订阅。这很可能是无人机最新的、或者经过融合处理后的位姿估计，用于发送给地面站进行监控。</li>
+</ul>
+</li>
+</ul>
+<h5 id="总结流程">总结流程</h5>
+<ol>
+<li><strong>规划</strong>: <code>/drone2_ego_planner_node</code> 根据自身位置和集群信息，规划出一条 B 样条轨迹。</li>
+<li><strong>发布</strong>: 规划结果发布到 <code>/drone2_planning/bspline</code>。</li>
+<li><strong>解析</strong>: <code>/drone2_traj_server</code> 订阅这条轨迹。</li>
+<li><strong>执行</strong>: <code>/drone2_traj_server</code> 将轨迹解析成密集的控制指令点，发布到 <code>/position_cmd</code>，驱动无人机飞行。</li>
+<li><strong>监控</strong>: 同时，<code>/gcs_bridge_node</code> 将规划和定位信息发送给地面站，供用户监控。</li>
+</ol>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-1" href="#集群调试log" data-astro-cid-7natcuz3>集群调试log</a><a class="depth-2" href="#雷达倾斜安装" data-astro-cid-7natcuz3>雷达倾斜安装</a><a class="depth-2" href="#mavros逻辑梳理" data-astro-cid-7natcuz3>mavros逻辑梳理</a><a class="depth-3" href="#核心数据流逻辑" data-astro-cid-7natcuz3>核心数据流逻辑</a><a class="depth-3" href="#第一类感知与定位-飞控---ros" data-astro-cid-7natcuz3>第一类：感知与定位 (飞控 -&gt; ROS)</a><a class="depth-3" href="#第二类外部数据注入-ros---飞控" data-astro-cid-7natcuz3>第二类：外部数据注入 (ROS -&gt; 飞控)</a><a class="depth-3" href="#第三类指令与控制-ros---飞控mavrossetpoint_" data-astro-cid-7natcuz3>第三类：指令与控制 (ROS -&gt; 飞控)“/mavros/setpoint_”</a><a class="depth-3" href="#mavros-话题功能详尽分类表" data-astro-cid-7natcuz3>MAVROS 话题功能详尽分类表</a><a class="depth-3" href="#关键点" data-astro-cid-7natcuz3>关键点:</a><a class="depth-3" href="#节点分析" data-astro-cid-7natcuz3>节点分析</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

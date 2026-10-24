@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="教程链接 gitee fastlivo2地址 自动联合标定 推荐的手动加自动标定 硬件接线"><link rel="canonical" href="https://blog.ehzsy.site/posts/41aa0aa3-f8f4-4651-a1d5-967a47b44d79/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="[番外]fast_livo2复刻 · eH Blog"><meta property="og:description" content="教程链接 gitee fastlivo2地址 自动联合标定 推荐的手动加自动标定 硬件接线"><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/image-Uomy.png"><title>[番外]fast_livo2复刻 · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-29T16:19:03.048Z" data-astro-cid-7natcuz3>30 November 2025</time><span data-astro-cid-7natcuz3>BY YangLuoNou</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>7 MIN READ</span></div><h1 data-astro-cid-7natcuz3>[番外]fast_livo2复刻</h1><p data-astro-cid-7natcuz3>教程链接 gitee fastlivo2地址 自动联合标定 推荐的手动加自动标定 硬件接线</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E9%A3%9E%E6%8E%A7/" data-astro-cid-7natcuz3>飞控</a><a class="tag" href="/tags/%E5%AE%9A%E7%82%B9/" data-astro-cid-7natcuz3>#定点</a><a class="tag" href="/tags/%E7%95%AA%E5%A4%96/" data-astro-cid-7natcuz3>#番外</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h2 id="教程链接">教程链接</h2>
+<p><a href="https://gitee.com/gwmunan/ros2/wikis/pages?sort_id=10536766&amp;doc_id=4855084">gitee</a><br>
+<a href="https://github.com/hku-mars/FAST-LIVO2">fastlivo2地址</a><br>
+<a href="https://github.com/hku-mars/livox_camera_calib/tree/master">自动联合标定</a><br>
+<a href="https://gitee.com/gwmunan/ros2/wikis/pages?sort_id=13097190&amp;doc_id=4855084">推荐的手动加自动标定</a></p>
+<h2 id="硬件接线">硬件接线</h2>
+<p><img src="https://github.com/user-attachments/assets/1a347a73-fc70-4ccd-84b0-8232efaef300" alt="image"><br>
+8 接STM32的PB5引脚，获取1HZ的PWM信号<br>
+<img src="https://github.com/user-attachments/assets/9960190a-31f2-410e-91f5-924775533b0e" alt="image"><br>
+2 接STM32的PA1引脚，获取外部10HZ的PWM信号<br>
+5 接STM32的GND</p>
+<h2 id="连接wsl与usb设备">连接wsl与USB设备</h2>
+<p><a href="https://learn.microsoft.com/zh-cn/windows/wsl/connect-usb">教程</a>，需要执行完附加USB设备</p>
+<h2 id="安装hikrobot-mvs-camera-ros编译时报错-海康相机ros包建议安装老版本-httpsgithubcomluckyluckydadadahikrobot-mvs-ros-packagegit-新版会有色彩问题暂无解决方法-202574">安装HIKROBOT-MVS-CAMERA-ROS编译时报错 <em>（海康相机ros包建议安装老版本 <a href="https://github.com/luckyluckydadada/HIKROBOT-MVS-ROS-package.git">https://github.com/luckyluckydadada/HIKROBOT-MVS-ROS-package.git</a> 新版会有色彩问题，暂无解决方法-2025.7.4）</em></h2>
+<p><strong>注意海康机器人工业相机要安装客户端MVS（不要装成runtime sdk）</strong><br>
+1.opencv版本报错（cmakelist文件内改版本）<br>
+2.显示找不到文件</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">/usr/bin/ld:</span><span style="color:#9ECBFF"> 找不到</span><span style="color:#79B8FF"> -lGCBase_gcc421_v3_0</span></span>
+<span class="line"><span style="color:#B392F0">/usr/bin/ld:</span><span style="color:#9ECBFF"> 找不到</span><span style="color:#79B8FF"> -lGenApi_gcc421_v3_0</span></span>
+<span class="line"><span style="color:#B392F0">/usr/bin/ld:</span><span style="color:#9ECBFF"> 找不到</span><span style="color:#79B8FF"> -llog4cpp_gcc421_v3_0</span></span>
+<span class="line"><span style="color:#B392F0">/usr/bin/ld:</span><span style="color:#9ECBFF"> 找不到</span><span style="color:#79B8FF"> -lLog_gcc421_v3_0</span></span>
+<span class="line"><span style="color:#B392F0">/usr/bin/ld:</span><span style="color:#9ECBFF"> 找不到</span><span style="color:#79B8FF"> -lMathParser_gcc421_v3_0</span></span>
+<span class="line"><span style="color:#B392F0">/usr/bin/ld:</span><span style="color:#9ECBFF"> 找不到</span><span style="color:#79B8FF"> -lNodeMapData_gcc421_v3_0</span></span>
+<span class="line"><span style="color:#B392F0">/usr/bin/ld:</span><span style="color:#9ECBFF"> 找不到</span><span style="color:#79B8FF"> -lXmlParser_gcc421_v3_0</span></span></code></pre>
+<p><a href="https://github.com/luckyluckydadada/HIKROBOT-MVS-CAMERA-ROS/issues/12">解决方法</a>:<br>
+对于新版的海康SDK，首先查看你的链接库版本：<br>
+<code>ls /opt/MVS/lib/64/</code><br>
+查看名称，如：libLog_gcc485_v3_0.so，注意其中的485<br>
+然后打开CMakeList<br>
+<code>vi src/HIKROBOT-MVS-CAMERA-ROS/CMakeLists.txt</code><br>
+在第36行：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>target_link_libraries(</span></span>
+<span class="line"><span>${PROJECT_NAME}</span></span>
+<span class="line"><span>${catkin_LIBRARIES}</span></span>
+<span class="line"><span>${OpenCV_LIBRARIES}</span></span>
+<span class="line"><span>GCBase_gcc485_v3_0</span></span>
+<span class="line"><span>MvCameraControl</span></span>
+<span class="line"><span>#GenApi_gcc485_v3_0</span></span>
+<span class="line"><span>MVGigEVisionSDK</span></span>
+<span class="line"><span>log4cpp_gcc485_v3_0 MVRender</span></span>
+<span class="line"><span>Log_gcc485_v3_0 MvUsb3vTL</span></span>
+<span class="line"><span>#MathParser_gcc485_v3_0</span></span>
+<span class="line"><span>#NodeMapData_gcc485_v3_0</span></span>
+<span class="line"><span>MediaProcess</span></span>
+<span class="line"><span>#XmlParser_gcc485_v3_0 X11</span></span>
+<span class="line"><span>)</span></span></code></pre>
+<p>注释掉Genapi、MathParser、NodeMapData、XmlParser，然后将其他的gcc后面的三位数字改成之前看到的三位数字，我的是485。<br>
+退出，重新make就可以了</p>
+<h2 id="hikrobot-mvs-camera-ros修改硬件触发">HIKROBOT-MVS-CAMERA-ROS修改硬件触发</h2>
+<p>@@修改hikrobot_camera.hpp可以改变ros中的相机触发方式</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>//软件触发  </span></span>
+<span class="line"><span>// ********** frame **********/</span></span>
+<span class="line"><span>nRet = MV_CC_SetEnumValue(handle, "TriggerMode", 0);//0-不使用外部触发；1-使用外部触发</span></span></code></pre>
+<p>然后重新catkin_make<br>
+<a href="https://github.com/luckyluckydadada/HIKROBOT-MVS-CAMERA-ROS/issues/7">来源</a></p>
+<h2 id="安装无目标标定环境ceres一定要使用200及以下版本">安装无目标标定环境Ceres一定要使用2.0.0及以下版本</h2>
+<p><a href="%5Bhttps://ceres-solver.googlesource.com/ceres-solver/+/refs/tags/1.14.0%5D(http://ceres-solver.org/ceres-solver-2.0.0.tar.gz)">2.0.0版本链接</a><br>
+<code>wget http://ceres-solver.org/ceres-solver-2.0.0.tar.gz</code></p>
+<h2 id="安装无目标标定lidar_camera_calib环境ceres-solver时报错">安装无目标标定(lidar_camera_calib)环境Ceres Solver时报错</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">CMake</span><span style="color:#9ECBFF"> Error</span><span style="color:#9ECBFF"> at</span><span style="color:#9ECBFF"> CMakeLists.txt:173</span><span style="color:#E1E4E8"> (find_package):</span></span>
+<span class="line"><span style="color:#B392F0">  By</span><span style="color:#9ECBFF"> not</span><span style="color:#9ECBFF"> providing</span><span style="color:#9ECBFF"> "Findabsl.cmake"</span><span style="color:#9ECBFF"> in</span><span style="color:#9ECBFF"> CMAKE_MODULE_PATH</span><span style="color:#9ECBFF"> this</span><span style="color:#9ECBFF"> project</span><span style="color:#9ECBFF"> has</span></span>
+<span class="line"><span style="color:#B392F0">  asked</span><span style="color:#9ECBFF"> CMake</span><span style="color:#9ECBFF"> to</span><span style="color:#9ECBFF"> find</span><span style="color:#9ECBFF"> a</span><span style="color:#9ECBFF"> package</span><span style="color:#9ECBFF"> configuration</span><span style="color:#9ECBFF"> file</span><span style="color:#9ECBFF"> provided</span><span style="color:#9ECBFF"> by</span><span style="color:#9ECBFF"> "absl",</span><span style="color:#9ECBFF"> but</span></span>
+<span class="line"><span style="color:#B392F0">  CMake</span><span style="color:#9ECBFF"> did</span><span style="color:#9ECBFF"> not</span><span style="color:#9ECBFF"> find</span><span style="color:#9ECBFF"> one.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">  Could</span><span style="color:#9ECBFF"> not</span><span style="color:#9ECBFF"> find</span><span style="color:#9ECBFF"> a</span><span style="color:#9ECBFF"> package</span><span style="color:#9ECBFF"> configuration</span><span style="color:#9ECBFF"> file</span><span style="color:#9ECBFF"> provided</span><span style="color:#9ECBFF"> by</span><span style="color:#9ECBFF"> "absl"</span><span style="color:#9ECBFF"> with</span><span style="color:#9ECBFF"> any</span><span style="color:#9ECBFF"> of</span></span>
+<span class="line"><span style="color:#B392F0">  the</span><span style="color:#9ECBFF"> following</span><span style="color:#9ECBFF"> names:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">    abslConfig.cmake</span></span>
+<span class="line"><span style="color:#B392F0">    absl-config.cmake</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">  Add</span><span style="color:#9ECBFF"> the</span><span style="color:#9ECBFF"> installation</span><span style="color:#9ECBFF"> prefix</span><span style="color:#9ECBFF"> of</span><span style="color:#9ECBFF"> "absl"</span><span style="color:#9ECBFF"> to</span><span style="color:#9ECBFF"> CMAKE_PREFIX_PATH</span><span style="color:#9ECBFF"> or</span><span style="color:#9ECBFF"> set</span></span>
+<span class="line"><span style="color:#B392F0">  "absl_DIR"</span><span style="color:#9ECBFF"> to</span><span style="color:#9ECBFF"> a</span><span style="color:#9ECBFF"> directory</span><span style="color:#9ECBFF"> containing</span><span style="color:#9ECBFF"> one</span><span style="color:#9ECBFF"> of</span><span style="color:#9ECBFF"> the</span><span style="color:#9ECBFF"> above</span><span style="color:#9ECBFF"> files.</span><span style="color:#9ECBFF">  If</span><span style="color:#9ECBFF"> "absl"</span></span>
+<span class="line"><span style="color:#B392F0">  provides</span><span style="color:#9ECBFF"> a</span><span style="color:#9ECBFF"> separate</span><span style="color:#9ECBFF"> development</span><span style="color:#9ECBFF"> package</span><span style="color:#9ECBFF"> or</span><span style="color:#9ECBFF"> SDK,</span><span style="color:#9ECBFF"> be</span><span style="color:#9ECBFF"> sure</span><span style="color:#9ECBFF"> it</span><span style="color:#9ECBFF"> has</span><span style="color:#9ECBFF"> been</span></span>
+<span class="line"><span style="color:#B392F0">  installed.</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">--</span><span style="color:#9ECBFF"> Configuring</span><span style="color:#9ECBFF"> incomplete,</span><span style="color:#9ECBFF"> errors</span><span style="color:#9ECBFF"> occurred!</span></span></code></pre>
+<p>解决方法：<br>
+源码安装</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#9ECBFF"> https://github.com/abseil/abseil-cpp.git</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> abseil-cpp</span></span>
+<span class="line"><span style="color:#B392F0">mkdir</span><span style="color:#9ECBFF"> build</span><span style="color:#E1E4E8"> &amp;&amp; </span><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> build</span></span>
+<span class="line"><span style="color:#B392F0">cmake</span><span style="color:#9ECBFF"> ..</span><span style="color:#79B8FF"> -DCMAKE_POSITION_INDEPENDENT_CODE=ON</span><span style="color:#79B8FF"> -DCMAKE_INSTALL_PREFIX=/usr/local</span></span>
+<span class="line"><span style="color:#B392F0">make</span><span style="color:#79B8FF"> -j$(</span><span style="color:#B392F0">nproc</span><span style="color:#79B8FF">)</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> make</span><span style="color:#9ECBFF"> install</span></span></code></pre>
+<h2 id="无目标标定lidar_camera_calibcatkin_make出错">无目标标定(lidar_camera_calib)catkin_make出错</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E1E4E8">[ 66%] Linking CXX executable /home/yangluonou/livox_camera_calib/devel/lib/livox_camera_calib/bag_to_pcd</span></span>
+<span class="line"><span style="color:#B392F0">/usr/bin/ld:</span><span style="color:#9ECBFF"> /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/libpcl_io.so:</span><span style="color:#9ECBFF"> undefined</span><span style="color:#9ECBFF"> reference</span><span style="color:#9ECBFF"> to</span><span style="color:#9ECBFF"> `</span><span style="color:#B392F0">libusb_set_option'</span></span>
+<span class="line"><span style="color:#B392F0">collect2: error: ld returned 1 exit status</span></span>
+<span class="line"><span style="color:#B392F0">make[2]: *** [livox_camera_calib/CMakeFiles/bag_to_pcd.dir/build.make:452: /home/yangluonou/livox_camera_calib/devel/lib/livox_camera_calib/bag_to_pcd] Error 1</span></span>
+<span class="line"><span style="color:#B392F0">make[1]: *** [CMakeFiles/Makefile2:2551: livox_camera_calib/CMakeFiles/bag_to_pcd.dir/all] Error 2</span></span>
+<span class="line"><span style="color:#B392F0">make[1]: *** Waiting for unfinished jobs....</span></span></code></pre>
+<p>这个链接错误是由于 libpcl_io.so 在链接时引用了 libusb_set_option 函数，但你当前系统中的 libusb 版本可能较旧（比如 1.0.23），而不包含这个函数。libusb_set_option 是从 libusb 1.0.26 才引入的。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> apt</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> libudev-dev</span></span>
+<span class="line"><span style="color:#B392F0">wget</span><span style="color:#9ECBFF"> https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2</span></span>
+<span class="line"><span style="color:#B392F0">tar</span><span style="color:#79B8FF"> -xjf</span><span style="color:#9ECBFF"> libusb-1.0.26.tar.bz2</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> libusb-1.0.26</span></span>
+<span class="line"><span style="color:#B392F0">./configure</span><span style="color:#79B8FF"> --prefix=/usr/local</span></span>
+<span class="line"><span style="color:#B392F0">make</span><span style="color:#79B8FF"> -j$(</span><span style="color:#B392F0">nproc</span><span style="color:#79B8FF">)</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> make</span><span style="color:#9ECBFF"> install</span></span></code></pre>
+<h2 id="libusb_set_option报错">libusb_set_option报错</h2>
+<p>这个链接错误是由于 libpcl_io.so 在链接时引用了 libusb_set_option 函数，但你当前系统中的 libusb 版本可能较旧（比如 1.0.23），而不包含这个函数。libusb_set_option 是从 libusb 1.0.26 才引入的。</p>
+<ul>
+<li>检查当前版本：
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">pkg-config</span><span style="color:#79B8FF"> --modversion</span><span style="color:#9ECBFF"> libusb-1.0</span></span></code></pre>
+</li>
+<li>下载源码并编译新版本 libusb：
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> apt</span><span style="color:#9ECBFF"> remove</span><span style="color:#9ECBFF"> libusb-1.0-0-dev</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">wget</span><span style="color:#9ECBFF"> https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2</span></span>
+<span class="line"><span style="color:#B392F0">tar</span><span style="color:#79B8FF"> -xjf</span><span style="color:#9ECBFF"> libusb-1.0.26.tar.bz2</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> libusb-1.0.26</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> apt</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> libudev-dev</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">./configure</span><span style="color:#79B8FF"> --prefix=/usr/local</span></span>
+<span class="line"><span style="color:#B392F0">make</span><span style="color:#79B8FF"> -j$(</span><span style="color:#B392F0">nproc</span><span style="color:#79B8FF">)</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> make</span><span style="color:#9ECBFF"> install</span></span></code></pre>
+</li>
+<li>确保新版本被使用：
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> PKG_CONFIG_PATH</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> LD_LIBRARY_PATH</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">/usr/local/lib:$LD_LIBRARY_PATH</span></span></code></pre>
+如果你使用 catkin 编译，建议在 CMakeLists.txt 中指定 libusb 路径：
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="txt"><code><span class="line"><span>link_directories(/usr/local/lib)</span></span>
+<span class="line"><span>include_directories(/usr/local/include/libusb-1.0)</span></span></code></pre>
+</li>
+</ul>
+<h2 id="mid360无需连接stm32-pa9进行卫星授时">mid360无需连接stm32 PA9进行卫星授时</h2>
+<p>否则会出现时间对不齐问题</p>
+<h2 id="lidar_camera_calib自动标参">lidar_camera_calib自动标参</h2>
+<p>环境要求比较苛刻，要有横竖两种边界明显，无杂乱纹理，光影充足的大柱子是最好的场地
+拍照脚本及mid360获取录制点云pcd文件详见<a href="scripts/get_pic">scripts文件夹</a></p>
+<h2 id="相机内参标定说明">相机内参标定说明：</h2>
+<p><img src="https://github.com/user-attachments/assets/965b4673-3789-447c-a860-c80fc8a4b656" alt="e4bd69f68ac8a5ea7febed3b1d6661b1"></p>
+<h2 id="联合标定参数说明">联合标定参数说明</h2>
+<p><img src="https://github.com/user-attachments/assets/f993ebe8-93d0-4938-b722-a20579a1bdc5" alt="9246ceb8_506465"><br>
+<img src="https://github.com/user-attachments/assets/741e1f2b-ef76-4a23-b41b-c713f9b8e1e3" alt="2dff288fecf491ed168da8f1c13722ce"></p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#教程链接" data-astro-cid-7natcuz3>教程链接</a><a class="depth-2" href="#硬件接线" data-astro-cid-7natcuz3>硬件接线</a><a class="depth-2" href="#连接wsl与usb设备" data-astro-cid-7natcuz3>连接wsl与USB设备</a><a class="depth-2" href="#安装hikrobot-mvs-camera-ros编译时报错-海康相机ros包建议安装老版本-httpsgithubcomluckyluckydadadahikrobot-mvs-ros-packagegit-新版会有色彩问题暂无解决方法-202574" data-astro-cid-7natcuz3>安装HIKROBOT-MVS-CAMERA-ROS编译时报错 （海康相机ros包建议安装老版本 https://github.com/luckyluckydadada/HIKROBOT-MVS-ROS-package.git 新版会有色彩问题，暂无解决方法-2025.7.4）</a><a class="depth-2" href="#hikrobot-mvs-camera-ros修改硬件触发" data-astro-cid-7natcuz3>HIKROBOT-MVS-CAMERA-ROS修改硬件触发</a><a class="depth-2" href="#安装无目标标定环境ceres一定要使用200及以下版本" data-astro-cid-7natcuz3>安装无目标标定环境Ceres一定要使用2.0.0及以下版本</a><a class="depth-2" href="#安装无目标标定lidar_camera_calib环境ceres-solver时报错" data-astro-cid-7natcuz3>安装无目标标定(lidar_camera_calib)环境Ceres Solver时报错</a><a class="depth-2" href="#无目标标定lidar_camera_calibcatkin_make出错" data-astro-cid-7natcuz3>无目标标定(lidar_camera_calib)catkin_make出错</a><a class="depth-2" href="#libusb_set_option报错" data-astro-cid-7natcuz3>libusb_set_option报错</a><a class="depth-2" href="#mid360无需连接stm32-pa9进行卫星授时" data-astro-cid-7natcuz3>mid360无需连接stm32 PA9进行卫星授时</a><a class="depth-2" href="#lidar_camera_calib自动标参" data-astro-cid-7natcuz3>lidar_camera_calib自动标参</a><a class="depth-2" href="#相机内参标定说明" data-astro-cid-7natcuz3>相机内参标定说明：</a><a class="depth-2" href="#联合标定参数说明" data-astro-cid-7natcuz3>联合标定参数说明</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

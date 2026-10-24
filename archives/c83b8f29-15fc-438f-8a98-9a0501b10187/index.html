@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="`timescale 1ns / 1ps
+
+module LED(
+    input clk,
+    output led
+    );
+
+parameter T1MS = 26'd50_000_000;//表示一个26位宽的十进制常量
+reg [25:0]time_count=26'd0;  "><link rel="canonical" href="https://blog.ehzsy.site/archives/c83b8f29-15fc-438f-8a98-9a0501b10187/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="hello_world · eH Blog"><meta property="og:description" content="`timescale 1ns / 1ps
+
+module LED(
+    input clk,
+    output led
+    );
+
+parameter T1MS = 26'd50_000_000;//表示一个26位宽的十进制常量
+reg [25:0]time_count=26'd0;  "><meta property="og:type" content="article"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/v2-32510d6cbade23c3452679fc0fb2968a_720w.png"><title>hello_world · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-11-17T17:30:49.160Z" data-astro-cid-7natcuz3>18 November 2025</time><span data-astro-cid-7natcuz3>BY eH</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span data-astro-cid-7natcuz3>2 MIN READ</span></div><h1 data-astro-cid-7natcuz3>hello_world</h1><p data-astro-cid-7natcuz3>`timescale 1ns / 1ps
+
+module LED(
+    input clk,
+    output led
+    );
+
+parameter T1MS = 26&#39;d50_000_000;//表示一个26位宽的十进制常量
+reg [25:0]time_count=26&#39;d0;  </p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/kernel/" data-astro-cid-7natcuz3>kernel</a></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="verilog"><code><span class="line"><span style="color:#F97583">`timescale</span><span style="color:#E1E4E8"> 1ns </span><span style="color:#F97583">/</span><span style="color:#E1E4E8"> 1ps</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">module</span><span style="color:#B392F0"> LED</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#F97583">    input</span><span style="color:#E1E4E8"> clk,</span></span>
+<span class="line"><span style="color:#F97583">    output</span><span style="color:#E1E4E8"> led</span></span>
+<span class="line"><span style="color:#E1E4E8">    );</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">parameter</span><span style="color:#E1E4E8"> T1MS </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 26'd50_000_000</span><span style="color:#E1E4E8">;</span><span style="color:#6A737D">//表示一个26位宽的十进制常量</span></span>
+<span class="line"><span style="color:#F97583">reg</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">25</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">]time_count</span><span style="color:#F97583">=</span><span style="color:#79B8FF">26'd0</span><span style="color:#E1E4E8">;  </span><span style="color:#6A737D">// 如果是寄存器 需要指定向量</span></span>
+<span class="line"><span style="color:#F97583">reg</span><span style="color:#E1E4E8"> leg_r </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 1'b0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">always</span><span style="color:#E1E4E8">@(poedge clk)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (time_count</span><span style="color:#F97583">&gt;=</span><span style="color:#E1E4E8">T1MS)</span><span style="color:#F97583">begin</span></span>
+<span class="line"><span style="color:#E1E4E8">        time_count</span><span style="color:#F97583">&lt;=</span><span style="color:#79B8FF">26'd0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">        led_r</span><span style="color:#F97583">&lt;=~</span><span style="color:#E1E4E8">led_r;</span></span>
+<span class="line"><span style="color:#F97583">    end</span></span>
+<span class="line"><span style="color:#F97583">    else</span><span style="color:#E1E4E8"> time_count </span><span style="color:#F97583">&lt;=</span><span style="color:#E1E4E8"> time_count </span><span style="color:#F97583">+</span><span style="color:#79B8FF">1'b1</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">assign</span><span style="color:#E1E4E8"> led</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">led_r;</span></span>
+<span class="line"><span style="color:#F97583">endmodule</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"></span></code></pre>
+<h3 id="timescale-1ns--1ps">`timescale 1ns / 1ps</h3>
+<p><strong>1ns</strong> —— 时间单位（time unit）。
+你写的 <code>#1</code> 延时，就表示 <strong>1 纳秒</strong>。
+<code>#10</code> 就是 <strong>10 纳秒</strong>。</p>
+<p><strong>1ps</strong> —— 时间精度（time precision）。
+表示仿真器在计算延时时，最小能分辨的精度是 <strong>1 皮秒</strong>。
+也就是说，如果你写 <code>#0.49ns</code>，会四舍五入到 0；
+如果写 <code>#0.51ns</code>，会四舍五入举个例子：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>`timescale 1ns / 1ps</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>module tb;</span></span>
+<span class="line"><span>    reg clk = 0;</span></span>
+<span class="line"><span>    always #10 clk = ~clk; // 每 10ns 翻转一次 -&gt; 20ns 一个周期</span></span>
+<span class="line"><span>endmodule</span></span></code></pre>
+<p>这里 <code>#10</code> 就是 <strong>10ns</strong>，因为时间单位是 <code>1ns</code>。</p>
+<p>如果改成：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>`timescale 1us / 1ns</span></span></code></pre>
+<p>那 <code>#10</code> 就表示 <strong>10 微秒</strong>。</p>
+<p>所以，<code>timescale</code> 的作用主要在 <strong>仿真环境</strong>，对综合（真正硬件实现）没有影响。到 1ps。</p>
+<h3 id="">&lt;=</h3>
+<ul>
+<li>
+<p>= 阻塞赋值</p>
+</li>
+<li>
+<p>&lt;= 非阻塞赋值
+在时序逻辑中常用
+告诉综合器  在时钟上升沿</p>
+<ul>
+<li>time_count清零</li>
+<li>led_r反转</li>
+</ul>
+<p>注意 二者是并行运行的,如果你写成 <code>time_count = 26'd0;</code> 就变成阻塞赋值了，可能在仿真时表现顺序不同，不适合用在时钟驱动的寄存器赋值场景</p>
+</li>
+</ul>
+<h4 id="有没有-这个和大小比较的小于等于是否冲突-为什么是这个符号"><em>有没有&gt;=?? 这个和大小比较的小于等于是否冲突 为什么是&lt;=这个符号?</em></h4>
+<p>先看 <strong>比较运算符</strong>：</p>
+<ul>
+<li><code>&gt;=</code> ：大于等于（greater than or equal）</li>
+<li><code>&lt;=</code> ：小于等于（less than or equal）</li>
+<li><code>==</code> ：等于</li>
+<li><code>!=</code> ：不等于</li>
+</ul>
+<p>这些出现在 <strong>if 判断里</strong>，例如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>if (time_count &gt;= T1MS) begin</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<p>这里的 <code>&gt;=</code> 就是大小比较，意思是 <strong>当计数器值大于等于 T1MS 时</strong>。
+这和数学里的用法一模一样，不会冲突。</p>
+<hr>
+<p>再看 <strong>赋值运算符</strong>：</p>
+<ul>
+<li><code>=</code> ：阻塞赋值（blocking assignment）</li>
+<li><code>&lt;=</code> ：非阻塞赋值（non-blocking assignment）</li>
+</ul>
+<p>这些只能出现在 <strong>过程赋值里</strong>（always、initial 等）。例如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>time_count &lt;= 26'd0;</span></span></code></pre>
+<p>这里的 <code>&lt;=</code> 是“非阻塞赋值”，和小于等于没有关系。只是恰好长得一样。</p>
+<hr>
+<p>所以你看到的 <code>&lt;=</code> 有两种完全不同的语境：</p>
+<ol>
+<li>在 <code>if (...)</code> 里：<code>&lt;=</code> 表示 <strong>小于等于</strong>。</li>
+<li>在 <code>always</code> 里的赋值语句里：<code>&lt;=</code> 表示 <strong>非阻塞赋值</strong>。</li>
+</ol>
+<p>不会冲突，因为编译器可以根据上下文分辨。</p>
+<hr>
+<blockquote>
+<p>d —— decimal（十进制）
+b —— binary（二进制）
+h —— hexadecimal（十六进制）
+o —— octal（八进制）</p>
+</blockquote>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-3" href="#timescale-1ns--1ps" data-astro-cid-7natcuz3>`timescale 1ns / 1ps</a><a class="depth-3" href="#" data-astro-cid-7natcuz3>&lt;=</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>

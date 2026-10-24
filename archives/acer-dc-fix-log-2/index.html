@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="前言 我的 Acer Nitro 5（2023 款暗影骑士·擎，AN515-58）最近出现了一个非常烦人的问题。 最开始只是偶尔听到电源蜂鸣器报警，后来发展到： 轻轻碰一下 DC 插头就掉电 插头旋转一点点立即断电 甚至继续向里面压插头也会掉电 起初一直以为是充电器接触不良，但后来逐渐确认，真正损坏"><link rel="canonical" href="https://blog.ehzsy.site/archives/acer-dc-fix-log-2/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="Acer Nitro 5（AN515-58）DC 电源接口维修log · eH Blog"><meta property="og:description" content="前言 我的 Acer Nitro 5（2023 款暗影骑士·擎，AN515-58）最近出现了一个非常烦人的问题。 最开始只是偶尔听到电源蜂鸣器报警，后来发展到： 轻轻碰一下 DC 插头就掉电 插头旋转一点点立即断电 甚至继续向里面压插头也会掉电 起初一直以为是充电器接触不良，但后来逐渐确认，真正损坏"><meta property="og:type" content="article"><title>Acer Nitro 5（AN515-58）DC 电源接口维修log · eH Blog</title><link rel="stylesheet" href="/_astro/BaseLayout.B3_2To-a.css"><style>.cuav-brand[data-astro-cid-7natcuz3]{background:linear-gradient(135deg,#fff 0%,#f5f8fb 100%);border:1px solid #182d4c1a;border-radius:14px;align-items:center;gap:16px;width:fit-content;margin:0 0 28px;padding:14px 18px;display:flex;box-shadow:0 10px 32px #1a2c480f}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;border-radius:0;width:116px;height:52px;margin:0}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:#182d4c24;width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:#14253d;letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:#6c7685;letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a></div></header><main><article class="article-shell" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2026-07-22T14:24:18.000Z" data-astro-cid-7natcuz3>22 July 2026</time><span data-astro-cid-7natcuz3>BY zsyeh</span><span data-astro-cid-7natcuz3>WRITTEN ON GITHUB</span><span data-astro-cid-7natcuz3>4 MIN READ</span></div><h1 data-astro-cid-7natcuz3>Acer Nitro 5（AN515-58）DC 电源接口维修log</h1><p data-astro-cid-7natcuz3>前言 我的 Acer Nitro 5（2023 款暗影骑士·擎，AN515-58）最近出现了一个非常烦人的问题。 最开始只是偶尔听到电源蜂鸣器报警，后来发展到： 轻轻碰一下 DC 插头就掉电 插头旋转一点点立即断电 甚至继续向里面压插头也会掉电 起初一直以为是充电器接触不良，但后来逐渐确认，真正损坏</p><div class="chips" data-astro-cid-7natcuz3></div></header><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h2 id="前言">前言</h2>
+<img width="2388" height="1792" alt="Image" src="https://github.com/user-attachments/assets/21d67a62-0394-4dff-a001-8182dddbd2b0" />
+<img width="2388" height="1792" alt="Image" src="https://github.com/user-attachments/assets/19cd13aa-1dcc-49b2-b56b-9b0c16feb72a" />
+<p>我的 Acer Nitro 5（2023 款暗影骑士·擎，AN515-58）最近出现了一个非常烦人的问题。</p>
+<p>最开始只是偶尔听到电源蜂鸣器报警，后来发展到：</p>
+<ul>
+<li>轻轻碰一下 DC 插头就掉电</li>
+<li>插头旋转一点点立即断电</li>
+<li>甚至继续向里面压插头也会掉电</li>
+</ul>
+<p>起初一直以为是充电器接触不良，但后来逐渐确认，真正损坏的是 <strong>DC 母座内部弹片</strong>。</p>
+<p>于是开始了这次维修。</p>
+<hr>
+<h1 id="故障分析">故障分析</h1>
+<p>最开始观察到几个现象：</p>
+<ul>
+<li>Windows 电源状态偶尔切换</li>
+<li>Acer 电源蜂鸣器不断报警</li>
+<li>插头已经插到底</li>
+<li>左右旋转立即掉电</li>
+<li>插头继续向里面施加轴向压力也可能掉电</li>
+</ul>
+<p>由于掉电完全和机械动作有关，因此首先排除：</p>
+<ul>
+<li>Windows 系统</li>
+<li>电池</li>
+<li>BIOS</li>
+<li>软件</li>
+</ul>
+<p>基本可以确定：</p>
+<blockquote>
+<p>这是一个纯机械接触故障。</p>
+</blockquote>
+<hr>
+<h1 id="拆机检查">拆机检查</h1>
+<p>拆开后盖以后可以看到：</p>
+<p>AN515-58 的 DC 电源接口 <strong>不是线束式</strong>，而是直接焊接在主板上的。</p>
+<p>意味着：</p>
+<ul>
+<li>无法直接更换 DC 线束</li>
+<li>必须拆主板</li>
+<li>必须进行拆焊</li>
+</ul>
+<hr>
+<h1 id="确认故障">确认故障</h1>
+<p>继续检查 DC 母座。</p>
+<p>发现：</p>
+<p>内部负责夹紧插头的金属弹片已经完全塌陷。</p>
+<p>插头虽然可以插到底，但是已经没有足够的接触压力。</p>
+<p>因此：</p>
+<p>稍微旋转一下，</p>
+<p>接触立即断开。</p>
+<p>最终确认：</p>
+<blockquote>
+<p>故障并不是充电器，而是 DC 母座本身。</p>
+</blockquote>
+<hr>
+<h1 id="购买新-dc-母座">购买新 DC 母座</h1>
+<p>淘宝可以买到兼容 AN515-58 的 DC 母座。</p>
+<p>需要注意：</p>
+<p>不要只搜索：</p>
+<blockquote>
+<p>5.5×1.7</p>
+</blockquote>
+<p>因为很多 DC Jack 虽然尺寸相同，</p>
+<p>但是：</p>
+<ul>
+<li>焊脚位置不同</li>
+<li>外壳尺寸不同</li>
+<li>高度不同</li>
+</ul>
+<p>最好直接购买：</p>
+<blockquote>
+<p>AN515-58 / N22C1 对应型号</p>
+</blockquote>
+<hr>
+<h1 id="第一次拆焊">第一次拆焊</h1>
+<img width="2388" height="1792" alt="Image" src="https://github.com/user-attachments/assets/ea014293-b8d5-468e-8e08-65142a6953eb" />
+<p>都怪hsm不早点邮寄 害得我拆电脑的时候只能用tb10元劣质电赛级烙铁</p>
+<p>结果：</p>
+<p>无论怎么加热，</p>
+<p>原厂焊锡几乎完全不融。</p>
+<p>我以为是铁焊呢</p>
+<p>AN515-58 的 DC 外壳固定脚直接连接主板 GND 大铜皮。</p>
+<p>普通烙铁热容量完全不够。</p>
+<p>看起来像：</p>
+<blockquote>
+<p>焊锡死活不化。</p>
+</blockquote>
+<p>实际上：</p>
+<p>热量全部被主板吸走了。</p>
+<hr>
+<h1 id="更换更好的焊台">更换更好的焊台</h1>
+<p>后来等快递换了更好的焊台。</p>
+<p>同时补充：</p>
+<p>63/37 有铅焊锡</p>
+<p>让原厂无铅焊锡混合降低熔点。</p>
+<p>随后：</p>
+<p>利用吸锡器完成清孔。</p>
+<p>整个 DC Jack 顺利拆下。</p>
+<hr>
+<h1 id="焊接新的-dc-母座">焊接新的 DC 母座</h1>
+<img width="1792" height="2388" alt="Image" src="https://github.com/user-attachments/assets/4f1e12cc-f6c6-47e1-8e42-ffff03b14856" />
+<img width="2388" height="1792" alt="Image" src="https://github.com/user-attachments/assets/6d79ac4d-a997-4c8d-a04b-8cb1c7567290" />
+<img width="2388" height="1792" alt="Image" src="https://github.com/user-attachments/assets/55090dcc-e868-428d-9aa6-785dce3a4667" />
+<p>新的 DC Jack 焊接比较顺利。</p>
+<p>完成后：</p>
+<p>电脑终于能够重新识别适配器。</p>
+<p>不过新的问题马上出现。</p>
+<hr>
+<h1 id="windows-黑屏">Windows 黑屏</h1>
+<img width="1792" height="2388" alt="Image" src="https://github.com/user-attachments/assets/84518ccc-17d1-4143-b73c-1ffd66982425" />
+<p>第一次开机时，Windows 出现：</p>
+<p><code>INACCESSIBLE_BOOT_DEVICE</code></p>
+<p>不过在黑屏错误码 就说明 Windows 内核开始加载。这说明机器已经通过基本硬件初始化，主板大概率没有因为拆焊而损坏，问题更像是系统盘的存储控制器配置发生了变化。</p>
+<p>因此我第一时间想到 Intel VMD。</p>
+<p>进入 BIOS 检查后，果然发现 VMD 被关闭了。重新开启 Intel VMD 后，Windows 立即恢复正常启动。</p>
+<p>这也验证了之前的判断：</p>
+<blockquote>
+<p>主板本身没有问题，蓝屏只是 BIOS 中的存储控制器设置发生了变化。</p>
+</blockquote>
+<hr>
+<h1 id="第二个问题20-分钟后停止充电">第二个问题：20 分钟后停止充电</h1>
+<p>真正让我头疼的是：</p>
+<p>电脑能够正常开机。</p>
+<p>能够正常充电。</p>
+<p>但是：</p>
+<p>大约二十分钟以后，</p>
+<p>突然停止充电。</p>
+<p>最开始怀疑：</p>
+<ul>
+<li>MOS 管被烫坏</li>
+<li>助焊剂受热短路</li>
+<li>焊锡质量问题</li>
+</ul>
+<p>甚至怀疑：</p>
+<p>自己把主板修坏了。</p>
+<p>后来逐步排查：</p>
+<ul>
+<li>DC 正负极阻值约 73kΩ</li>
+<li>没有明显短路</li>
+<li>DC 插头没有异常发热</li>
+</ul>
+<p>说明：</p>
+<p>不是短路。</p>
+<hr>
+<h1 id="真正原因">真正原因</h1>
+<p>最后重新检查焊点。</p>
+<p>发现：</p>
+<p>GND 焊点虽然外观看起来已经焊好。</p>
+<p>实际上：</p>
+<p>接触并不好。</p>
+<p>于是重新补焊：</p>
+<p>所有 GND 固定脚。</p>
+<p>补焊完成以后：</p>
+<p>问题立即消失。</p>
+<p>电脑已经连续运行四十分钟以上，</p>
+<p>没有再次掉充电。</p>
+<hr>
+<h1 id="为什么-gnd-会导致这种现象">为什么 GND 会导致这种现象？</h1>
+<p>很多人容易认为：</p>
+<p>DC 正极才最重要。</p>
+<p>实际上：</p>
+<p>整个回流电流全部经过 GND。</p>
+<p>如果：</p>
+<p>GND 接触电阻稍微偏大，</p>
+<p>就会：</p>
+<ul>
+<li>局部发热</li>
+<li>电压下降</li>
+<li>充电管理芯片认为输入异常</li>
+</ul>
+<p>于是：</p>
+<p>直接停止充电。</p>
+<p>因此：</p>
+<p>即使正极焊得很好，</p>
+<p>GND 焊接不好，</p>
+<p>整个 DC 输入仍然无法正常工作。</p>
+<hr>
+<h1 id="本次维修总结">本次维修总结</h1>
+<p>整个维修过程中，一共踩了几个坑。</p>
+<h2 id="1-不要迷信普通烙铁">1. 不要迷信普通烙铁</h2>
+<p>DC Jack 属于大铜皮连接器。</p>
+<p>普通几十元烙铁基本拆不下来。</p>
+<p>建议：</p>
+<ul>
+<li>大功率焊台</li>
+<li>大马蹄头</li>
+<li>足够助焊剂</li>
+<li>63/37 焊锡</li>
+</ul>
+<hr>
+<h2 id="2-不要看到-windows-蓝屏就认为主板坏了">2. 不要看到 Windows 蓝屏就认为主板坏了</h2>
+<p>我的蓝屏：
+INACCESSIBLE_BOOT_DEVICE
+真正原因只是：</p>
+<p>BIOS 的 Intel VMD 被关闭。</p>
+<p>重新打开即可。</p>
+<hr>
+<h2 id="3-gnd-焊点同样重要">3. GND 焊点同样重要</h2>
+<p>很多人只关注正极。</p>
+<p>实际上：</p>
+<p>负极承担整个充电回路。</p>
+<p>任何一个 GND 固定脚接触不好，</p>
+<p>都可能导致：</p>
+<ul>
+<li>间歇掉电</li>
+<li>停止充电</li>
+<li>电压异常</li>
+</ul>
+<hr>
+<h2 id="4-不要只凭感觉判断">4. 不要只凭感觉判断</h2>
+<p>整个维修过程中：</p>
+<p>我一度怀疑：</p>
+<ul>
+<li>MOS 管坏了</li>
+<li>助焊剂短路</li>
+<li>焊锡有问题</li>
+</ul>
+<p>最终证明：</p>
+<p>真正的问题只是：</p>
+<p><strong>GND 焊接不充分。</strong></p>
+<hr>
+<h1 id="最终结果">最终结果</h1>
+<p>目前：</p>
+<ul>
+<li>✅ 插头稳定</li>
+<li>✅ 不再旋转掉电</li>
+<li>✅ Windows 正常启动</li>
+<li>✅ 连续运行四十分钟以上正常充电</li>
+<li>✅ DC 插头温度正常</li>
+<li>✅ 无异常蜂鸣</li>
+</ul>
+<p>这次维修总算顺利结束。</p>
+<hr>
+<h1 id="后记">后记</h1>
+<p>整个维修过程中最大的收获，并不是成功更换了一个 DC 母座。</p>
+<p>而是更加深刻地理解了：</p>
+<blockquote>
+<p>排查故障时，不应该不断猜测，而应该让每一步测试都排除一种可能性。</p>
+</blockquote>
+<p>很多时候，看似复杂的问题，最终真正的原因反而十分简单。</p>
+</div><aside class="toc" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#前言" data-astro-cid-7natcuz3>前言</a><a class="depth-1" href="#故障分析" data-astro-cid-7natcuz3>故障分析</a><a class="depth-1" href="#拆机检查" data-astro-cid-7natcuz3>拆机检查</a><a class="depth-1" href="#确认故障" data-astro-cid-7natcuz3>确认故障</a><a class="depth-1" href="#购买新-dc-母座" data-astro-cid-7natcuz3>购买新 DC 母座</a><a class="depth-1" href="#第一次拆焊" data-astro-cid-7natcuz3>第一次拆焊</a><a class="depth-1" href="#更换更好的焊台" data-astro-cid-7natcuz3>更换更好的焊台</a><a class="depth-1" href="#焊接新的-dc-母座" data-astro-cid-7natcuz3>焊接新的 DC 母座</a><a class="depth-1" href="#windows-黑屏" data-astro-cid-7natcuz3>Windows 黑屏</a><a class="depth-1" href="#第二个问题20-分钟后停止充电" data-astro-cid-7natcuz3>第二个问题：20 分钟后停止充电</a><a class="depth-1" href="#真正原因" data-astro-cid-7natcuz3>真正原因</a><a class="depth-1" href="#为什么-gnd-会导致这种现象" data-astro-cid-7natcuz3>为什么 GND 会导致这种现象？</a><a class="depth-1" href="#本次维修总结" data-astro-cid-7natcuz3>本次维修总结</a><a class="depth-2" href="#1-不要迷信普通烙铁" data-astro-cid-7natcuz3>1. 不要迷信普通烙铁</a><a class="depth-2" href="#2-不要看到-windows-蓝屏就认为主板坏了" data-astro-cid-7natcuz3>2. 不要看到 Windows 蓝屏就认为主板坏了</a><a class="depth-2" href="#3-gnd-焊点同样重要" data-astro-cid-7natcuz3>3. GND 焊点同样重要</a><a class="depth-2" href="#4-不要只凭感觉判断" data-astro-cid-7natcuz3>4. 不要只凭感觉判断</a><a class="depth-1" href="#最终结果" data-astro-cid-7natcuz3>最终结果</a><a class="depth-1" href="#后记" data-astro-cid-7natcuz3>后记</a></aside></div></article></main><footer><a class="footer-brand" href="/">eH Blog</a><div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer></body></html><script type="module">document.querySelectorAll(`.prose img`).forEach(e=>{e.loading=`lazy`,e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0})});</script>
