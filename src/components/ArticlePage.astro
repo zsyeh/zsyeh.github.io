@@ -22,6 +22,7 @@ const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2
         </div>
       )}
       <div class="eyebrow"><time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time><span>BY {post.data.author}</span><span>WRITTEN ON {post.data.source.toUpperCase()}</span><span>{Math.max(1, Math.ceil((post.body?.length || 0) / 900))} MIN READ</span></div>
+      {isCuavSponsorship && post.data.updatedDate && <p class="cuav-updated">图文更新于 <time datetime={post.data.updatedDate.toISOString()}>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', dateStyle: 'long' }).format(post.data.updatedDate)}</time> · 补充安装特写、团队影像与原始报告</p>}
       <h1>{post.data.title}</h1>
       {post.data.description && <p>{post.data.description}</p>}
       <div class="chips">
@@ -38,7 +39,7 @@ const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2
 
 <script>
   document.querySelectorAll<HTMLImageElement>('.prose img').forEach((image) => {
-    image.loading = 'lazy';
+    if (!image.hasAttribute('loading')) image.loading = 'lazy';
     image.decoding = 'async';
 
     const showFallback = () => {
@@ -59,6 +60,19 @@ const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2
 </script>
 
 <style>
+  .cuav-updated { font-size: 13px; color: var(--muted); }
+  .cuav-sponsorship :global(.prose figure) { margin: 30px 0; min-width: 0; }
+  .cuav-sponsorship :global(.prose figure img) { margin: 0 auto; }
+  .cuav-sponsorship :global(.prose figcaption) { margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.65; text-align: center; }
+  .cuav-sponsorship :global(.cuav-gallery) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 30px 0; align-items: start; }
+  .cuav-sponsorship :global(.cuav-gallery figure) { margin: 0; }
+  .cuav-sponsorship :global(.cuav-portrait) { max-width: 540px; margin-inline: auto; }
+  .cuav-sponsorship :global(.cuav-attachments) { display: grid; gap: 12px; margin: 24px 0; }
+  .cuav-sponsorship :global(.cuav-attachments a) { display: grid; gap: 6px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); text-decoration: none; overflow-wrap: anywhere; }
+  .cuav-sponsorship :global(.cuav-attachments a:hover) { border-color: var(--blue); }
+  .cuav-sponsorship :global(.cuav-attachments a:focus-visible) { outline: 2px solid var(--blue); outline-offset: 3px; }
+  .cuav-sponsorship :global(.cuav-attachments span) { color: var(--muted); font-size: 13px; line-height: 1.65; }
+
   .cuav-brand {
     display: flex;
     width: fit-content;
@@ -105,6 +119,7 @@ const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2
   }
 
   @media (max-width: 520px) {
+    .cuav-sponsorship :global(.cuav-gallery) { grid-template-columns: minmax(0, 1fr); gap: 24px; }
     .cuav-brand {
       width: 100%;
       box-sizing: border-box;

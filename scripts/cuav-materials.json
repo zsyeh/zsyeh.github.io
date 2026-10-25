@@ -1,0 +1,112 @@
+{
+  "archive": "山东理工大学+赵盛宇.zip",
+  "article_slug": "cuav-university-sponsorship-v6x-v2-neo4-se-gps",
+  "files": [
+    {
+      "original": "9fc18b54cae1bea328a095ffe5ea3f7e.jpg",
+      "file": "05-team-cuav.jpg",
+      "role": "团队合影",
+      "sha256": "5a14ab9b4f29435e2cc216cd122c9c7cf8f01b39393bca482c4b0b4d412f3da0"
+    },
+    {
+      "original": "CUAV_Logo.png",
+      "file": "cuav-logo.png",
+      "role": "页头品牌标识",
+      "sha256": "71eca84ef22a70894767d0a2f4fb1cbee8c9b80a953065e49df56de4f1ee9662"
+    },
+    {
+      "original": "安装完成后特写1.jpg",
+      "file": "06-installed-detail-1.jpg",
+      "role": "安装特写一",
+      "sha256": "1e7b6d7458ba1e122d1f4d28fec564125b3eb062d8c6fd18f9fb57f6ebc423b5"
+    },
+    {
+      "original": "安装完成后特写2.jpg",
+      "file": "07-installed-detail-2.jpg",
+      "role": "安装特写二",
+      "sha256": "eb10aec83f8a535b46a3710cf5648b7f596b76979c30e195fc94859be22ea821"
+    },
+    {
+      "original": "山东理工大学+赵盛宇+01_CUAV品牌物资.jpg",
+      "file": "01-cuav-materials.jpg",
+      "role": "物资开箱",
+      "sha256": "b642ecdb6b7a466511947c151ea768cb96c3e37a4f2d6ee5ab205c73865ee47d"
+    },
+    {
+      "original": "山东理工大学+赵盛宇+02_V6X_V2飞控.jpg",
+      "file": "02-v6x-v2-flight-controller.jpg",
+      "role": "飞控开箱",
+      "sha256": "915575f42e85a194dce02b7381950cf256b2594b6ee3b8694a2c378bba719eea"
+    },
+    {
+      "original": "山东理工大学+赵盛宇+03_NEO4_SE_GPS.jpg",
+      "file": "03-neo4-se-gps.jpg",
+      "role": "GPS开箱",
+      "sha256": "4f41f7f81f3b29c1d17bae39165cee825014e564bdad7896408247aecb5b288a"
+    },
+    {
+      "original": "山东理工大学+赵盛宇+04_室内飞行验证.jpg",
+      "file": "04-indoor-flight-test.jpg",
+      "role": "室内飞行静态画面",
+      "sha256": "383468757f1225ec0cfd9ef3fb0c061c9559e033442f11b5683a3a9ce44d079f"
+    },
+    {
+      "original": "自购X7+.png",
+      "file": "08-self-funded-x7-plus.png",
+      "role": "自购设备",
+      "sha256": "ce2e0f9b6bce0a3b564380c39cf6cde8c6a08e2e5327d9d52406a799644c7a8d"
+    },
+    {
+      "original": "无人机+CUAV.jpg",
+      "file": "09-uav-cuav.jpg",
+      "role": "成员与设备",
+      "sha256": "c654722ceab024206d8603d7914ef895b4279ddc9cddd5b257102e19a87d9da6"
+    },
+    {
+      "original": "无人机与CUAV.png",
+      "file": "10-uav-with-cuav.png",
+      "role": "旗帜与整机",
+      "sha256": "f92ddd609a7fa5cc0993549150526033365ce82850b684555d6044be9ce82e68"
+    },
+    {
+      "original": "无人机展示1.jpg",
+      "file": "11-aircraft-display-1.jpg",
+      "role": "整机展示一",
+      "sha256": "b9d4449c30e4db186e30372f5285723745636c7a50f9f5a7111403b4c6a91e42"
+    },
+    {
+      "original": "无人机展示2.jpg",
+      "file": "12-aircraft-display-2.jpg",
+      "role": "整机展示二",
+      "sha256": "1737a605ba8d7a012e2bfef5a1518efed37c35d1cdf2ca5e48a944422fd1c41b"
+    },
+    {
+      "original": "部分无人机展示.png",
+      "file": "13-aircraft-lineup.png",
+      "role": "部分整机列队",
+      "sha256": "5b66f28bb6c25dd7efc99d6e5baa20bdcd38d0ce48089af747499aaf491994a1"
+    },
+    {
+      "original": "山东理工大学+赵盛宇+CUAV产品使用报告.pdf",
+      "file": "cuav-product-use-report.pdf",
+      "role": "原始使用报告下载",
+      "sha256": "505b802dc7b8b325482d9d519209de5bb0e58ace408494a0df838fce87d53c7c"
+    },
+    {
+      "original": "推文.md",
+      "file": "original-post-draft.md",
+      "role": "原始推文草稿下载",
+      "sha256": "41c190941b09645b76c4d82dcc3ad191d1fa88c19212947943811d64b352eff6"
+    }
+  ],
+  "excluded": [
+    {
+      "file": "4a2d267ec3d8449321c8c8a26f5545db.mp4",
+      "reason": "用户要求不添加视频"
+    },
+    {
+      "file": "山东理工大学+赵盛宇+CUAV高校赞助宣传视频.mp4",
+      "reason": "用户要求不添加视频"
+    }
+  ]
+}
