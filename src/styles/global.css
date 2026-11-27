@@ -55,6 +55,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: clip;
   background: var(--bg);
   color: var(--ink);
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -1140,17 +1141,22 @@ footer > span { text-align: right; }
   #posts, .feed.compact { grid-template-columns: 1fr; }
   .post-card.top-row:not(:first-child) { border-top-width: 1px; }
   .section-head { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .section-head-actions { width: 100%; }
-  .archive-inline { order: 2; }
-  .search, .search input { width: 100%; }
+  .section-head-actions { width: 100%; min-width: 0; }
+  .archive-inline { order: 2; flex-shrink: 0; }
+  .search { flex: 1; min-width: 0; width: auto; }
+  .search input { min-width: 0; width: 100%; }
   .search kbd { display: none; }
   .filter-strip {
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
     margin-bottom: 16px;
+    min-width: 0;
+    max-width: 100%;
   }
   .filter-pills {
+    min-width: 0;
+    max-width: 100%;
     flex-wrap: nowrap;
     overflow-x: auto;
     padding-bottom: 4px;
