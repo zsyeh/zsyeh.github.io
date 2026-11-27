@@ -14,5 +14,5 @@ const { name, posts } = Astro.props;
 
 <BaseLayout title={`Category: ${name}`}>
   <section class="page-head"><span>CATEGORY</span><h1>{name}</h1><p>{posts.length} articles</p></section>
-  <div class="feed compact">{posts.map((post: any) => <PostCard post={post} />)}</div>
+  <div class="feed compact">{posts.map((post: any, idx: number) => <PostCard post={post} topRow={idx < 2} />)}</div>
 </BaseLayout>

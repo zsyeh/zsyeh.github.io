@@ -2,14 +2,14 @@
 import type { Post } from '../lib/posts';
 import { dateFormatter, estimateReadingMinutes } from '../lib/posts';
 
-const { post } = Astro.props as { post: Post };
+const { post, topRow = false } = Astro.props as { post: Post; topRow?: boolean };
 const readMinutes = estimateReadingMinutes(post.body);
 const previewTags = post.data.tags.slice(0, 2);
 const searchText = `${post.data.title} ${post.data.description} ${post.data.categories.join(' ')} ${post.data.tags.join(' ')}`.toLowerCase();
 const categoryList = post.data.categories.map((c) => c.toLowerCase()).join('|');
 ---
 
-<article class="post-card" data-search={searchText} data-categories={categoryList}>
+<article class:list={['post-card', { 'top-row': topRow }]} data-search={searchText} data-categories={categoryList}>
   <div class="post-card-content">
     <div class="eyebrow">
       {post.data.pinned && <span class="pin-badge">PINNED</span>}

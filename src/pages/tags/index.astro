@@ -10,6 +10,41 @@ const tags = [...counts].sort((a, b) => b[1] - a[1]);
 ---
 
 <BaseLayout title="Tags">
-  <section class="page-head"><span>TAGS</span><h1>Browse by Tag</h1><p>Find relevant articles by keyword.</p></section>
-  <div class="tag-cloud">{tags.map(([name, count]) => <a href={`/tags/${encodeURIComponent(name)}/`}>#{name}<small>{count}</small></a>)}</div>
+  <section class="page-head">
+    <span>TAGS</span>
+    <h1>Browse by Tag</h1>
+    <p>{tags.length} tags across {posts.length} technical notes.</p>
+    <div style="margin-top: 20px; max-width: 320px;">
+      <label class="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input id="tag-filter" type="search" placeholder="Filter tags" aria-label="Filter tags" />
+      </label>
+    </div>
+  </section>
+  <div class="tag-cloud" id="tag-cloud">
+    {tags.map(([name, count]) => (
+      <a class="tag-item" data-tag={name.toLowerCase()} href={`/tags/${encodeURIComponent(name)}/`}>
+        #{name}<small>{count}</small>
+      </a>
+    ))}
+    <p id="tag-empty" class="empty" hidden>No matching tags.</p>
+  </div>
+  <script>
+    const input = document.querySelector<HTMLInputElement>('#tag-filter');
+    const items = [...document.querySelectorAll<HTMLElement>('.tag-item')];
+    const empty = document.querySelector<HTMLElement>('#tag-empty');
+    input?.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      items.forEach((el) => {
+        const match = !q || (el.dataset.tag || '').includes(q);
+        el.hidden = !match;
+        if (match) shown += 1;
+      });
+      if (empty) empty.hidden = shown !== 0;
+    });
+  </script>
 </BaseLayout>

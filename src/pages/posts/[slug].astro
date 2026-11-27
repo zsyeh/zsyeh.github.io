@@ -1,10 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import ArticlePage from '../../components/ArticlePage.astro';
-import { sortPosts, visiblePosts } from '../../lib/posts';
+import { sortPostsByDate, visiblePosts } from '../../lib/posts';
 
 export async function getStaticPaths() {
-  const posts = sortPosts(visiblePosts(await getCollection('blog')));
+  const posts = sortPostsByDate(visiblePosts(await getCollection('blog')));
   return posts.map((post, index) => ({
     params: { slug: post.data.slug },
     props: {

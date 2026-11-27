@@ -58,9 +58,17 @@ const navItems = [
     <script is:inline>
       (() => {
         try {
+          const param = new URLSearchParams(window.location.search).get('theme');
           const saved = localStorage.getItem('eh-blog-theme');
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = saved === 'dark' || saved === 'light' ? saved : (prefersDark ? 'dark' : 'light');
+          const theme =
+            param === 'dark' || param === 'light'
+              ? param
+              : saved === 'dark' || saved === 'light'
+                ? saved
+                : prefersDark
+                  ? 'dark'
+                  : 'light';
           document.documentElement.dataset.theme = theme;
         } catch (_) {}
       })();

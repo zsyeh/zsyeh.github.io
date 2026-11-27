@@ -51,7 +51,7 @@ const topCategories = [...categoryCounts.entries()]
     )}
 
     <div id="posts">
-      {posts.map((post) => <PostCard post={post} />)}
+      {posts.map((post, idx) => <PostCard post={post} topRow={idx < 2} />)}
       <p id="empty" class="empty" hidden>No matching notes found.</p>
     </div>
   </section>
@@ -72,6 +72,7 @@ const topCategories = [...categoryCounts.entries()]
         const queryMatch = !query || (card.dataset.search || '').includes(query);
         const match = catMatch && queryMatch;
         card.hidden = !match;
+        card.classList.toggle('top-row', match && visible < 2);
         if (match) visible += 1;
       });
       if (empty) empty.hidden = visible !== 0;

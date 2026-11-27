@@ -24,6 +24,10 @@ export function sortPosts(posts: Post[]) {
   });
 }
 
+export function sortPostsByDate(posts: Post[]) {
+  return [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+}
+
 export function estimateReadingMinutes(body?: string): number {
   if (!body) return 1;
   const cleaned = body
@@ -41,7 +45,7 @@ export function estimateReadingMinutes(body?: string): number {
     .split(/\s+/)
     .filter(Boolean).length;
 
-  const minutes = cjkChars / 380 + latinWords / 220;
+  const minutes = cjkChars / 450 + latinWords / 220;
   return Math.max(1, Math.round(minutes));
 }
 

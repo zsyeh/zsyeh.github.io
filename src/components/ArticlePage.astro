@@ -151,13 +151,24 @@ const showUpdated =
     }
   }
 
-  // 3. Code block copy buttons
+  // 3. Code block toolbar (language label + copy button) & heading anchors
   document.querySelectorAll<HTMLPreElement>('.prose pre').forEach((pre) => {
     if (pre.parentElement?.classList.contains('code-block-wrap')) return;
     const wrap = document.createElement('div');
     wrap.className = 'code-block-wrap';
     pre.parentNode?.insertBefore(wrap, pre);
     wrap.appendChild(pre);
+
+    const toolbar = document.createElement('div');
+    toolbar.className = 'code-toolbar';
+
+    const lang = (pre.dataset.language || '').trim().toLowerCase();
+    if (lang && lang !== 'plaintext' && lang !== 'text') {
+      const badge = document.createElement('span');
+      badge.className = 'code-lang';
+      badge.textContent = lang;
+      toolbar.appendChild(badge);
+    }
 
     const btn = document.createElement('button');
     btn.type = 'button';
@@ -177,7 +188,18 @@ const showUpdated =
         btn.textContent = 'Failed';
       }
     });
-    wrap.appendChild(btn);
+    toolbar.appendChild(btn);
+    wrap.appendChild(toolbar);
+  });
+
+  document.querySelectorAll<HTMLElement>('.prose h2[id], .prose h3[id]').forEach((heading) => {
+    if (heading.querySelector('.heading-anchor')) return;
+    const link = document.createElement('a');
+    link.className = 'heading-anchor';
+    link.href = `#${heading.id}`;
+    link.setAttribute('aria-label', `Link to ${heading.textContent?.trim() || 'section'}`);
+    link.textContent = '#';
+    heading.appendChild(link);
   });
 
   // 4. Responsive table wrapper

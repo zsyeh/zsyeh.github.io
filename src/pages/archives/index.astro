@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SITE } from '../../config';
-import { sortPosts, visiblePosts } from '../../lib/posts';
+import { sortPostsByDate, visiblePosts } from '../../lib/posts';
 
-const posts = sortPosts(visiblePosts(await getCollection('blog')));
+const posts = sortPostsByDate(visiblePosts(await getCollection('blog')));
 const compactDate = new Intl.DateTimeFormat('en-CA', { month: '2-digit', day: '2-digit', timeZone: 'Asia/Shanghai' });
 const groups = new Map<number, typeof posts>();
 for (const post of posts) {
