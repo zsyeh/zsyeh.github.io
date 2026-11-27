@@ -1,18 +1,32 @@
 ---
 import type { Post } from '../lib/posts';
-import { dateFormatter } from '../lib/posts';
+import { dateFormatter, estimateReadingMinutes } from '../lib/posts';
 
 const { post } = Astro.props as { post: Post };
+const readMinutes = estimateReadingMinutes(post.body);
+const previewTags = post.data.tags.slice(0, 2);
+const searchText = `${post.data.title} ${post.data.description} ${post.data.categories.join(' ')} ${post.data.tags.join(' ')}`.toLowerCase();
+const categoryList = post.data.categories.map((c) => c.toLowerCase()).join('|');
 ---
 
-<article class="post-card" data-search={`${post.data.title} ${post.data.description} ${post.data.categories.join(' ')} ${post.data.tags.join(' ')}`.toLowerCase()}>
+<article class="post-card" data-search={searchText} data-categories={categoryList}>
   <div class="post-card-content">
     <div class="eyebrow">
+      {post.data.pinned && <span class="pin-badge">PINNED</span>}
       <span>{post.data.categories[0] || 'Engineering Notes'}</span>
       <time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time>
+      <span class="meta-dot" aria-hidden="true">·</span>
+      <span class="read-time">{readMinutes} min</span>
     </div>
     <h2><a href={`/archives/${post.data.slug}`}>{post.data.title}</a></h2>
     {post.data.description && <p>{post.data.description}</p>}
-    <a class="card-read" href={`/archives/${post.data.slug}`}>Read article <span>→</span></a>
+    <div class="card-footer">
+      <a class="card-read" href={`/archives/${post.data.slug}`}>Read article <span>→</span></a>
+      {previewTags.length > 0 && (
+        <div class="card-tags" aria-hidden="true">
+          {previewTags.map((tag) => <span>#{tag}</span>)}
+        </div>
+      )}
+    </div>
   </div>
 </article>

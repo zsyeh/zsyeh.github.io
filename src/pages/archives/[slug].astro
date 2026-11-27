@@ -1,14 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
 import ArticlePage from '../../components/ArticlePage.astro';
-import { visiblePosts } from '../../lib/posts';
+import { sortPosts, visiblePosts } from '../../lib/posts';
 
 export async function getStaticPaths() {
-  const posts = visiblePosts(await getCollection('blog'));
-  return posts.map((post) => ({ params: { slug: post.data.slug }, props: { post } }));
+  const posts = sortPosts(visiblePosts(await getCollection('blog')));
+  return posts.map((post, index) => ({
+    params: { slug: post.data.slug },
+    props: {
+      post,
+      nextPost: index > 0 ? posts[index - 1] : undefined,
+      prevPost: index < posts.length - 1 ? posts[index + 1] : undefined,
+    },
+  }));
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 ---
 
-<ArticlePage post={post} />
+<ArticlePage post={post} prevPost={prevPost} nextPost={nextPost} />

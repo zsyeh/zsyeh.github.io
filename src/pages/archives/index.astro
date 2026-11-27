@@ -13,11 +13,72 @@ for (const post of posts) {
 }
 ---
 
-<BaseLayout title="Story Archive" description={`Browse every ${SITE.title} story by year.`}>
+<BaseLayout title="Archive" description={`Browse every ${SITE.title} note by year.`}>
   <section class="archive-page">
-    <header class="archive-bar"><div><span>ARCHIVE</span><strong>{posts.length} stories</strong></div><a href="/">← Latest</a></header>
+    <header class="archive-bar">
+      <div class="archive-bar-left">
+        <span>ARCHIVE</span>
+        <strong id="archive-count">{posts.length} notes</strong>
+      </div>
+      <div class="archive-bar-right">
+        <label class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input id="archive-search" type="search" placeholder="Filter archive" aria-label="Filter archive" />
+        </label>
+        <a href="/">← Latest</a>
+      </div>
+    </header>
     <div class="archive-list">
-      {[...groups].map(([year, items]) => <section><h2>{year}</h2><div class="archive-year-posts">{items.map((post) => <a href={`/archives/${post.data.slug}`}><time>{compactDate.format(post.data.pubDate)}</time><strong>{post.data.title}</strong><span>↗</span></a>)}</div></section>)}
+      {[...groups].map(([year, items]) => (
+        <section class="archive-year">
+          <h2>{year}</h2>
+          <div class="archive-year-posts">
+            {items.map((post) => (
+              <a
+                class="archive-item"
+                href={`/archives/${post.data.slug}`}
+                data-search={`${post.data.title} ${post.data.categories.join(' ')} ${post.data.tags.join(' ')}`.toLowerCase()}
+              >
+                <time datetime={post.data.pubDate.toISOString()}>{compactDate.format(post.data.pubDate)}</time>
+                <strong>{post.data.title}</strong>
+                {post.data.categories[0] && <span class="archive-cat">{post.data.categories[0]}</span>}
+                <span class="archive-arrow" aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+      <p id="archive-empty" class="empty" hidden>No matching archive entries.</p>
     </div>
   </section>
+  <script>
+    const input = document.querySelector<HTMLInputElement>('#archive-search');
+    const sections = [...document.querySelectorAll<HTMLElement>('.archive-year')];
+    const countEl = document.querySelector<HTMLElement>('#archive-count');
+    const emptyEl = document.querySelector<HTMLElement>('#archive-empty');
+    const total = document.querySelectorAll('.archive-item').length;
+
+    input?.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      sections.forEach((sec) => {
+        const items = [...sec.querySelectorAll<HTMLElement>('.archive-item')];
+        let secShown = 0;
+        items.forEach((item) => {
+          const match = !q || (item.dataset.search || '').includes(q);
+          item.hidden = !match;
+          if (match) {
+            secShown += 1;
+            shown += 1;
+          }
+        });
+        sec.hidden = secShown === 0;
+      });
+      if (countEl) countEl.textContent = shown === total ? `${total} notes` : `${shown} / ${total} notes`;
+      if (emptyEl) emptyEl.hidden = shown !== 0;
+    });
+  </script>
 </BaseLayout>

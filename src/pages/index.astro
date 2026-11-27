@@ -6,6 +6,15 @@ import { SITE } from '../config';
 import { sortPosts, visiblePosts } from '../lib/posts';
 
 const posts = sortPosts(visiblePosts(await getCollection('blog')));
+const categoryCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const cat of post.data.categories) {
+    categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
+  }
+}
+const topCategories = [...categoryCounts.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 6);
 ---
 
 <BaseLayout>
@@ -14,27 +23,86 @@ const posts = sortPosts(visiblePosts(await getCollection('blog')));
       <div><span>{SITE.kicker}</span><h1>{SITE.latestTitle}</h1></div>
       <div class="section-head-actions">
         <a class="archive-inline" href="/archives/">Archive <span>→</span></a>
-        <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search stories" aria-label="Search stories" /></label>
+        <label class="search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input id="search" type="search" placeholder="Search notes" aria-label="Search notes" />
+          <kbd aria-hidden="true">/</kbd>
+        </label>
       </div>
     </div>
+
+    {topCategories.length > 0 && (
+      <div class="filter-strip">
+        <div class="filter-pills" role="group" aria-label="Filter by topic">
+          <button class="filter-pill" type="button" data-category="" aria-pressed="true">
+            All<small>{posts.length}</small>
+          </button>
+          {topCategories.map(([name, count]) => (
+            <button class="filter-pill" type="button" data-category={name.toLowerCase()} aria-pressed="false">
+              {name}<small>{count}</small>
+            </button>
+          ))}
+        </div>
+        <span id="feed-count" class="feed-count">{posts.length} notes</span>
+      </div>
+    )}
+
     <div id="posts">
       {posts.map((post) => <PostCard post={post} />)}
-      <p id="empty" class="empty" hidden>No matching stories found.</p>
+      <p id="empty" class="empty" hidden>No matching notes found.</p>
     </div>
   </section>
   <script>
     const input = document.querySelector<HTMLInputElement>('#search');
     const cards = [...document.querySelectorAll<HTMLElement>('.post-card')];
+    const pills = [...document.querySelectorAll<HTMLButtonElement>('.filter-pill')];
     const empty = document.querySelector<HTMLElement>('#empty');
-    input?.addEventListener('input', () => {
-      const query = input.value.trim().toLowerCase();
+    const countEl = document.querySelector<HTMLElement>('#feed-count');
+    let activeCategory = '';
+
+    const applyFilter = () => {
+      const query = (input?.value || '').trim().toLowerCase();
       let visible = 0;
       cards.forEach((card) => {
-        const match = !query || card.dataset.search?.includes(query);
+        const cats = (card.dataset.categories || '').split('|').filter(Boolean);
+        const catMatch = !activeCategory || cats.includes(activeCategory);
+        const queryMatch = !query || (card.dataset.search || '').includes(query);
+        const match = catMatch && queryMatch;
         card.hidden = !match;
         if (match) visible += 1;
       });
       if (empty) empty.hidden = visible !== 0;
+      if (countEl) {
+        countEl.textContent = visible === cards.length
+          ? `${cards.length} notes`
+          : `${visible} / ${cards.length} notes`;
+      }
+    };
+
+    input?.addEventListener('input', applyFilter);
+
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        activeCategory = pill.dataset.category || '';
+        pills.forEach((btn) => btn.setAttribute('aria-pressed', String(btn === pill)));
+        applyFilter();
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== input) {
+        const tag = (document.activeElement as HTMLElement | null)?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        e.preventDefault();
+        input?.focus();
+      } else if (e.key === 'Escape' && document.activeElement === input && input) {
+        input.value = '';
+        applyFilter();
+        input.blur();
+      }
     });
   </script>
 </BaseLayout>

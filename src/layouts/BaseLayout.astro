@@ -11,42 +11,170 @@ interface Props {
 const { title, description = SITE.description, image } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.title}` : SITE.title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  { href: '/', label: 'Home', active: pathname === '/' },
+  { href: '/archives/', label: 'Archive', active: pathname.startsWith('/archives') || pathname.startsWith('/posts') },
+  { href: '/categories/', label: 'Topics', active: pathname.startsWith('/categories') },
+  { href: '/tags/', label: 'Tags', active: pathname.startsWith('/tags') },
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111317" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={title ? 'article' : 'website'} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
     {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
     <title>{pageTitle}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('eh-blog-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || saved === 'light' ? saved : (prefersDark ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {}
+      })();
+    </script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="/" aria-label={`${SITE.title} home`}><span class="brand-e">e</span><span class="brand-h">H</span> <b>{SITE.brandSuffix}</b></a>
-        <nav aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/archives/">Archive</a>
-          <a href="/categories/">Topics</a>
-          <a href="/tags/">Tags</a>
+        <a class="brand" href="/" aria-label={`${SITE.title} home`}>
+          <span class="brand-e">e</span><span class="brand-h">H</span> <b>{SITE.brandSuffix}</b>
+        </a>
+        <nav class="primary-nav" aria-label="Primary navigation">
+          {navItems.map((item) => (
+            <a href={item.href} aria-current={item.active ? 'page' : undefined}>{item.label}</a>
+          ))}
         </nav>
-        <a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a>
+        <div class="header-actions">
+          <button
+            id="theme-toggle"
+            class="icon-btn"
+            type="button"
+            aria-label="Toggle color theme"
+            title="Switch light / dark theme"
+          >
+            <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </svg>
+            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a>
+          <button
+            id="menu-toggle"
+            class="icon-btn mobile-menu-btn"
+            type="button"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <svg class="icon-menu" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16"></path>
+            </svg>
+            <svg class="icon-close" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
       </div>
+      <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
+        <div class="mobile-nav-inner">
+          {navItems.map((item) => (
+            <a href={item.href} aria-current={item.active ? 'page' : undefined}>{item.label}</a>
+          ))}
+          <a class="mobile-nav-external" href="https://ehzsy.site">eH Home ↗</a>
+        </div>
+      </nav>
     </header>
-    <main><slot /></main>
+    <main id="main-content"><slot /></main>
     <footer>
       <a class="footer-brand" href="/">{SITE.title}</a>
-      <div><a href="/archives/">Archive</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div>
+      <div class="footer-links">
+        <a href="/archives/">Archive</a>
+        <a href="/categories/">Topics</a>
+        <a href="/tags/">Tags</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="https://ehzsy.site">Home</a>
+      </div>
       <span>© {new Date().getFullYear()} {SITE.owner} · Original author attribution retained</span>
     </footer>
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top" hidden>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m18 15-6-6-6 6"></path>
+      </svg>
+    </button>
+    <script>
+      const root = document.documentElement;
+      const themeBtn = document.querySelector<HTMLButtonElement>('#theme-toggle');
+      themeBtn?.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('eh-blog-theme', next); } catch (_) {}
+      });
+
+      const menuBtn = document.querySelector<HTMLButtonElement>('#menu-toggle');
+      const mobileNav = document.querySelector<HTMLElement>('#mobile-nav');
+      const closeMenu = () => {
+        if (!menuBtn || !mobileNav) return;
+        menuBtn.setAttribute('aria-expanded', 'false');
+        mobileNav.hidden = true;
+      };
+      menuBtn?.addEventListener('click', () => {
+        if (!mobileNav) return;
+        const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', String(!expanded));
+        mobileNav.hidden = expanded;
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+
+      const topBtn = document.querySelector<HTMLButtonElement>('#back-to-top');
+      if (topBtn) {
+        const syncTopBtn = () => {
+          topBtn.hidden = window.scrollY < 480;
+        };
+        window.addEventListener('scroll', syncTopBtn, { passive: true });
+        syncTopBtn();
+        topBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    </script>
   </body>
 </html>

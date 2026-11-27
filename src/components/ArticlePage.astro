@@ -1,50 +1,221 @@
 ---
 import { render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { dateFormatter, type Post } from '../lib/posts';
+import { dateFormatter, estimateReadingMinutes, type Post } from '../lib/posts';
 
-const { post } = Astro.props as { post: Post };
+interface Props {
+  post: Post;
+  prevPost?: Post;
+  nextPost?: Post;
+}
+
+const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await render(post);
+const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+const hasToc = tocHeadings.length >= 2;
+const readMinutes = estimateReadingMinutes(post.body);
 const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2-neo4-se-gps';
+const showUpdated =
+  post.data.updatedDate &&
+  Math.abs(post.data.updatedDate.valueOf() - post.data.pubDate.valueOf()) > 86_400_000;
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description} image={post.data.cover}>
-  <article class:list={["article-shell", { "cuav-sponsorship": isCuavSponsorship }]}>
-    <header class="article-header">
-      {isCuavSponsorship && (
-        <div class="cuav-brand" aria-label="CUAV 高校赞助项目">
-          <img src="/article-assets/cuav-sponsorship-2026/cuav-logo.png" alt="CUAV" />
-          <span aria-hidden="true"></span>
-          <div>
-            <strong>高校赞助项目</strong>
-            <small>项目实践记录 · 2026</small>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
+  <article class:list={['article-shell', { 'cuav-sponsorship': isCuavSponsorship }]}>
+    <div class:list={['article-frame', { 'no-toc': !hasToc }]}>
+      <header class="article-header">
+        {isCuavSponsorship && (
+          <div class="cuav-brand" aria-label="CUAV 高校赞助项目">
+            <img src="/article-assets/cuav-sponsorship-2026/cuav-logo.png" alt="CUAV" />
+            <span aria-hidden="true"></span>
+            <div>
+              <strong>高校赞助项目</strong>
+              <small>项目实践记录 · 2026</small>
+            </div>
           </div>
+        )}
+        <div class="eyebrow">
+          <time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time>
+          <span>BY {post.data.author}</span>
+          <span>WRITTEN ON {post.data.source.toUpperCase()}</span>
+          <span class="read-time">{readMinutes} MIN READ</span>
         </div>
+        {isCuavSponsorship && post.data.updatedDate ? (
+          <p class="article-updated">
+            图文更新于 <time datetime={post.data.updatedDate.toISOString()}>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', dateStyle: 'long' }).format(post.data.updatedDate)}</time> · 补充安装特写、团队影像与原始报告
+          </p>
+        ) : showUpdated && post.data.updatedDate ? (
+          <p class="article-updated">
+            Updated <time datetime={post.data.updatedDate.toISOString()}>{dateFormatter.format(post.data.updatedDate)}</time>
+          </p>
+        ) : null}
+        <h1>{post.data.title}</h1>
+        {post.data.description && <p>{post.data.description}</p>}
+        <div class="chips">
+          {post.data.categories.map((name: string) => <a href={`/categories/${encodeURIComponent(name)}/`}>{name}</a>)}
+          {post.data.tags.map((name: string) => <a class="tag" href={`/tags/${encodeURIComponent(name)}/`}>#{name}</a>)}
+        </div>
+      </header>
+
+      {hasToc && (
+        <details class="mobile-toc">
+          <summary>On this page ({tocHeadings.length})</summary>
+          <div class="mobile-toc-links">
+            {tocHeadings.map((h) => <a class={`depth-${h.depth}`} href={`#${h.slug}`}>{h.text}</a>)}
+          </div>
+        </details>
       )}
-      <div class="eyebrow"><time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time><span>BY {post.data.author}</span><span>WRITTEN ON {post.data.source.toUpperCase()}</span><span>{Math.max(1, Math.ceil((post.body?.length || 0) / 900))} MIN READ</span></div>
-      {isCuavSponsorship && post.data.updatedDate && <p class="cuav-updated">图文更新于 <time datetime={post.data.updatedDate.toISOString()}>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', dateStyle: 'long' }).format(post.data.updatedDate)}</time> · 补充安装特写、团队影像与原始报告</p>}
-      <h1>{post.data.title}</h1>
-      {post.data.description && <p>{post.data.description}</p>}
-      <div class="chips">
-        {post.data.categories.map((name: string) => <a href={`/categories/${encodeURIComponent(name)}/`}>{name}</a>)}
-        {post.data.tags.map((name: string) => <a class="tag" href={`/tags/${encodeURIComponent(name)}/`}>#{name}</a>)}
+
+      <div class="article-grid">
+        <div class="prose"><Content /></div>
+        {hasToc && (
+          <aside class="toc" aria-label="Table of contents">
+            <strong>ON THIS PAGE</strong>
+            {tocHeadings.map((h) => <a class={`depth-${h.depth}`} href={`#${h.slug}`} data-toc-slug={h.slug}>{h.text}</a>)}
+          </aside>
+        )}
       </div>
-    </header>
-    <div class:list={["article-grid", { "no-toc": headings.length < 3 }]}>
-      <div class="prose"><Content /></div>
-      {headings.length >= 3 && <aside class="toc"><strong>ON THIS PAGE</strong>{headings.filter((h) => h.depth <= 3).map((h) => <a class={`depth-${h.depth}`} href={`#${h.slug}`}>{h.text}</a>)}</aside>}
+
+      {(prevPost || nextPost) && (
+        <nav class="article-nav" aria-label="Adjacent articles">
+          {prevPost && (
+            <a class="prev" href={`/archives/${prevPost.data.slug}`}>
+              <span>← Older</span>
+              <strong>{prevPost.data.title}</strong>
+            </a>
+          )}
+          {nextPost && (
+            <a class="next" href={`/archives/${nextPost.data.slug}`}>
+              <span>Newer →</span>
+              <strong>{nextPost.data.title}</strong>
+            </a>
+          )}
+        </nav>
+      )}
     </div>
   </article>
+
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image preview" hidden>
+    <button id="lightbox-close" class="lightbox-close" type="button" aria-label="Close image preview">×</button>
+    <img id="lightbox-img" src="" alt="" />
+    <div class="lightbox-bar">
+      <span id="lightbox-caption"></span>
+      <a id="lightbox-raw" href="" target="_blank" rel="noopener">Open original ↗</a>
+    </div>
+  </div>
 </BaseLayout>
 
 <script>
+  // 1. Reading progress bar
+  const progressBar = document.querySelector<HTMLElement>('#reading-progress');
+  const articleEl = document.querySelector<HTMLElement>('.prose');
+  if (progressBar && articleEl) {
+    const updateProgress = () => {
+      const rect = articleEl.getBoundingClientRect();
+      const total = Math.max(1, articleEl.offsetHeight - window.innerHeight * 0.65);
+      const passed = Math.min(total, Math.max(0, -rect.top + 80));
+      progressBar.style.width = `${(passed / total) * 100}%`;
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  // 2. TOC active heading scroll-spy
+  const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.toc a[data-toc-slug]')];
+  if (tocLinks.length > 0) {
+    const linkBySlug = new Map(tocLinks.map((a) => [a.dataset.tocSlug || '', a]));
+    const headings = tocLinks
+      .map((a) => document.getElementById(a.dataset.tocSlug || ''))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    const setActive = (id: string) => {
+      tocLinks.forEach((a) => a.classList.toggle('active', a.dataset.tocSlug === id));
+      const active = linkBySlug.get(id);
+      if (active) active.scrollIntoView({ block: 'nearest' });
+    };
+
+    if ('IntersectionObserver' in window && headings.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries.filter((e) => e.isIntersecting);
+          if (visible.length > 0) {
+            setActive(visible[0].target.id);
+          }
+        },
+        { rootMargin: '-88px 0px -70% 0px', threshold: 0 }
+      );
+      headings.forEach((h) => observer.observe(h));
+      setActive(headings[0].id);
+    }
+  }
+
+  // 3. Code block copy buttons
+  document.querySelectorAll<HTMLPreElement>('.prose pre').forEach((pre) => {
+    if (pre.parentElement?.classList.contains('code-block-wrap')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'code-block-wrap';
+    pre.parentNode?.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copy-code-btn';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', async () => {
+      const code = pre.querySelector('code')?.textContent ?? pre.textContent ?? '';
+      try {
+        await navigator.clipboard.writeText(code);
+        btn.textContent = 'Copied ✓';
+        btn.classList.add('copied');
+        window.setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 1800);
+      } catch (_) {
+        btn.textContent = 'Failed';
+      }
+    });
+    wrap.appendChild(btn);
+  });
+
+  // 4. Responsive table wrapper
+  document.querySelectorAll<HTMLTableElement>('.prose table').forEach((table) => {
+    if (table.parentElement?.classList.contains('table-wrap')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+    table.parentNode?.insertBefore(wrap, table);
+    wrap.appendChild(table);
+  });
+
+  // 5. Image fallback + Lightbox preview
+  const lightbox = document.querySelector<HTMLElement>('#lightbox');
+  const lbImg = document.querySelector<HTMLImageElement>('#lightbox-img');
+  const lbCaption = document.querySelector<HTMLElement>('#lightbox-caption');
+  const lbRaw = document.querySelector<HTMLAnchorElement>('#lightbox-raw');
+  const lbClose = document.querySelector<HTMLButtonElement>('#lightbox-close');
+
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.hidden = true;
+    document.body.style.overflow = '';
+  };
+
+  lbClose?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox && !lightbox.hidden) closeLightbox();
+  });
+
   document.querySelectorAll<HTMLImageElement>('.prose img').forEach((image) => {
     if (!image.hasAttribute('loading')) image.loading = 'lazy';
     image.decoding = 'async';
 
     const showFallback = () => {
       if (image.nextElementSibling?.classList.contains('image-unavailable')) return;
-
       const fallback = document.createElement('span');
       fallback.className = 'image-unavailable';
       fallback.textContent = image.alt
@@ -56,14 +227,34 @@ const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2
 
     if (image.complete && image.naturalWidth === 0) showFallback();
     else image.addEventListener('error', showFallback, { once: true });
+
+    const openZoom = (e: Event) => {
+      if (!lightbox || !lbImg || !lbCaption || !lbRaw) return;
+      const parentAnchor = image.closest('a');
+      const targetHref = parentAnchor?.getAttribute('href') || image.currentSrc || image.src;
+      const isImageHref = /\.(png|jpe?g|webp|gif|svg|avif)(\?.*)?$/i.test(targetHref) || targetHref === image.src;
+      if (parentAnchor && !isImageHref) return;
+
+      e.preventDefault();
+      lbImg.src = isImageHref ? targetHref : image.src;
+      lbImg.alt = image.alt || '';
+      const figCaption = image.closest('figure')?.querySelector('figcaption')?.textContent?.trim();
+      lbCaption.textContent = figCaption || image.alt || '';
+      lbRaw.href = lbImg.src;
+      lightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+    };
+
+    const parentAnchor = image.closest('a');
+    if (parentAnchor) {
+      parentAnchor.addEventListener('click', openZoom);
+    } else {
+      image.addEventListener('click', openZoom);
+    }
   });
 </script>
 
 <style>
-  .cuav-updated { font-size: 13px; color: var(--muted); }
-  .cuav-sponsorship :global(.prose figure) { margin: 30px 0; min-width: 0; }
-  .cuav-sponsorship :global(.prose figure img) { margin: 0 auto; }
-  .cuav-sponsorship :global(.prose figcaption) { margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.65; text-align: center; }
   .cuav-sponsorship :global(.cuav-gallery) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 30px 0; align-items: start; }
   .cuav-sponsorship :global(.cuav-gallery figure) { margin: 0; }
   .cuav-sponsorship :global(.cuav-portrait) { max-width: 540px; margin-inline: auto; }
@@ -76,28 +267,30 @@ const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2
   .cuav-brand {
     display: flex;
     width: fit-content;
-    margin: 0 0 28px;
+    margin: 0 0 24px;
     padding: 14px 18px;
     align-items: center;
     gap: 16px;
-    border: 1px solid rgba(24, 45, 76, .1);
+    border: 1px solid var(--line);
     border-radius: 14px;
-    background: linear-gradient(135deg, #fff 0%, #f5f8fb 100%);
-    box-shadow: 0 10px 32px rgba(26, 44, 72, .06);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
   }
 
   .cuav-brand img {
     width: 116px;
     height: 52px;
     margin: 0;
-    border-radius: 0;
+    border-radius: 6px;
+    padding: 4px 8px;
+    background: #ffffff;
     object-fit: contain;
   }
 
   .cuav-brand > span {
     width: 1px;
     height: 34px;
-    background: rgba(24, 45, 76, .14);
+    background: var(--line);
   }
 
   .cuav-brand div {
@@ -106,13 +299,13 @@ const isCuavSponsorship = post.data.slug === 'cuav-university-sponsorship-v6x-v2
   }
 
   .cuav-brand strong {
-    color: #14253d;
+    color: var(--ink);
     font-size: 14px;
     letter-spacing: .04em;
   }
 
   .cuav-brand small {
-    color: #6c7685;
+    color: var(--muted);
     font-size: 11px;
     letter-spacing: .08em;
     text-transform: uppercase;
