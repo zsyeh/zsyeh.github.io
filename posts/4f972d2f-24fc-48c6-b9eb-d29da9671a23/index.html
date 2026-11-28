@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.1.3"><meta name="description" content="前言 进入实验室，你要认识到：以前你用电脑可能是为了消费内容（看视频、打游戏、写文档），而现在你用电脑是为了创造工具。你需要掌握它，而不是被它糊弄。如果电脑基本技能都掌握不好，后期在你需要大量使用电脑时（特别是我们飞控方向）可能会遇到各种“灵异事项”，也会导致与队友交流不畅，引发各种问题。因此有必要"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#111317" media="(prefers-color-scheme: dark)"><link rel="canonical" href="https://blog.ehzsy.site/posts/4f972d2f-24fc-48c6-b9eb-d29da9671a23/"><link rel="alternate" type="application/rss+xml" title="eH Blog" href="/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"></noscript><meta property="og:title" content="第零章 Windows 使用与开发基本素养 · eH Blog"><meta property="og:description" content="前言 进入实验室，你要认识到：以前你用电脑可能是为了消费内容（看视频、打游戏、写文档），而现在你用电脑是为了创造工具。你需要掌握它，而不是被它糊弄。如果电脑基本技能都掌握不好，后期在你需要大量使用电脑时（特别是我们飞控方向）可能会遇到各种“灵异事项”，也会导致与队友交流不畅，引发各种问题。因此有必要"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.ehzsy.site/posts/4f972d2f-24fc-48c6-b9eb-d29da9671a23/"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://blog.ehzsy.site/halo-assets/terminal.png"><title>第零章 Windows 使用与开发基本素养 · eH Blog</title><script>
+      (() => {
+        try {
+          const param = new URLSearchParams(window.location.search).get('theme');
+          const saved = localStorage.getItem('eh-blog-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme =
+            param === 'dark' || param === 'light'
+              ? param
+              : saved === 'dark' || saved === 'light'
+                ? saved
+                : prefersDark
+                  ? 'dark'
+                  : 'light';
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {}
+      })();
+    </script><link rel="stylesheet" href="/_astro/BaseLayout.HtbXgFzX.css"><style>.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-gallery{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:24px;margin:30px 0;display:grid}.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-gallery figure{margin:0}.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-portrait{max-width:540px;margin-inline:auto}.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-attachments{gap:12px;margin:24px 0;display:grid}.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-attachments a{border:1px solid var(--line);background:var(--soft);overflow-wrap:anywhere;border-radius:12px;gap:6px;padding:18px 20px;text-decoration:none;display:grid}.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-attachments a:hover{border-color:var(--blue)}.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-attachments a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-attachments span{color:var(--muted);font-size:13px;line-height:1.65}.cuav-brand[data-astro-cid-7natcuz3]{border:1px solid var(--line);background:var(--surface);width:fit-content;box-shadow:var(--shadow-sm);border-radius:14px;align-items:center;gap:16px;margin:0 0 24px;padding:14px 18px;display:flex}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{object-fit:contain;background:#fff;border-radius:6px;width:116px;height:52px;margin:0;padding:4px 8px}.cuav-brand[data-astro-cid-7natcuz3]>span[data-astro-cid-7natcuz3]{background:var(--line);width:1px;height:34px}.cuav-brand[data-astro-cid-7natcuz3] div[data-astro-cid-7natcuz3]{gap:3px;display:grid}.cuav-brand[data-astro-cid-7natcuz3] strong[data-astro-cid-7natcuz3]{color:var(--ink);letter-spacing:.04em;font-size:14px}.cuav-brand[data-astro-cid-7natcuz3] small[data-astro-cid-7natcuz3]{color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-size:11px}@media (width<=520px){.cuav-sponsorship[data-astro-cid-7natcuz3] .cuav-gallery{grid-template-columns:minmax(0,1fr);gap:24px}.cuav-brand[data-astro-cid-7natcuz3]{box-sizing:border-box;gap:12px;width:100%;padding:12px 14px}.cuav-brand[data-astro-cid-7natcuz3] img[data-astro-cid-7natcuz3]{width:92px;height:42px}}
+</style></head><body><a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="eH Blog home"><span class="brand-e">e</span><span class="brand-h">H</span> <b>Blog</b></a><nav class="primary-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/archives/" aria-current="page">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a></nav><div class="header-actions"><button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle color theme" title="Switch light / dark theme"><svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg><svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button><a class="home-link" href="https://ehzsy.site" aria-label="Visit the eH home page">eH Home ↗</a><button id="menu-toggle" class="icon-btn mobile-menu-btn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav"><svg class="icon-menu" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg><svg class="icon-close" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div></div><nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><div class="mobile-nav-inner"><a href="/">Home</a><a href="/archives/" aria-current="page">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a><a class="mobile-nav-external" href="https://ehzsy.site">eH Home ↗</a></div></nav></header><main id="main-content"><div id="reading-progress" class="reading-progress" aria-hidden="true" data-astro-cid-7natcuz3></div><article class="article-shell" data-astro-cid-7natcuz3><div class="article-frame" data-astro-cid-7natcuz3><header class="article-header" data-astro-cid-7natcuz3><div class="eyebrow" data-astro-cid-7natcuz3><time datetime="2025-12-23T10:35:28.606Z" data-astro-cid-7natcuz3>23 Dec 2025</time><span data-astro-cid-7natcuz3>BY YangLuoNou</span><span data-astro-cid-7natcuz3>WRITTEN ON HALO</span><span class="read-time" data-astro-cid-7natcuz3>10 MIN READ</span></div><p class="article-updated" data-astro-cid-7natcuz3>Updated <time datetime="2025-12-27T06:32:29.315Z" data-astro-cid-7natcuz3>27 Dec 2025</time></p><h1 data-astro-cid-7natcuz3>第零章 Windows 使用与开发基本素养</h1><p data-astro-cid-7natcuz3>前言 进入实验室，你要认识到：以前你用电脑可能是为了消费内容（看视频、打游戏、写文档），而现在你用电脑是为了创造工具。你需要掌握它，而不是被它糊弄。如果电脑基本技能都掌握不好，后期在你需要大量使用电脑时（特别是我们飞控方向）可能会遇到各种“灵异事项”，也会导致与队友交流不畅，引发各种问题。因此有必要</p><div class="chips" data-astro-cid-7natcuz3><a href="/categories/%E9%A3%9E%E6%8E%A7%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" data-astro-cid-7natcuz3>飞控入门教程</a><a class="tag" href="/tags/%E7%8E%AF%E5%A2%83/" data-astro-cid-7natcuz3>#环境</a><a class="tag" href="/tags/Windows/" data-astro-cid-7natcuz3>#Windows</a><a class="tag" href="/tags/%E6%95%99%E7%A8%8B/" data-astro-cid-7natcuz3>#教程</a><a class="tag" href="/tags/%E9%A3%9E%E6%8E%A7/" data-astro-cid-7natcuz3>#飞控</a></div></header><details class="mobile-toc" data-astro-cid-7natcuz3><summary data-astro-cid-7natcuz3>On this page (11)</summary><div class="mobile-toc-links" data-astro-cid-7natcuz3><a class="depth-2" href="#前言" data-astro-cid-7natcuz3>前言</a><a class="depth-2" href="#第一节-电脑环境清理" data-astro-cid-7natcuz3>第一节 电脑环境清理</a><a class="depth-3" href="#11卸载软件" data-astro-cid-7natcuz3>1.1卸载软件</a><a class="depth-3" href="#12-关闭windows广告" data-astro-cid-7natcuz3>1.2 关闭Windows广告</a><a class="depth-2" href="#第二节-安装软件" data-astro-cid-7natcuz3>第二节 安装软件</a><a class="depth-2" href="#第三节-文件与路径管理" data-astro-cid-7natcuz3>第三节 文件与路径管理</a><a class="depth-2" href="#第四节-习惯使用命令行" data-astro-cid-7natcuz3>第四节 习惯使用命令行</a><a class="depth-2" href="#第五节-认识环境变量" data-astro-cid-7natcuz3>第五节 认识环境变量</a><a class="depth-2" href="#第六节-远程连接基础" data-astro-cid-7natcuz3>第六节 远程连接基础</a><a class="depth-2" href="#第七节-版本控制基础" data-astro-cid-7natcuz3>第七节 版本控制基础</a><a class="depth-2" href="#后记" data-astro-cid-7natcuz3>后记</a></div></details><div class="article-grid" data-astro-cid-7natcuz3><div class="prose" data-astro-cid-7natcuz3><h2 id="前言">前言</h2>
+<p>进入实验室，你要认识到：以前你用电脑可能是为了消费内容（看视频、打游戏、写文档），而现在你用电脑是为了创造工具。你需要<strong>掌握它</strong>，而不是被它糊弄。如果电脑基本技能都掌握不好，后期在你需要大量使用电脑时（特别是我们飞控方向）可能会遇到各种“灵异事项”，也会导致与队友交流不畅，引发各种问题。因此有必要使用一个章节介绍基础的电脑知识与开发素养。<br>
+鉴于大家前期基础掌握并不一致，此文可能会对你已知的知识来说没有提高，如果你认为自己对电脑已掌握透彻，可以选择跳过本章节，但我还是建议<strong>至少通读一遍</strong>看看有没有遗漏。</p>
+<h2 id="第一节-电脑环境清理">第一节 电脑环境清理</h2>
+<p>是的，你没有听错，这一节我们要对你的电脑环境进行“大扫除”，因为我发现很多同学（<del>甚至实验室的同学</del>）的电脑环境堪忧，开机弹出一堆广告，右键菜单一堆无用的流氓软件，解压要vip，看图要vip，训练模型电脑风扇呼呼转，一看任务栏一堆流氓软件在后台抢资源。因此强烈建议如果你的电脑有如上情况，请务必跟着本节对电脑进行全面的清理。</p>
+<blockquote>
+<p><strong>要记住一点，电脑不像手机，电脑完全属于你，你想让它变成什么样它就可以成为什么样子，请不要一听好麻烦而屈服于这些流氓收费软件，如果这都嫌麻烦，可能实验室并不适合你</strong>。</p>
+</blockquote>
+<h3 id="11卸载软件">1.1卸载软件</h3>
+<p>电脑卸载软件的正确步骤是：</p>
+<ol>
+<li>点击<img src="/halo-assets/Pasted_image_20251222144041.png" alt="Pasted_image_20251222144041.png">开始菜单 ，打开<img src="/halo-assets/Pasted_image_20251222144158.png" alt="Pasted_image_20251222144158.png">设置</li>
+<li>找到<img src="/halo-assets/Pasted_image_20251222144303.png" alt="Pasted_image_20251222144303.png">应用，点击<img src="/halo-assets/Pasted_image_20251222144356.png" alt="Pasted_image_20251222144356.png">安装的应用</li>
+<li>此时出现的便是Windows在你电脑上找到的已安装的所有软件<img src="/halo-assets/Pasted_image_20251222144517.png" alt="Pasted_image_20251222144517.png">，点击你要卸载的软件右边的三个点-卸载，请你大胆的将那些你自己没有安装过的却出现在你电脑上的一眼流氓的软件全部卸载掉吧</li>
+</ol>
+<blockquote>
+<p>注意：有些全是英文的软件可能是你电脑上的开发环境，流氓软件一般很好辨认；有些流氓软件卸载时还会有阴险的选项让你保留或者更新，一定要自仔细检查卸载步骤</p>
+</blockquote>
+<blockquote>
+<p><strong>联想电脑</strong>的同学请看过来：
+联想电脑一般会自带一堆流氓软件，请一定全部卸载掉：</p>
+<ol>
+<li>联想电脑管家（放心卸载，卸载软件不可能会让你的电脑失去保修）</li>
+<li><strong>联想应用商店</strong>（一定要卸载，这就是纯纯流氓软件，什么广告自动安装软件都是它干的。你既然使用电脑了，就一定要离开应用商店这种<strong>愚蠢</strong>的安装软件方式）</li>
+<li>联想ai浏览器（edge就够了，这玩意就纯纯广告机）</li>
+<li>猎豹安全浏览器</li>
+<li>2345好压</li>
+<li>Amazon 1button app（亚马逊购物助手）</li>
+<li>PC语点（这个好像是联想自己的ai，自行选择吧…）</li>
+<li>start menu</li>
+<li>迈克菲全方位实时保护-网络安全实时防御套装</li>
+</ol>
+</blockquote>
+<h3 id="12-关闭windows广告">1.2 关闭Windows广告</h3>
+<ul>
+<li>左下角小部件广告
+<img src="/halo-assets/Pasted_image_20251222150843.png" alt="Pasted_image_20251222150843.png">将这个源关掉</li>
+<li>Edge 新标签页广告
+请按图示设置<img src="/halo-assets/Pasted_image_20251222151004.png" alt="Pasted_image_20251222151004.png"></li>
+<li>其它类似广告你只要仔细找一定有开关可以关掉</li>
+</ul>
+<h2 id="第二节-安装软件">第二节 安装软件</h2>
+<p>刚刚说过在电脑使用应用商城是愚蠢的，那我们要去哪下载安装软件呢？就是官方网站，利用搜索引擎找到<strong>官方</strong>网站，一般搜索引擎都是会标注的（推荐国内使用bing，科学使用Google）。请一定认准官方网站，可以通过搜索引擎标注、观察网址、观察网站布局等方法判断是否是官方网站。<br>
+在此推荐几个完全免费无广告的常用软件</p>
+<h4 id="压缩软件">压缩软件</h4>
+<ol>
+<li>bandzip （图形化做的好，虽然最近加入了广告，但可以通过下载旧版本并阻止其更新来规避广告）
+链接： <a href="https://dl.bandisoft.com/bandizip.old/BANDIZIP6-SETUP.EXE?2">https://dl.bandisoft.com/bandizip.old/BANDIZIP6-SETUP.EXE?2</a>
+安装时记住你的安装目录（即目标文件夹）这里便是该电脑软件本体存在的地方
+<img src="/halo-assets/Pasted_image_20251222152810.png" alt="Pasted_image_20251222152810.png">
+安装好后点击选项-设置将<img src="/halo-assets/Pasted_image_20251222153013.png" alt="Pasted_image_20251222153013.png">自动更新关闭，然后进入该软件的安装目录（如果忘记自己的安装目录的话也可以通过在桌面bandzip图标右键-更多选项-打开文件所在位置打开）<img src="/halo-assets/Pasted_image_20251222153300.png" alt="Pasted_image_20251222153300.png">找到Updater这个程序删除并在这个目录下新建一个文件夹叫做Updater.exe<img src="/halo-assets/Pasted_image_20251222153441.png" alt="Pasted_image_20251222153441.png">右键该文件夹属性，点击两下只读选项让其变成对勾<img src="/halo-assets/Pasted_image_20251222153552.png" alt="Pasted_image_20251222153552.png">点击确定（这几步的作用是不让bandzip重新创建Updater.exe程序，这样就没有烦人的更新提醒了）</li>
+<li>7-zip （该软件图形化做的不是很好，但解压和压缩性能非常强）
+链接： <a href="https://www.7-zip.org/">7-Zip</a> 选择你的电脑平台下载并安装。使用教程请自行搜索，在此不再赘述</li>
+</ol>
+<h4 id="功能超全超轻量化的编辑器">功能超全超轻量化的编辑器</h4>
+<p>VScode，飞控的同学请务必安装并熟悉该编辑器，并习惯着使用它，后续无论是视觉还是主控，大部分的时间都在使用这个软件</p>
+<blockquote>
+<p><strong>请不要尝试在树莓派、香橙派等机载电脑上安装pycharm等重量级IDE</strong></p>
+</blockquote>
+<p>官网链接：<a href="https://code.visualstudio.com/">Visual Studio Code - The open source AI code editor</a><br>
+安装后可以点击齿轮按钮（设置）- plugin（扩展）搜索chinese安装中文包<img src="/halo-assets/Pasted_image_20251222154445.png" alt="Pasted_image_20251222154445.png">，安装成功后记得看右下角弹窗问是否切换到中文，一定要点击是(yes)，然后重启VScode软件</p>
+<h4 id="搜索神器">搜索神器</h4>
+<p>Everything 官网链接： <a href="https://www.voidtools.com/zh-cn/">voidtools</a></p>
+<h2 id="第三节-文件与路径管理">第三节 文件与路径管理</h2>
+<p>这是最基础但最容易“翻车”的地方。飞控涉及大量的仿真数据、代码文件和编译过程。</p>
+<ul>
+<li>文件扩展名与隐藏项目：
+<ul>
+<li>请打开“文件夹选项”开启“显示文件扩展名”和“显示隐藏文件”
+点击选项<img src="/halo-assets/Pasted_image_20251222155040.png" alt="Pasted_image_20251222155040.png"><img src="/halo-assets/Pasted_image_20251222155144.png" alt="Pasted_image_20251222155144.png">找到<strong>隐藏文件和文件夹</strong>，点击<strong>显示隐藏的文件、文件夹和驱动器</strong>
+找到<strong>隐藏已知文件类型的扩展名</strong>，取消勾选</li>
+</ul>
+</li>
+<li>路径命名规范：<br>
+<strong>尽量不</strong>使用中文路径！<strong>尽量避免</strong>路径中包含空格！中文路径经常会导致一些不支持中文编码的软件乱码，带空格的路径可能会导致命令错误
+例如：在命令行（Terminal/CMD/PowerShell）中，空格默认用来分隔<strong>命令</strong>和<strong>参数</strong>，此时如果有一个带空格的路径，可能就会被识别成两个参数而导致运行错误</li>
+</ul>
+<h2 id="第四节-习惯使用命令行">第四节 习惯使用命令行</h2>
+<p>右键开始菜单<img src="/halo-assets/Pasted_image_20251222160411.png" alt="Pasted_image_20251222160411.png">，选择终端。或者使用win+R键，输入powershell。你便进入了Windows的命令行页面<img src="/halo-assets/Pasted_image_20251222160634.png" alt="Pasted_image_20251222160634.png">，在图形化没有这么发达的年代，人们都是使用命令的方式操作电脑的，后面我们使用的linux系统几乎全部操作都在使用命令，所以请务必习惯使用命令。</p>
+<blockquote>
+<p>Windows早期的命令行叫做CMD，其因为非常难用，十分老旧，故我们不再使用cmd作为我们的命令行窗口</p>
+</blockquote>
+<p>下面我们进行一些常见的命令行操作：
+输入 <code>ls</code> 按下回车<br>
+你看到了什么<br>
+可以看到，你当前目录下的文件全部被列出来了</p>
+<blockquote>
+<p>Windows中列出当前目录下所有文件的命令其实是 <code>dir</code> PowerShell为了适应使用习惯（Linux系统的列出当前目录下所有文件的命令才是 <code>ls</code> ），为dir加了一个别名 <code>ls</code> 因此在cmd中输入命令 <code>ls</code> 会出现 <code>'ls' 不是内部或外部命令，也不是可运行的程序或批处理文件。</code> 的提示</p>
+</blockquote>
+<p>请继续尝试以下命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cd &lt;目录&gt;</code></td>
+<td>进入某个目录</td>
+</tr>
+<tr>
+<td><code>mkdir &lt;目录名&gt;</code></td>
+<td>新建指定名称的目录</td>
+</tr>
+<tr>
+<td><code>rm &lt;名称&gt;</code></td>
+<td>删除某个文件或目录（Linux中删除目录需要添加-r参数，例如：<code>rm -r test</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>请尝试习惯使用<strong>终端</strong>运行你的python脚本<code>python xxx.py</code></li>
+</ul>
+<h2 id="第五节-认识环境变量">第五节 认识环境变量</h2>
+<p>大家在初步接触python时一定遇到过在终端中打<code>python</code>命令却提示<code>'python' 不是内部或外部命令，也不是可运行的程序或批处理文件。</code>的问题。安装python时老师一般都会要求在安装界面把<img src="/halo-assets/Pasted_image_20251223151406.png" alt="Pasted_image_20251223151406.png">这个选项勾选。这里的PATH便是我们要介绍的环境变量。</p>
+<ul>
+<li>什么是 PATH：用通俗的比喻：PATH 就是系统的“通讯录”。你在命令行喊“Python”，系统得去通讯录里查 Python 住哪（软件本体位置）。没有配置 PATH，系统就找不到对应的人在哪里。</li>
+<li>如何修改 PATH：
+右键此电脑，选择属性
+向下滑动，找到高级系统设置并单击打开
+<img src="/halo-assets/Pasted_image_20251223151913.png" alt="Pasted_image_20251223151913.png">右下角找到环境变量并单击打开
+这里面就存着系统的各种环境变量，其中上方用户的变量指的是多用户系统中你自己的用户变量，这些变量只对你自己有效。下方的系统变量是对整个系统有效的
+找到系统变量中的Path变量名称，双击打开它，这里就是你电脑上所有已经配置的软件的环境变量了</li>
+</ul>
+<blockquote>
+<p>请试着在任意目录上创建一个新的目录，并在其内部新建一个 helloworld.bat 的脚本文件，写入<code> echo Hello World!</code> ，然后在系统环境目录的Path环境变量中添加该目录，实现在终端任何地方都输入<code>helloworld</code>命令即可以运行 helloworld.bat 这个脚本文件</p>
+</blockquote>
+<h2 id="第六节-远程连接基础">第六节 远程连接基础</h2>
+<p>在飞控学习过程中，你很快会发现一个现象——<strong>你操作的电脑，往往不是真正干活的那台电脑</strong>：例如你想对无人机的机载电脑做一些修改或者上传一些文件，而你旁边又没有现成的鼠标键盘及屏幕；或者无人机正在飞行时你想远程监看一下机载电脑的状态。这个时候，你就需要 SSH（Secure Shell）了。<br>
+简单来说，SSH 就像是“夺舍”：它允许你坐在宿舍里，通过你的笔记本键盘，直接控制其它地方的服务器或者几公里外的一台无人机，就像你就坐在它们面前一样。<br>
+目前Windows10及以上已经默认装好了SSH环境，打开终端，输入<code>ssh</code>命令，出现<code>usage: ssh ...</code>等一大串内容，那么说明你系统上的SSH已经准备好为你所用了<br>
+打开VScode-设置-扩展，搜索ssh，找到<code>Remote - SSH</code>这个插件，安装好后可以看到你的VScode左侧出现了<img src="/halo-assets/Pasted_image_20251223155439.png" alt="Pasted_image_20251223155439.png">这样的按钮，这里我们以后就可以通过VScode中的ssh远程连接进行文件编辑操作了。<br>
+SSH 基本的命令格式是<code>ssh &lt;用户名&gt;@&lt;目标IP&gt;</code><br>
+这里我们只对SSH命令做一个初步的介绍，后续我们还会详细为你介绍这个你可能后面70%以上的时候都会用到的非常轻量常用且安全的工具</p>
+<h2 id="第七节-版本控制基础">第七节 版本控制基础</h2>
+<p>经过几轮实验室考核，你一定体验过这样的经历：</p>
+<ul>
+<li>昨天代码跑的好好的，今天稍微改了一下代码就跑不起来了</li>
+<li>我想回到之前测试没问题的代码，但是不记得改了哪些代码了</li>
+<li>项目文件夹里放着：<code>PID_v1.c</code>, <code>PID_v2_改.c</code>, <code>PID_最终版.c</code>, <code>PID_死也不改版.c</code>
+在实验室后续学习中，我们会遇到更多类似的事情，为了追求高效，拒绝这种原始的各种“最终版”文件。你需要的是 <strong>Git</strong>。</li>
+</ul>
+<h4 id="git是什么">Git是什么</h4>
+<p>不要被专业术语吓到，简单来说，Git 就是一个“时光机”。</p>
+<ul>
+<li>它能记录你每一次代码的改动（哪怕只是改了一个标点）。</li>
+<li>它能让你随时“穿越”回任何一个时间点（比如昨天下午 3 点代码还能跑通的那个时刻）。</li>
+<li>它是全人类程序员通用的语言。</li>
+</ul>
+<h4 id="安装-git-windows">安装 Git (Windows)</h4>
+<p>前往GIt官网 <a href="https://git-scm.com/install/windows">Git - Install for Windows</a>，找到<strong>Git for Windows/x64 Setup</strong>，点击链接下载并安装，对于初学者来说，默认选项一路next即可</p>
+<h4 id="配置自己的git用户">配置自己的Git用户</h4>
+<p>Git 安装好后，你不能直接开始用，必须先告诉它“你是谁”。否则以后你提交代码时，Git 不知道该把这笔功劳（<del>或这笔烂账</del>）记在谁头上。<br>
+打开终端，输入(请替换双引号内的内容)</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> config</span><span style="color:#79B8FF"> --global</span><span style="color:#9ECBFF"> user.name</span><span style="color:#9ECBFF"> "你的英文名"</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> config</span><span style="color:#79B8FF"> --global</span><span style="color:#9ECBFF"> user.email</span><span style="color:#9ECBFF"> "你的邮箱@example.com"</span></span></code></pre>
+<p>如果一切顺利，输入<code>git config --list</code> 如果可以看到你刚刚配置的<code>user.name</code>和<code>user.email</code>信息，那么恭喜你，身份注册成功。</p>
+<h4 id="让-git-可视化vs-code-插件">让 Git 可视化（VS Code 插件）</h4>
+<p>虽然熟练后基本都是用命令行写 Git，但对于刚入门的你，我们需要一个图形界面来辅助理解。
+进入VScode-设置-扩展，搜索Git Graph并安装</p>
+<h4 id="如何使用git">如何使用Git</h4>
+<p>你可以尝试使用<a href="https://learngitbranching.js.org/?locale=zh_CN">Learn Git Branching</a>这个网站来理解Git这个时光机的使用方法，我们后面也会单独出教程教大家如何使用Git这个神奇的工具（<del>应该不会鸽掉</del>）</p>
+<h2 id="后记">后记</h2>
+<p>这是我们第一次尝试使用文本教程的方式交给大家一些知识，这对于习惯看视频或听老师讲的同学来说可能非常不友好，但我们希望你进入实验室后可以转变学习观念，不再是被灌输式被动教育而是主动学习知识，包括后续我们学习一个新的硬件几乎都是通过查看它的文档来学习的（越往深处学，相关教程包括视频会指数级的减少）。所以为了帮助能站在顶尖的未来的你，我们大胆的尝试了这种方式，不知道各位同学阅读后的理解和感受是什么样的。是觉得晦涩难懂，还是浅显无味，请大家通过qq群或者评论的方式反馈给我们，感谢同学们的理解与支持。</p>
+<hr>
+<p>Written by YangLuoNou <a href="https://github.com/YingLuoNou">Github</a> <a href="https://www.yangluonou.space">Blog</a>
+2025/12/23<br>
+备用链接：<a href="https://www.yangluonou.space/fly_guide">https://www.yangluonou.space/fly_guide</a></p>
+</div><aside class="toc" aria-label="Table of contents" data-astro-cid-7natcuz3><strong data-astro-cid-7natcuz3>ON THIS PAGE</strong><a class="depth-2" href="#前言" data-toc-slug="前言" data-astro-cid-7natcuz3>前言</a><a class="depth-2" href="#第一节-电脑环境清理" data-toc-slug="第一节-电脑环境清理" data-astro-cid-7natcuz3>第一节 电脑环境清理</a><a class="depth-3" href="#11卸载软件" data-toc-slug="11卸载软件" data-astro-cid-7natcuz3>1.1卸载软件</a><a class="depth-3" href="#12-关闭windows广告" data-toc-slug="12-关闭windows广告" data-astro-cid-7natcuz3>1.2 关闭Windows广告</a><a class="depth-2" href="#第二节-安装软件" data-toc-slug="第二节-安装软件" data-astro-cid-7natcuz3>第二节 安装软件</a><a class="depth-2" href="#第三节-文件与路径管理" data-toc-slug="第三节-文件与路径管理" data-astro-cid-7natcuz3>第三节 文件与路径管理</a><a class="depth-2" href="#第四节-习惯使用命令行" data-toc-slug="第四节-习惯使用命令行" data-astro-cid-7natcuz3>第四节 习惯使用命令行</a><a class="depth-2" href="#第五节-认识环境变量" data-toc-slug="第五节-认识环境变量" data-astro-cid-7natcuz3>第五节 认识环境变量</a><a class="depth-2" href="#第六节-远程连接基础" data-toc-slug="第六节-远程连接基础" data-astro-cid-7natcuz3>第六节 远程连接基础</a><a class="depth-2" href="#第七节-版本控制基础" data-toc-slug="第七节-版本控制基础" data-astro-cid-7natcuz3>第七节 版本控制基础</a><a class="depth-2" href="#后记" data-toc-slug="后记" data-astro-cid-7natcuz3>后记</a></aside></div><nav class="article-nav" aria-label="Adjacent articles" data-astro-cid-7natcuz3><a class="prev" href="/archives/msp430-kai-fa-shi-lu-wsl-huan-jing-xia-ng-zhen-cai-keng-yu-zi-dong-hua-ce-shi-fu-pan" data-astro-cid-7natcuz3><span data-astro-cid-7natcuz3>← Older</span><strong data-astro-cid-7natcuz3>MSP430 开发实录：WSL 环境下的 GCC 工具链、仿真踩坑与自动化测试复盘</strong></a><a class="next" href="/archives/eac0dd6d-c61a-4eab-9efa-aafc0505e3d7" data-astro-cid-7natcuz3><span data-astro-cid-7natcuz3>Newer →</span><strong data-astro-cid-7natcuz3>第一章 Linux入门初步</strong></a></nav></div></article><div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image preview" hidden data-astro-cid-7natcuz3><button id="lightbox-close" class="lightbox-close" type="button" aria-label="Close image preview" data-astro-cid-7natcuz3>×</button><img id="lightbox-img" src="" alt="" data-astro-cid-7natcuz3><div class="lightbox-bar" data-astro-cid-7natcuz3><span id="lightbox-caption" data-astro-cid-7natcuz3></span><a id="lightbox-raw" href="" target="_blank" rel="noopener" data-astro-cid-7natcuz3>Open original ↗</a></div></div></main><footer><a class="footer-brand" href="/">eH Blog</a><div class="footer-links"><a href="/archives/">Archive</a><a href="/categories/">Topics</a><a href="/tags/">Tags</a><a href="/rss.xml">RSS</a><a href="https://ehzsy.site">Home</a></div><span>© 2026 eH · Original author attribution retained</span></footer><button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"></path></svg></button><script type="module">var e=document.documentElement;document.querySelector(`#theme-toggle`)?.addEventListener(`click`,()=>{let t=e.dataset.theme===`dark`?`light`:`dark`;e.dataset.theme=t;try{localStorage.setItem(`eh-blog-theme`,t)}catch{}});var t=document.querySelector(`#menu-toggle`),n=document.querySelector(`#mobile-nav`),r=()=>{!t||!n||(t.setAttribute(`aria-expanded`,`false`),n.hidden=!0)};t?.addEventListener(`click`,()=>{if(!n)return;let e=t.getAttribute(`aria-expanded`)===`true`;t.setAttribute(`aria-expanded`,String(!e)),n.hidden=e}),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&r()});var i=document.querySelector(`#back-to-top`);if(i){let e=()=>{i.hidden=window.scrollY<480};window.addEventListener(`scroll`,e,{passive:!0}),e(),i.addEventListener(`click`,()=>{window.scrollTo({top:0,behavior:`smooth`})})}</script></body></html><script type="module">var e=document.querySelector(`#reading-progress`),t=document.querySelector(`.prose`);if(e&&t){let n=()=>{let n=t.getBoundingClientRect(),r=Math.max(1,t.offsetHeight-window.innerHeight*.65),i=Math.min(r,Math.max(0,-n.top+80));e.style.width=`${i/r*100}%`};window.addEventListener(`scroll`,n,{passive:!0}),window.addEventListener(`resize`,n,{passive:!0}),n()}var n=[...document.querySelectorAll(`.toc a[data-toc-slug]`)];if(n.length>0){let e=new Map(n.map(e=>[e.dataset.tocSlug||``,e])),t=n.map(e=>document.getElementById(e.dataset.tocSlug||``)).filter(e=>!!e),r=t=>{n.forEach(e=>e.classList.toggle(`active`,e.dataset.tocSlug===t));let r=e.get(t);r&&r.scrollIntoView({block:`nearest`})};if(`IntersectionObserver`in window&&t.length>0){let e=new IntersectionObserver(e=>{let t=e.filter(e=>e.isIntersecting);t.length>0&&r(t[0].target.id)},{rootMargin:`-88px 0px -70% 0px`,threshold:0});t.forEach(t=>e.observe(t)),r(t[0].id)}}document.querySelectorAll(`.prose pre`).forEach(e=>{if(e.parentElement?.classList.contains(`code-block-wrap`))return;let t=document.createElement(`div`);t.className=`code-block-wrap`,e.parentNode?.insertBefore(t,e),t.appendChild(e);let n=document.createElement(`div`);n.className=`code-toolbar`;let r=(e.dataset.language||``).trim().toLowerCase();if(r&&r!==`plaintext`&&r!==`text`){let e=document.createElement(`span`);e.className=`code-lang`,e.textContent=r,n.appendChild(e)}let i=document.createElement(`button`);i.type=`button`,i.className=`copy-code-btn`,i.textContent=`Copy`,i.addEventListener(`click`,async()=>{let t=e.querySelector(`code`)?.textContent??e.textContent??``;try{await navigator.clipboard.writeText(t),i.textContent=`Copied ✓`,i.classList.add(`copied`),window.setTimeout(()=>{i.textContent=`Copy`,i.classList.remove(`copied`)},1800)}catch{i.textContent=`Failed`}}),n.appendChild(i),t.appendChild(n)}),document.querySelectorAll(`.prose h2[id], .prose h3[id]`).forEach(e=>{if(e.querySelector(`.heading-anchor`))return;let t=document.createElement(`a`);t.className=`heading-anchor`,t.href=`#${e.id}`,t.setAttribute(`aria-label`,`Link to ${e.textContent?.trim()||`section`}`),t.textContent=`#`,e.appendChild(t)}),document.querySelectorAll(`.prose table`).forEach(e=>{if(e.parentElement?.classList.contains(`table-wrap`))return;let t=document.createElement(`div`);t.className=`table-wrap`,e.parentNode?.insertBefore(t,e),t.appendChild(e)});var r=document.querySelector(`#lightbox`),i=document.querySelector(`#lightbox-img`),a=document.querySelector(`#lightbox-caption`),o=document.querySelector(`#lightbox-raw`),s=document.querySelector(`#lightbox-close`),c=()=>{r&&(r.hidden=!0,document.body.style.overflow=``)};s?.addEventListener(`click`,c),r?.addEventListener(`click`,e=>{e.target===r&&c()}),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&r&&!r.hidden&&c()}),document.querySelectorAll(`.prose img`).forEach(e=>{e.hasAttribute(`loading`)||(e.loading=`lazy`),e.decoding=`async`;let t=()=>{if(e.nextElementSibling?.classList.contains(`image-unavailable`))return;let t=document.createElement(`span`);t.className=`image-unavailable`,t.textContent=e.alt?`Image unavailable: ${e.alt}`:`This image is temporarily unavailable.`,e.insertAdjacentElement(`afterend`,t),e.hidden=!0};e.complete&&e.naturalWidth===0?t():e.addEventListener(`error`,t,{once:!0});let n=t=>{if(!r||!i||!a||!o)return;let n=e.closest(`a`),s=n?.getAttribute(`href`)||e.currentSrc||e.src,c=/\.(png|jpe?g|webp|gif|svg|avif)(\?.*)?$/i.test(s)||s===e.src;n&&!c||(t.preventDefault(),i.src=c?s:e.src,i.alt=e.alt||``,a.textContent=e.closest(`figure`)?.querySelector(`figcaption`)?.textContent?.trim()||e.alt||``,o.href=i.src,r.hidden=!1,document.body.style.overflow=`hidden`)},s=e.closest(`a`);s?s.addEventListener(`click`,n):e.addEventListener(`click`,n)});</script>
