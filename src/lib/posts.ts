@@ -12,9 +12,12 @@ const essaySlugs = new Set([
 export const isEssaysSite = import.meta.env.SITE_VARIANT === 'em';
 
 export function visiblePosts(posts: Post[]) {
-  return posts.filter((post) => isEssaysSite
-    ? essaySlugs.has(post.data.slug)
-    : !essaySlugs.has(post.data.slug));
+  return posts.filter((post) => {
+    if (post.data.draft) return false;
+    return isEssaysSite
+      ? essaySlugs.has(post.data.slug)
+      : !essaySlugs.has(post.data.slug);
+  });
 }
 
 export function sortPosts(posts: Post[]) {
